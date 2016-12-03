@@ -74,9 +74,6 @@ public class BlockListener implements Listener {
             case DROPPER:
             case TRAPPED_CHEST:
             case HOPPER:
-                if (player.hasPermission(getPermission(block.getType())) && Deadbolt.getConfig().reminder.add(player)) {
-                    Deadbolt.getConfig().sendMessage(player, ChatColor.GOLD, Deadbolt.getLanguage().msg_reminder_lock_your_chests);
-                }
                 if (db.isProtected() && !db.isOwner(player)) {
                     event.setCancelled(true);
                     Deadbolt.getConfig().sendMessage(player, ChatColor.RED, Deadbolt.getLanguage().msg_deny_container_expansion);
@@ -89,9 +86,6 @@ public class BlockListener implements Listener {
             case JUNGLE_DOOR:
             case ACACIA_DOOR:
             case DARK_OAK_DOOR:
-                if (player.hasPermission(getPermission(block.getType())) && Deadbolt.getConfig().reminder.add(player)) {
-                    Deadbolt.getConfig().sendMessage(player, ChatColor.GOLD, Deadbolt.getLanguage().msg_reminder_lock_your_chests);
-                }
                 if (db.isProtected() && !db.isOwner(player)) {
                     Deadbolt.getConfig().sendMessage(player, ChatColor.RED, Deadbolt.getLanguage().msg_deny_door_expansion);
                     Block upBlock = block.getRelative(BlockFace.UP);
@@ -104,9 +98,6 @@ public class BlockListener implements Listener {
                 return;
             case TRAP_DOOR:
             case IRON_TRAPDOOR:
-                if (player.hasPermission(getPermission(block.getType())) && Deadbolt.getConfig().reminder.add(player)) {
-                    Deadbolt.getConfig().sendMessage(player, ChatColor.GOLD, Deadbolt.getLanguage().msg_reminder_lock_your_chests);
-                }
                 if (db.isProtected() && !db.isOwner(player)) {
                     Deadbolt.getConfig().sendMessage(player, ChatColor.RED, Deadbolt.getLanguage().msg_deny_trapdoor_expansion);
                     event.setCancelled(true);
@@ -118,9 +109,6 @@ public class BlockListener implements Listener {
             case DARK_OAK_FENCE_GATE:
             case JUNGLE_FENCE_GATE:
             case SPRUCE_FENCE_GATE:
-                if (player.hasPermission(getPermission(block.getType())) && Deadbolt.getConfig().reminder.add(player)) {
-                    Deadbolt.getConfig().sendMessage(player, ChatColor.GOLD, Deadbolt.getLanguage().msg_reminder_lock_your_chests);
-                }
                 if (db.isProtected() && !db.isOwner(player)) {
                     Deadbolt.getConfig().sendMessage(player, ChatColor.RED, Deadbolt.getLanguage().msg_deny_fencegate_expansion);
                     event.setCancelled(true);

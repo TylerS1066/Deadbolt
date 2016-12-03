@@ -93,7 +93,6 @@ public class Config extends AnnotatedConfig {
     //------------------------------------------------------------------------//
     private final transient String TAG = "Deadbolt: ";
     //------------------------------------------------------------------------//
-    public transient Set<Player> reminder = new HashSet<Player>();
     public transient Map<Player, Block> selectedSign = new HashMap<Player, Block>();
     //------------------------------------------------------------------------//
     public final transient Set<BlockFace> CARDINAL_FACES = EnumSet.of(BlockFace.NORTH, BlockFace.SOUTH, BlockFace.EAST, BlockFace.WEST);
