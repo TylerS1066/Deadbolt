@@ -42,12 +42,6 @@ public class DeadboltCommandExecutor implements CommandExecutor {
         if (args[0].equalsIgnoreCase("reload")) {
             return reload(player);
         }
-        if (args[0].equalsIgnoreCase("fix")) {
-            return fix(player);
-        }
-        if (args[0].equalsIgnoreCase("fixall")) {
-            return fixAll(player);
-        }
         try {
             return lineChange(player, Integer.valueOf(args[0]), args);
         } catch (NumberFormatException ex) {
@@ -122,92 +116,6 @@ public class DeadboltCommandExecutor implements CommandExecutor {
         sign.update(true);
         Deadbolt.getConfig().sendMessage(player, ChatColor.GOLD, Deadbolt.getLanguage().cmd_sign_updated);
         return true;
-    }
-
-    private boolean fix(Player player) {
-        Block block = player.getTargetBlock(null, 100);
-        Deadbolted db = Deadbolt.get(block);
-
-        if (db.isProtected()) {
-            if (db.isOwner(player)) {
-                fixHelper(player, block);
-            } else if (player.hasPermission(Perm.admin_commands)) {
-                fixHelper(player, block);
-                Deadbolt.getConfig().sendMessage(player, ChatColor.RED, Deadbolt.getLanguage().msg_admin_block_fixed, db.getOwner());
-            } else {
-                Deadbolt.getConfig().sendMessage(player, ChatColor.RED, Deadbolt.getLanguage().cmd_fix_notowned);
-            }
-        }
-        return true;
-    }
-
-    private void fixHelper(Player player, Block block) {
-        switch (block.getType()) {
-            case WOODEN_DOOR:
-            case IRON_DOOR_BLOCK:
-            case SPRUCE_DOOR:
-            case BIRCH_DOOR:
-            case JUNGLE_DOOR:
-            case ACACIA_DOOR:
-            case DARK_OAK_DOOR:
-            case TRAP_DOOR:
-            case IRON_TRAPDOOR:
-            case FENCE_GATE:
-            case BIRCH_FENCE_GATE:
-            case ACACIA_FENCE_GATE:
-            case DARK_OAK_FENCE_GATE:
-            case JUNGLE_FENCE_GATE:
-            case SPRUCE_FENCE_GATE:
-                block.setData((byte) (block.getData() ^ 0x4));
-                break;
-            default:
-                Deadbolt.getConfig().sendMessage(player, ChatColor.RED, Deadbolt.getLanguage().cmd_fix_bad_type);
-        }
-    }
-
-    private boolean fixAll(Player player) {
-        Block block = player.getTargetBlock(null, 100);
-        Deadbolted db = Deadbolt.get(block);
-
-        if (db.isProtected()) {
-            if (db.isOwner(player)) {
-                fixAllHelper(player, block, db);
-            } else if (player.hasPermission(Perm.admin_commands)) {
-                Deadbolt.getConfig().sendMessage(player, ChatColor.RED, Deadbolt.getLanguage().msg_admin_block_fixed, db.getOwner());
-                fixAllHelper(player, block, db);
-            } else {
-                Deadbolt.getConfig().sendMessage(player, ChatColor.RED, Deadbolt.getLanguage().cmd_fix_notowned);
-            }
-        }
-        return true;
-    }
-
-    private void fixAllHelper(Player player, Block block, Deadbolted db) {
-        switch (block.getType()) {
-            case WOODEN_DOOR:
-            case IRON_DOOR_BLOCK:
-            case SPRUCE_DOOR:
-            case BIRCH_DOOR:
-            case JUNGLE_DOOR:
-            case ACACIA_DOOR:
-            case DARK_OAK_DOOR:
-            case TRAP_DOOR:
-            case IRON_TRAPDOOR:
-            case FENCE_GATE:
-            case BIRCH_FENCE_GATE:
-            case ACACIA_FENCE_GATE:
-            case DARK_OAK_FENCE_GATE:
-            case JUNGLE_FENCE_GATE:
-            case SPRUCE_FENCE_GATE:
-                for (Block b : db.getBlocks()) {
-                    if (b.getType().equals(block.getType())) {
-                        b.setData((byte) (b.getData() ^ 0x4));
-                    }
-                }
-                break;
-            default:
-                Deadbolt.getConfig().sendMessage(player, ChatColor.RED, Deadbolt.getLanguage().cmd_fix_bad_type);
-        }
     }
 
     private boolean onConsoleCommand(CommandSender sender, Command command, String label, String[] args) {

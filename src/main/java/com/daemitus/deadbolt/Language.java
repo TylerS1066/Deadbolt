@@ -30,8 +30,6 @@ public class Language extends AnnotatedConfig {
     public String cmd_help_fix = "/deadbolt fix - toggle a single block";
     public String cmd_help_fixAll = "/deadbolt fixall - toggle all related blocks";
     public String cmd_reload = "Reloading settings...";
-    public String cmd_fix_notowned = "You don't own that block";
-    public String cmd_fix_bad_type = "You can only fix blocks that open and close";
     public String cmd_sign_updated = "Sign updated";
     public String cmd_sign_selected = "Sign selected, use /deadbolt <line number> <text>";
     public String cmd_sign_selected_error = "Selected sign has an error. Right click it again";
