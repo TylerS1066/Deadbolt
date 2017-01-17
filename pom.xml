@@ -17,8 +17,8 @@
 
     <repositories>
         <repository>
-            <id>essentials-repo</id>
-            <url>http://ess.ementalo.com/nexus/content/groups/public/</url>
+            <id>cindyscats</id>
+            <url>http://basket.cindyscats.com/content/repositories/thirdparty/</url>
         </repository>
         <repository>
             <id>repobo-snap</id>
@@ -62,9 +62,9 @@
 
     <dependencies>
         <dependency>
-            <groupId>org.bukkit</groupId>
-            <artifactId>bukkit</artifactId>
-            <version>1.8-R0.1-SNAPSHOT</version>
+            <groupId>org.spigotmc</groupId>
+            <artifactId>spigot-api</artifactId>
+            <version>1.11-R0.1-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>com.md_5</groupId>
