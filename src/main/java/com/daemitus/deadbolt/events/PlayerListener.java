@@ -106,7 +106,6 @@ public class PlayerListener implements Listener {
             case CAULDRON:
 
                 if (!canQuickProtect(player, against)) {
-                    Deadbolt.getConfig().sendMessage(player, ChatColor.RED, Deadbolt.getLanguage().msg_deny_block_perm, against.getType().name());
                     return false;
                 }
 
