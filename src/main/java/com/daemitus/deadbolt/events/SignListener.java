@@ -60,6 +60,9 @@ public class SignListener implements Listener {
         } else {
             for (byte b = 0x2; b < 0x6 && !result.equals(Result.SUCCESS) && !result.equals(Result.ADMIN_SIGN_PLACED); b++) {
                 block.setTypeIdAndData(Material.WALL_SIGN.getId(), b, false);
+                if(!block.getRelative(((org.bukkit.material.Sign)block.getState().getData()).getAttachedFace()).getType().isSolid()) {
+                    continue;
+                }
                 Sign sign = (Sign) block.getState();
                 sign.setLine(0, isPrivate ? Deadbolt.getLanguage().signtext_private : Deadbolt.getLanguage().signtext_moreusers);
                 sign.update();
@@ -68,6 +71,9 @@ public class SignListener implements Listener {
                 if (!newresult.equals(Result.DENY_SIGN_PRIVATE_NOTHING_NEARBY)) {
                     result = newresult;
                 }
+            }
+            if(result != Result.SUCCESS) {
+                block.setType(Material.AIR);
             }
         }
 
