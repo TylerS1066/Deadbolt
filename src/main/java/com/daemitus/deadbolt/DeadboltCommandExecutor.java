@@ -31,8 +31,6 @@ public class DeadboltCommandExecutor implements CommandExecutor {
         if (arg == 0) {
             player.sendMessage(ChatColor.RED + "Deadbolt v" + plugin.getDescription().getVersion());
             player.sendMessage(ChatColor.RED + Deadbolt.getLanguage().cmd_help_editsign);
-            player.sendMessage(ChatColor.RED + Deadbolt.getLanguage().cmd_help_fix);
-            player.sendMessage(ChatColor.RED + Deadbolt.getLanguage().cmd_help_fixAll);
             if (player.hasPermission(Perm.command_reload)) {
                 player.sendMessage(ChatColor.RED + Deadbolt.getLanguage().cmd_help_reload);
             }
