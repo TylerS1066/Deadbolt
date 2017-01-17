@@ -163,7 +163,7 @@ public class PlayerListener implements Listener {
     }
 
     private boolean canQuickProtect(Player player, Block block) {
-        if (Deadbolt.getConfig().deny_quick_signs) {
+        if (Deadbolt.getConfig().deny_quick_signs || !Deadbolt.getConfig().quick_signs_blockids.contains(block.getTypeId())) {
             return false;
         }
         switch (block.getType()) {

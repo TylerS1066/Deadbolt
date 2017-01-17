@@ -37,6 +37,11 @@ public class Config extends AnnotatedConfig {
     public boolean group_brewing_stands = true;
     @ConfigComment("Allows right click placement of signs automatically on the target")
     public boolean deny_quick_signs = false;
+    @ConfigComment("List of blockIDs that can be quick sign protected")
+    public List<Integer> quick_signs_blockids = Arrays.asList(
+            Material.CHEST.getId(),
+            Material.TRAPPED_CHEST.getId()
+    );
     @ConfigComment("Clear sign selection after using /deadbolt <line> <text>")
     public boolean clear_sign_selection = false;
     @ConfigComment("Denies things such as snowmen opening doors")
