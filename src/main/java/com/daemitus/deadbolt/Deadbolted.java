@@ -11,6 +11,7 @@ import org.bukkit.block.Furnace;
 import org.bukkit.block.Sign;
 import org.bukkit.entity.Player;
 import org.bukkit.material.Attachable;
+import org.bukkit.material.Gate;
 import org.bukkit.material.TrapDoor;
 
 import java.util.ArrayList;
@@ -159,17 +160,8 @@ public class Deadbolted {
         }
         for (BlockFace bf : Deadbolt.getConfig().CARDINAL_FACES) {
             Block adjacent = block.getRelative(bf);
-            if (horizontal) {
-                switch (adjacent.getType()) {
-                    case FENCE_GATE:
-                    case BIRCH_FENCE_GATE:
-                    case ACACIA_FENCE_GATE:
-                    case DARK_OAK_FENCE_GATE:
-                    case JUNGLE_FENCE_GATE:
-                    case SPRUCE_FENCE_GATE:
-                        searchFenceGate(adjacent, horizontal, vertical);
-                        break;
-                }
+            if (horizontal && adjacent.getState().getData() instanceof Gate) {
+                searchFenceGate(adjacent, true, vertical);
             } else if (adjacent.getType().equals(Material.WALL_SIGN)) {
                 parseSignAttached(adjacent, block);
             } else {
@@ -179,15 +171,8 @@ public class Deadbolted {
         if (vertical) {
             for (BlockFace bf : Deadbolt.getConfig().VERTICAL_FACES) {
                 Block adjacent = block.getRelative(bf);
-                switch (adjacent.getType()) {
-                    case FENCE_GATE:
-                    case BIRCH_FENCE_GATE:
-                    case ACACIA_FENCE_GATE:
-                    case DARK_OAK_FENCE_GATE:
-                    case JUNGLE_FENCE_GATE:
-                    case SPRUCE_FENCE_GATE:
-                        searchFenceGate(adjacent, horizontal, vertical);
-                        break;
+                if(adjacent.getState().getData() instanceof Gate) {
+                    searchFenceGate(adjacent, horizontal, true);
                 }
             }
         }
@@ -463,6 +448,12 @@ public class Deadbolted {
             case JUNGLE_DOOR:
             case ACACIA_DOOR:
             case DARK_OAK_DOOR:
+            case FENCE_GATE:
+            case DARK_OAK_FENCE_GATE:
+            case ACACIA_FENCE_GATE:
+            case SPRUCE_FENCE_GATE:
+            case BIRCH_FENCE_GATE:
+            case JUNGLE_FENCE_GATE:
                 return true;
             default:
                 return false;
