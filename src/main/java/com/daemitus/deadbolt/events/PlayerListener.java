@@ -39,7 +39,8 @@ public class PlayerListener implements Listener {
     }
 
     private boolean handleRightClick(PlayerInteractEvent event) {
-        if (event.getPlayer().getItemInHand().getType().equals(Material.SIGN) && !event.isCancelled()) {
+        if (event.hasItem() && event.getItem().getType().equals(Material.SIGN)
+                && !event.getPlayer().isSneaking() && !event.isCancelled()) {
             placeQuickSign(event);
         }
         switch (event.getClickedBlock().getType()) {
