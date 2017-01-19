@@ -48,8 +48,6 @@ public class Config extends AnnotatedConfig {
     public boolean deny_entity_interact = true;
     @ConfigComment("Denies explosions from breaking protected blocks")
     public boolean deny_explosions = true;
-    @ConfigComment("Denies endermen from breaking protected blocks")
-    public boolean deny_endermen = true;
     @ConfigComment("Denies pistons from breaking protected blocks")
     public boolean deny_pistons = true;
     @ConfigComment("Denies redstone from toggling protected blocks")

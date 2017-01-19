@@ -502,11 +502,8 @@ public class Deadbolted {
             return false;
         }
 
-        //log("Entered isAutoExpired whith playerToInform = ", playerToInform);
-
         // Fetch the owner string
         String signPlayerName = this.getOwner();
-        //log("signPlayerName is", signPlayerName);
 
         // That must be a valid player name
         if (!PlayerNameUtil.isValidPlayerName(signPlayerName)) {
@@ -520,7 +517,6 @@ public class Deadbolted {
         // More than one player name could cover for the auto expire.
         // Find all those valid owners.
         Set<String> allValidOwnerNames = PlayerNameUtil.interpretPlayerNameFromSign(signPlayerName);
-        //log("allValidOwnerNames are", allValidOwnerNames);
 
         // At least one of them needs to have been online recently
         boolean hasExpired = true;
@@ -540,8 +536,6 @@ public class Deadbolted {
             }
         }
 
-        //log("hasExpired is", hasExpired);
-
         if (hasExpired) {
             if (playerToInform != null && !playerToInform.getName().equalsIgnoreCase(nameThatCovered)) {
                 Deadbolt.getConfig().sendMessage(playerToInform, ChatColor.RED, Deadbolt.getLanguage().msg_auto_expire_expired);
@@ -555,14 +549,6 @@ public class Deadbolted {
         return hasExpired;
     }
 
-    /*public void log(Object... things) {
-     StringBuilder ret = new StringBuilder();
-     for (Object thing : things) {
-     ret.append(thing == null ? "NULL" : thing.toString());
-     ret.append(" ");
-     }
-     Deadbolt.getLogger().info(ret.toString());
-     }*/
     public boolean isAutoExpired() {
         return this.isAutoExpired(null);
     }

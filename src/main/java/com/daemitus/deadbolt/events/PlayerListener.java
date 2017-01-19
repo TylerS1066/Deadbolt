@@ -123,14 +123,15 @@ public class PlayerListener implements Listener {
 
                 // Trigger an on block place event so other plugins can cancel this.
                 BlockState replacedBlockState = signBlock.getState();
-                BlockPlaceEvent triggeredEvent = new BlockPlaceEvent(signBlock, replacedBlockState, against, event.getItem(), player, true);
+                BlockPlaceEvent triggeredEvent = new BlockPlaceEvent(signBlock, replacedBlockState, against, event.getItem(), player, true, event.getHand());
                 Bukkit.getPluginManager().callEvent(triggeredEvent);
                 if (triggeredEvent.isCancelled()) {
                     return false;
                 }
 
-                signBlock.setTypeIdAndData(Material.WALL_SIGN.getId(), (byte) Util.blockFaceToNotch(clickedFace), false);
+                signBlock.setType(Material.WALL_SIGN, false);
                 Sign signState = (Sign) signBlock.getState();
+                ((org.bukkit.material.Sign) signState.getData()).setFacingDirection(clickedFace);
 
                 if (!db.isProtected()) {
                     signState.setLine(0, Util.formatForSign(Deadbolt.getLanguage().signtext_private));
@@ -147,13 +148,14 @@ public class PlayerListener implements Listener {
                 }
 
                 signState.update(true);
-                ItemStack held = player.getItemInHand();
+                ItemStack held = event.getItem();
                 // Don't reduce amount for creative mode players
-                if (!player.getGameMode().equals(GameMode.CREATIVE))
+                if (!player.getGameMode().equals(GameMode.CREATIVE)) {
                     held.setAmount(held.getAmount() - 1);
+                }
 
                 if (held.getAmount() == 0) {
-                    player.setItemInHand(null);
+                    player.getInventory().setItemInMainHand(null);
                 }
                 event.setCancelled(true);
                 return false;
