@@ -376,9 +376,7 @@ public class Deadbolted {
     public void toggleDoors(Block block) {
         Set<Block> clickedDoor = new HashSet<Block>();
         if (isNaturalOpen(block)) {
-            // special case for Trap Doors so multiple sets don't get miss-aligned
-            if (block.getType() != Material.TRAP_DOOR)
-                clickedDoor.add(block);
+            clickedDoor.add(block);
             if (isVerticallyJoined(block)) {
                 Block b = block;
                 while ((b = b.getRelative(BlockFace.UP)).getType().equals(block.getType())
