@@ -9,6 +9,7 @@ import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.BlockState;
 import org.bukkit.block.Sign;
+import org.bukkit.block.data.type.WallSign;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event.Result;
 import org.bukkit.event.EventHandler;
@@ -44,16 +45,21 @@ public class PlayerListener implements Listener {
             placeQuickSign(event);
         }
         switch (event.getClickedBlock().getType()) {
-            case WOODEN_DOOR:
-            case IRON_DOOR_BLOCK:
+            case OAK_DOOR:
+            case IRON_DOOR:
             case SPRUCE_DOOR:
             case BIRCH_DOOR:
             case JUNGLE_DOOR:
             case ACACIA_DOOR:
             case DARK_OAK_DOOR:
-            case TRAP_DOOR:
+            case OAK_TRAPDOOR:
+            case SPRUCE_TRAPDOOR:
+            case BIRCH_TRAPDOOR:
+            case JUNGLE_TRAPDOOR:
+            case ACACIA_TRAPDOOR:
+            case DARK_OAK_TRAPDOOR:
             case IRON_TRAPDOOR:
-            case FENCE_GATE:
+            case OAK_FENCE_GATE:
             case BIRCH_FENCE_GATE:
             case ACACIA_FENCE_GATE:
             case DARK_OAK_FENCE_GATE:
@@ -66,8 +72,7 @@ public class PlayerListener implements Listener {
             case CAULDRON:
             case DISPENSER:
             case BREWING_STAND:
-            case BURNING_FURNACE:
-            case ENCHANTMENT_TABLE:
+            case ENCHANTING_TABLE:
                 return onPlayerInteractContainer(event);
             case WALL_SIGN:
                 return onPlayerInteractWallSign(event);
@@ -85,25 +90,29 @@ public class PlayerListener implements Listener {
             case CHEST:
             case DISPENSER:
             case FURNACE:
-            case BURNING_FURNACE:
-            case WOODEN_DOOR:
-            case IRON_DOOR_BLOCK:
+            case OAK_DOOR:
+            case IRON_DOOR:
             case SPRUCE_DOOR:
             case BIRCH_DOOR:
             case JUNGLE_DOOR:
             case ACACIA_DOOR:
             case DARK_OAK_DOOR:
-            case TRAP_DOOR:
+            case OAK_TRAPDOOR:
+            case SPRUCE_TRAPDOOR:
+            case BIRCH_TRAPDOOR:
+            case JUNGLE_TRAPDOOR:
+            case ACACIA_TRAPDOOR:
+            case DARK_OAK_TRAPDOOR:
             case IRON_TRAPDOOR:
             case TRAPPED_CHEST:
-            case FENCE_GATE:
+            case OAK_FENCE_GATE:
             case BIRCH_FENCE_GATE:
             case ACACIA_FENCE_GATE:
             case DARK_OAK_FENCE_GATE:
             case JUNGLE_FENCE_GATE:
             case SPRUCE_FENCE_GATE:
             case BREWING_STAND:
-            case ENCHANTMENT_TABLE:
+            case ENCHANTING_TABLE:
             case CAULDRON:
 
                 if (!canQuickProtect(player, against)) {
@@ -132,7 +141,8 @@ public class PlayerListener implements Listener {
 
                 signBlock.setType(Material.WALL_SIGN, false);
                 Sign signState = (Sign) signBlock.getState();
-                ((org.bukkit.material.Sign) signState.getData()).setFacingDirection(clickedFace);
+                WallSign signData = (WallSign) signState.getBlockData();
+                signData.setFacing(clickedFace);
 
                 if (!db.isProtected()) {
                     signState.setLine(0, Util.formatForSign(Deadbolt.getLanguage().signtext_private));
@@ -166,7 +176,7 @@ public class PlayerListener implements Listener {
     }
 
     private boolean canQuickProtect(Player player, Block block) {
-        if (Deadbolt.getConfig().deny_quick_signs || !Deadbolt.getConfig().quick_signs_blockids.contains(block.getTypeId())) {
+        if (Deadbolt.getConfig().deny_quick_signs || !Deadbolt.getConfig().quick_signs_blockids.contains(block.getType().name())) {
             return false;
         }
         switch (block.getType()) {
@@ -177,20 +187,24 @@ public class PlayerListener implements Listener {
             case DISPENSER:
                 return player.hasPermission(Perm.user_create_dispenser);
             case FURNACE:
-            case BURNING_FURNACE:
                 return player.hasPermission(Perm.user_create_furnace);
-            case WOODEN_DOOR:
+            case OAK_DOOR:
             case SPRUCE_DOOR:
             case BIRCH_DOOR:
             case JUNGLE_DOOR:
             case ACACIA_DOOR:
             case DARK_OAK_DOOR:
-            case IRON_DOOR_BLOCK:
+            case IRON_DOOR:
                 return player.hasPermission(Perm.user_create_door);
-            case TRAP_DOOR:
+            case OAK_TRAPDOOR:
+            case SPRUCE_TRAPDOOR:
+            case BIRCH_TRAPDOOR:
+            case JUNGLE_TRAPDOOR:
+            case ACACIA_TRAPDOOR:
+            case DARK_OAK_TRAPDOOR:
             case IRON_TRAPDOOR:
                 return player.hasPermission(Perm.user_create_trapdoor);
-            case FENCE_GATE:
+            case OAK_FENCE_GATE:
             case BIRCH_FENCE_GATE:
             case ACACIA_FENCE_GATE:
             case DARK_OAK_FENCE_GATE:
@@ -199,7 +213,7 @@ public class PlayerListener implements Listener {
                 return player.hasPermission(Perm.user_create_fencegate);
             case BREWING_STAND:
                 return player.hasPermission(Perm.user_create_brewery);
-            case ENCHANTMENT_TABLE:
+            case ENCHANTING_TABLE:
                 return player.hasPermission(Perm.user_create_enchant);
             case CAULDRON:
                 return player.hasPermission(Perm.user_create_cauldron);

@@ -66,8 +66,7 @@ public class BlockListener implements Listener {
             case CAULDRON:
             case DISPENSER:
             case BREWING_STAND:
-            case BURNING_FURNACE:
-            case ENCHANTMENT_TABLE:
+            case ENCHANTING_TABLE:
             case ANVIL:
             case ENDER_CHEST:
             case BEACON:
@@ -79,8 +78,8 @@ public class BlockListener implements Listener {
                     Deadbolt.getConfig().sendMessage(player, ChatColor.RED, Deadbolt.getLanguage().msg_deny_container_expansion);
                 }
                 return;
-            case IRON_DOOR_BLOCK:
-            case WOODEN_DOOR:
+            case IRON_DOOR:
+            case OAK_DOOR:
             case SPRUCE_DOOR:
             case BIRCH_DOOR:
             case JUNGLE_DOOR:
@@ -96,14 +95,19 @@ public class BlockListener implements Listener {
                     event.setCancelled(true);
                 }
                 return;
-            case TRAP_DOOR:
+            case OAK_TRAPDOOR:
+            case SPRUCE_TRAPDOOR:
+            case BIRCH_TRAPDOOR:
+            case JUNGLE_TRAPDOOR:
+            case ACACIA_TRAPDOOR:
+            case DARK_OAK_TRAPDOOR:
             case IRON_TRAPDOOR:
                 if (db.isProtected() && !db.isOwner(player)) {
                     Deadbolt.getConfig().sendMessage(player, ChatColor.RED, Deadbolt.getLanguage().msg_deny_trapdoor_expansion);
                     event.setCancelled(true);
                 }
                 return;
-            case FENCE_GATE:
+            case OAK_FENCE_GATE:
             case BIRCH_FENCE_GATE:
             case ACACIA_FENCE_GATE:
             case DARK_OAK_FENCE_GATE:
@@ -131,7 +135,6 @@ public class BlockListener implements Listener {
             case CHEST:
                 return Perm.user_create_chest;
             case FURNACE:
-            case BURNING_FURNACE:
                 return Perm.user_create_furnace;
             case CAULDRON:
                 return Perm.user_create_cauldron;
@@ -139,20 +142,25 @@ public class BlockListener implements Listener {
                 return Perm.user_create_dispenser;
             case BREWING_STAND:
                 return Perm.user_create_brewery;
-            case ENCHANTMENT_TABLE:
+            case ENCHANTING_TABLE:
                 return Perm.user_create_enchant;
-            case WOODEN_DOOR:
-            case IRON_DOOR_BLOCK:
+            case OAK_DOOR:
+            case IRON_DOOR:
             case SPRUCE_DOOR:
             case BIRCH_DOOR:
             case JUNGLE_DOOR:
             case ACACIA_DOOR:
             case DARK_OAK_DOOR:
                 return Perm.user_create_door;
-            case TRAP_DOOR:
+            case OAK_TRAPDOOR:
+            case SPRUCE_TRAPDOOR:
+            case BIRCH_TRAPDOOR:
+            case JUNGLE_TRAPDOOR:
+            case ACACIA_TRAPDOOR:
+            case DARK_OAK_TRAPDOOR:
             case IRON_TRAPDOOR:
                 return Perm.user_create_trapdoor;
-            case FENCE_GATE:
+            case OAK_FENCE_GATE:
             case BIRCH_FENCE_GATE:
             case ACACIA_FENCE_GATE:
             case DARK_OAK_FENCE_GATE:

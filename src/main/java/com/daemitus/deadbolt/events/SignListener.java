@@ -5,6 +5,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.Sign;
+import org.bukkit.block.data.type.WallSign;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -58,19 +59,15 @@ public class SignListener implements Listener {
             db = Deadbolt.get(block);
             result = validateSignPlacement(db, player, isPrivate);
         } else {
-            for (byte b = 0x2; b < 0x6 && !result.equals(Result.SUCCESS) && !result.equals(Result.ADMIN_SIGN_PLACED); b++) {
-                block.setTypeIdAndData(Material.WALL_SIGN.getId(), b, false);
-                if(!block.getRelative(((org.bukkit.material.Sign)block.getState().getData()).getAttachedFace()).getType().isSolid()) {
-                    continue;
-                }
-                Sign sign = (Sign) block.getState();
-                sign.setLine(0, isPrivate ? Deadbolt.getLanguage().signtext_private : Deadbolt.getLanguage().signtext_moreusers);
-                sign.update();
-                db = Deadbolt.get(block);
-                Result newresult = validateSignPlacement(db, player, isPrivate);
-                if (!newresult.equals(Result.DENY_SIGN_PRIVATE_NOTHING_NEARBY)) {
-                    result = newresult;
-                }
+            WallSign signData = (WallSign) Material.WALL_SIGN.createBlockData();
+            block.setBlockData(signData, false);
+            Sign sign = (Sign) block.getState();
+            sign.setLine(0, isPrivate ? Deadbolt.getLanguage().signtext_private : Deadbolt.getLanguage().signtext_moreusers);
+            sign.update();
+            db = Deadbolt.get(block);
+            Result newresult = validateSignPlacement(db, player, isPrivate);
+            if (!newresult.equals(Result.DENY_SIGN_PRIVATE_NOTHING_NEARBY)) {
+                result = newresult;
             }
             if(result != Result.SUCCESS) {
                 block.setType(Material.AIR);
@@ -179,13 +176,12 @@ public class SignListener implements Listener {
                             }
                             break;
                         case FURNACE:
-                        case BURNING_FURNACE:
                             if (!furnace && !(furnace = player.hasPermission(Perm.user_create_furnace))) {
                                 return Result.DENY_BLOCK_PERM;
                             }
                             break;
-                        case WOODEN_DOOR:
-                        case IRON_DOOR_BLOCK:
+                        case OAK_DOOR:
+                        case IRON_DOOR:
                         case SPRUCE_DOOR:
                         case BIRCH_DOOR:
                         case JUNGLE_DOOR:
@@ -195,13 +191,18 @@ public class SignListener implements Listener {
                                 return Result.DENY_BLOCK_PERM;
                             }
                             break;
-                        case TRAP_DOOR:
+                        case OAK_TRAPDOOR:
+                        case SPRUCE_TRAPDOOR:
+                        case BIRCH_TRAPDOOR:
+                        case JUNGLE_TRAPDOOR:
+                        case ACACIA_TRAPDOOR:
+                        case DARK_OAK_TRAPDOOR:
                         case IRON_TRAPDOOR:
                             if (!trap && !(trap = player.hasPermission(Perm.user_create_trapdoor))) {
                                 return Result.DENY_BLOCK_PERM;
                             }
                             break;
-                        case FENCE_GATE:
+                        case OAK_FENCE_GATE:
                         case BIRCH_FENCE_GATE:
                         case ACACIA_FENCE_GATE:
                         case DARK_OAK_FENCE_GATE:
@@ -221,7 +222,7 @@ public class SignListener implements Listener {
                                 return Result.DENY_BLOCK_PERM;
                             }
                             break;
-                        case ENCHANTMENT_TABLE:
+                        case ENCHANTING_TABLE:
                             if (!enchant && !(enchant = player.hasPermission(Perm.user_create_enchant))) {
                                 return Result.DENY_BLOCK_PERM;
                             }

@@ -38,9 +38,9 @@ public class Config extends AnnotatedConfig {
     @ConfigComment("Allows right click placement of signs automatically on the target")
     public boolean deny_quick_signs = false;
     @ConfigComment("List of blockIDs that can be quick sign protected")
-    public List<Integer> quick_signs_blockids = Arrays.asList(
-            Material.CHEST.getId(),
-            Material.TRAPPED_CHEST.getId()
+    public List<String> quick_signs_blockids = Arrays.asList(
+            Material.CHEST.name(),
+            Material.TRAPPED_CHEST.name()
     );
     @ConfigComment("Clear sign selection after using /deadbolt <line> <text>")
     public boolean clear_sign_selection = false;
@@ -55,18 +55,23 @@ public class Config extends AnnotatedConfig {
     @ConfigComment("Denies Hopper Minecart from interacting with protected blocks")
     public boolean deny_hoppercart = true;
     @ConfigComment("List of blockIDs protected by redstone unless overrode by [everyone]")
-    public List<Integer> redstone_protected_blockids = Arrays.asList(
+    public List<String> redstone_protected_blockids = Arrays.asList(
             // Doors
-            Material.WOODEN_DOOR.getId(),
-            Material.IRON_DOOR_BLOCK.getId(),
-            Material.SPRUCE_DOOR.getId(),
-            Material.BIRCH_DOOR.getId(),
-            Material.JUNGLE_DOOR.getId(),
-            Material.ACACIA_DOOR.getId(),
-            Material.DARK_OAK_DOOR.getId(),
+            Material.OAK_DOOR.name(),
+            Material.IRON_DOOR.name(),
+            Material.SPRUCE_DOOR.name(),
+            Material.BIRCH_DOOR.name(),
+            Material.JUNGLE_DOOR.name(),
+            Material.ACACIA_DOOR.name(),
+            Material.DARK_OAK_DOOR.name(),
             // trap doors
-            Material.TRAP_DOOR.getId(),
-            Material.IRON_TRAPDOOR.getId()
+            Material.OAK_TRAPDOOR.name(),
+            Material.SPRUCE_TRAPDOOR.name(),
+            Material.BIRCH_TRAPDOOR.name(),
+            Material.JUNGLE_TRAPDOOR.name(),
+            Material.ACACIA_TRAPDOOR.name(),
+            Material.DARK_OAK_TRAPDOOR.name(),
+            Material.IRON_TRAPDOOR.name()
     );
     @ConfigComment("Denies function of the [timer: x] tag on signs")
     public boolean deny_timed_doors = false;

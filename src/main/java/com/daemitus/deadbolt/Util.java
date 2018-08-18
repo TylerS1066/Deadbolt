@@ -6,6 +6,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.Sign;
+import org.bukkit.block.data.type.WallSign;
 
 public final class Util {
 
@@ -52,7 +53,7 @@ public final class Util {
     }
 
     public static Block getSignAttached(Sign signState) {
-        return signState.getBlock().getRelative(((org.bukkit.material.Sign) signState.getData()).getAttachedFace());
+        return signState.getBlock().getRelative(((WallSign) signState.getBlockData()).getFacing().getOppositeFace());
     }
 
     public static String removeColor(String text) {
