@@ -143,6 +143,7 @@ public class PlayerListener implements Listener {
                 Sign signState = (Sign) signBlock.getState();
                 WallSign signData = (WallSign) signState.getBlockData();
                 signData.setFacing(clickedFace);
+                signState.setBlockData(signData);
 
                 if (!db.isProtected()) {
                     signState.setLine(0, Util.formatForSign(Deadbolt.getLanguage().signtext_private));
