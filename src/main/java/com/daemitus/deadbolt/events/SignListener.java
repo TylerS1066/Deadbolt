@@ -3,14 +3,13 @@ package com.daemitus.deadbolt.events;
 import com.daemitus.deadbolt.*;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.Tag;
 import org.bukkit.block.Block;
 import org.bukkit.block.Sign;
-import org.bukkit.block.data.type.WallSign;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.SignChangeEvent;
-import org.bukkit.inventory.ItemStack;
 
 public class SignListener implements Listener {
 
@@ -26,53 +25,40 @@ public class SignListener implements Listener {
     }
 
     @EventHandler(ignoreCancelled = true)
-    @SuppressWarnings("fallthrough")
     public void onSignChange(SignChangeEvent event) {
         Player player = event.getPlayer();
         Block block = event.getBlock();
         String[] lines = event.getLines();
 
+        if (!Tag.WALL_SIGNS.isTagged(block.getType())) {
+            return;
+        }
+
+        Sign sign = (Sign) block.getState();
+
         //fix for client-side sign edit hack
-        if (event.getBlock().getType().equals(Material.WALL_SIGN)) {
-            Sign sign = (Sign) event.getBlock().getState();
-            String ident = Util.getLine(sign, 0);
-            if (Deadbolt.getLanguage().isPrivate(ident) || Deadbolt.getLanguage().isMoreUsers(ident)) {
-                event.setCancelled(true);
-                return;
-            }
+        //not sure if this is still necessary
+        String ident = Util.getLine(sign, 0);
+        if (Deadbolt.getLanguage().isPrivate(ident) || Deadbolt.getLanguage().isMoreUsers(ident)) {
+            event.setCancelled(true);
+            return;
         }
         //fix end
 
-        String ident = Util.removeColor(lines[0]);
+        ident = Util.removeColor(lines[0]);
         boolean isPrivate = Deadbolt.getLanguage().isPrivate(ident);
         boolean isMoreUsers = Deadbolt.getLanguage().isMoreUsers(ident);
         if (!isPrivate && !isMoreUsers) {
             return;
         }
 
-        Deadbolted db = null;
-        Result result = Result.PLACEHOLDER;
-        if (block.getType().equals(Material.WALL_SIGN)) {
-            Sign sign = (Sign) block.getState();
-            sign.setLine(0, isPrivate ? Deadbolt.getLanguage().signtext_private : Deadbolt.getLanguage().signtext_moreusers);
-            sign.update();
-            db = Deadbolt.get(block);
-            result = validateSignPlacement(db, player, isPrivate);
-        } else {
-            WallSign signData = (WallSign) Material.WALL_SIGN.createBlockData();
-            block.setBlockData(signData, false);
-            Sign sign = (Sign) block.getState();
-            sign.setLine(0, isPrivate ? Deadbolt.getLanguage().signtext_private : Deadbolt.getLanguage().signtext_moreusers);
-            sign.update();
-            db = Deadbolt.get(block);
-            Result newresult = validateSignPlacement(db, player, isPrivate);
-            if (!newresult.equals(Result.DENY_SIGN_PRIVATE_NOTHING_NEARBY)) {
-                result = newresult;
-            }
-            if(result != Result.SUCCESS) {
-                block.setType(Material.AIR);
-            }
-        }
+        Deadbolted db;
+        Result result;
+
+        sign.setLine(0, isPrivate ? Deadbolt.getLanguage().signtext_private : Deadbolt.getLanguage().signtext_moreusers);
+        sign.update();
+        db = Deadbolt.get(block);
+        result = validateSignPlacement(db, player, isPrivate);
 
         switch (result) {
             case ADMIN_SIGN_PLACED:
@@ -91,7 +77,6 @@ public class SignListener implements Listener {
                     }
                 }
 
-                Sign sign = (Sign) block.getState();
                 for (int i = 0; i < 4; i++) {
                     sign.setLine(i, Util.formatForSign(lines[i]));
                 }
@@ -115,7 +100,7 @@ public class SignListener implements Listener {
                 break;
         }
         event.setCancelled(true);
-        block.getWorld().dropItemNaturally(block.getLocation(), new ItemStack(Material.SIGN, 1));
+        block.getWorld().dropItemNaturally(block.getLocation(), block.getDrops().iterator().next());
         block.setType(Material.AIR);
     }
 
@@ -176,6 +161,8 @@ public class SignListener implements Listener {
                             }
                             break;
                         case FURNACE:
+                        case BLAST_FURNACE:
+                        case SMOKER:
                             if (!furnace && !(furnace = player.hasPermission(Perm.user_create_furnace))) {
                                 return Result.DENY_BLOCK_PERM;
                             }

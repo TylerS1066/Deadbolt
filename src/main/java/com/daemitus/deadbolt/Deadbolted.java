@@ -4,6 +4,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.SoundCategory;
+import org.bukkit.Tag;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.BlockState;
@@ -37,7 +38,12 @@ public class Deadbolted {
         switch (block.getType()) {
             case AIR:
                 break;
-            case WALL_SIGN:
+            case OAK_WALL_SIGN:
+            case BIRCH_WALL_SIGN:
+            case ACACIA_WALL_SIGN:
+            case DARK_OAK_WALL_SIGN:
+            case JUNGLE_WALL_SIGN:
+            case SPRUCE_WALL_SIGN:
                 BlockState state = block.getState();
                 org.bukkit.block.Sign signState = (Sign) state;
                 if (Deadbolt.getLanguage().isValidWallSign(signState)) {
@@ -83,6 +89,8 @@ public class Deadbolted {
                 searchSimpleBlock(block, Deadbolt.getConfig().group_cauldrons, Deadbolt.getConfig().group_cauldrons);
                 break;
             case FURNACE:
+            case BLAST_FURNACE:
+            case SMOKER:
                 searchFurnace(block, Deadbolt.getConfig().group_furnaces, Deadbolt.getConfig().group_furnaces);
                 break;
             case TRAPPED_CHEST:
@@ -136,7 +144,7 @@ public class Deadbolted {
             Block adjacent = block.getRelative(bf);
             if (horizontal && adjacent.getType().equals(block.getType())) {
                 searchDoor(adjacent, true, vertical);
-            } else if (adjacent.getType().equals(Material.WALL_SIGN)) {
+            } else if (Tag.WALL_SIGNS.isTagged(adjacent.getType())) {
                 parseSignAttached(adjacent, block);
             }
         }
@@ -166,7 +174,7 @@ public class Deadbolted {
             Block adjacent = block.getRelative(bf);
             if (horizontal && adjacent.getBlockData() instanceof Gate) {
                 searchFenceGate(adjacent, true, vertical);
-            } else if (adjacent.getType().equals(Material.WALL_SIGN)) {
+            } else if (Tag.WALL_SIGNS.isTagged(adjacent.getType())) {
                 parseSignAttached(adjacent, block);
             } else {
                 parseNearbySigns(adjacent);
@@ -193,7 +201,7 @@ public class Deadbolted {
             Block adjacent = block.getRelative(bf);
             if (horizontal && adjacent.getState().getBlockData() instanceof TrapDoor) {
                 searchTrapDoor(adjacent, true, vertical);
-            } else if (adjacent.getType().equals(Material.WALL_SIGN)) {
+            } else if (Tag.WALL_SIGNS.isTagged(adjacent.getType())) {
                 parseSignAttached(adjacent, block);
             }
         }
@@ -202,7 +210,7 @@ public class Deadbolted {
                 Block adjacent = block.getRelative(bf);
                 if (adjacent.getBlockData() instanceof TrapDoor) {
                     searchTrapDoor(adjacent, horizontal, true);
-                } else if (adjacent.getType().equals(Material.WALL_SIGN)) {
+                } else if (Tag.WALL_SIGNS.isTagged(adjacent.getType())) {
                     BlockState state = adjacent.getState();
                     WallSign signData = (WallSign) state.getBlockData();
                     Block attached = adjacent.getRelative(signData.getFacing().getOppositeFace());
@@ -222,7 +230,7 @@ public class Deadbolted {
             Block adjacent = block.getRelative(bf);
             if (horizontal && adjacent.getType().equals(block.getType())) {
                 searchSimpleBlock(adjacent, true, vertical);
-            } else if (adjacent.getType().equals(Material.WALL_SIGN)) {
+            } else if (Tag.WALL_SIGNS.isTagged(adjacent.getType())) {
                 parseSignAttached(adjacent, block);
             }
         }
@@ -244,7 +252,7 @@ public class Deadbolted {
             Block adjacent = block.getRelative(bf);
             if (horizontal && adjacent.getState() instanceof Furnace) {
                 searchFurnace(adjacent, true, vertical);
-            } else if (adjacent.getType().equals(Material.WALL_SIGN)) {
+            } else if (Tag.WALL_SIGNS.isTagged(adjacent.getType())) {
                 parseSignAttached(adjacent, block);
             }
         }
@@ -266,7 +274,7 @@ public class Deadbolted {
             Block adjacent = block.getRelative(bf);
             if (horizontal && adjacent.getState() instanceof Chest) {
                 searchChest(adjacent, true, vertical);
-            } else if (adjacent.getType().equals(Material.WALL_SIGN)) {
+            } else if (Tag.WALL_SIGNS.isTagged(adjacent.getType())) {
                 parseSignAttached(adjacent, block);
             }
         }
@@ -283,7 +291,7 @@ public class Deadbolted {
     private void parseNearbySigns(Block block) {
         for (BlockFace bf : Deadbolt.getConfig().CARDINAL_FACES) {
             Block adjacent = block.getRelative(bf);
-            if (adjacent.getType().equals(Material.WALL_SIGN)) {
+            if (Tag.WALL_SIGNS.isTagged(adjacent.getType())) {
                 parseSignAttached(adjacent, block);
             }
         }

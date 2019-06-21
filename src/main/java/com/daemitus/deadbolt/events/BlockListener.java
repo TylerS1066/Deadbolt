@@ -10,6 +10,7 @@ import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.Sign;
+import org.bukkit.block.data.type.WallSign;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -47,7 +48,7 @@ public class BlockListener implements Listener {
         Player player = event.getPlayer();
         Block against = event.getBlockAgainst();
 
-        if (against.getType().equals(Material.WALL_SIGN) && Deadbolt.getLanguage().isValidWallSign((Sign) against.getState())) {
+        if (against.getBlockData() instanceof WallSign && Deadbolt.getLanguage().isValidWallSign((Sign) against.getState())) {
             event.setCancelled(true);
             return;
         }
@@ -63,6 +64,8 @@ public class BlockListener implements Listener {
         switch (block.getType()) {
             case CHEST:
             case FURNACE:
+            case BLAST_FURNACE:
+            case SMOKER:
             case CAULDRON:
             case DISPENSER:
             case BREWING_STAND:
@@ -135,6 +138,8 @@ public class BlockListener implements Listener {
             case CHEST:
                 return Perm.user_create_chest;
             case FURNACE:
+            case BLAST_FURNACE:
+            case SMOKER:
                 return Perm.user_create_furnace;
             case CAULDRON:
                 return Perm.user_create_cauldron;

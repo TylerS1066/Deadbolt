@@ -1,9 +1,9 @@
 package com.daemitus.deadbolt;
 
 import org.bukkit.ChatColor;
-import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.Sign;
+import org.bukkit.block.data.type.WallSign;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -65,7 +65,7 @@ public class DeadboltCommandExecutor implements CommandExecutor {
             Deadbolt.getConfig().sendMessage(player, ChatColor.RED, Deadbolt.getLanguage().cmd_sign_not_selected);
             return true;
         }
-        if (!block.getType().equals(Material.WALL_SIGN)) {
+        if (!(block.getBlockData() instanceof WallSign)) {
             Deadbolt.getConfig().sendMessage(player, ChatColor.RED, Deadbolt.getLanguage().cmd_sign_selected_error);
             Deadbolt.getConfig().selectedSign.remove(player);
             return true;
@@ -73,7 +73,7 @@ public class DeadboltCommandExecutor implements CommandExecutor {
 
         lineNum--;
         Sign sign = (Sign) block.getState();
-        String lines[] = sign.getLines();
+        String[] lines = sign.getLines();
 
         String text = "";
         for (int i = 1; i < args.length; i++) {

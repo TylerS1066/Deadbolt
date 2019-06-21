@@ -25,7 +25,7 @@ public class Config extends AnnotatedConfig {
     public int auto_expire_days = 0;
     @ConfigComment("Allows trapdoors to link with each other vertically")
     public boolean vertical_trapdoors = true;
-    @ConfigComment("Allows furnaces to act like chests, one sign for all connected blocks")
+    @ConfigComment("Allows furnaces to act like chests, one sign for all connected blocks. Includes smokers and blast furnaces.")
     public boolean group_furnaces = true;
     @ConfigComment("Allows dispensers to act like chests, one sign for all connected blocks")
     public boolean group_dispensers = true;
@@ -101,7 +101,7 @@ public class Config extends AnnotatedConfig {
     //------------------------------------------------------------------------//
     private final transient String TAG = "Deadbolt: ";
     //------------------------------------------------------------------------//
-    public transient Map<Player, Block> selectedSign = new HashMap<Player, Block>();
+    public transient Map<Player, Block> selectedSign = new HashMap<>();
     //------------------------------------------------------------------------//
     public final transient Set<BlockFace> CARDINAL_FACES = EnumSet.of(BlockFace.NORTH, BlockFace.SOUTH, BlockFace.EAST, BlockFace.WEST);
     public final transient Set<BlockFace> VERTICAL_FACES = EnumSet.of(BlockFace.UP, BlockFace.DOWN);
