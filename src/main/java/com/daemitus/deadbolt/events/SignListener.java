@@ -147,6 +147,7 @@ public class SignListener implements Listener {
                 boolean hopper = false;
                 boolean dropper = false;
                 boolean trappedChest = false;
+                boolean barrel = false;
                 for (Block setBlock : db.getBlocks()) {
                     //not authorized to protect?
                     switch (setBlock.getType()) {
@@ -225,29 +226,34 @@ public class SignListener implements Listener {
                             }
                             break;
                         case BEACON:
-                            if (!beacon && !(enchant = player.hasPermission(Perm.user_create_beacon))) {
+                            if (!beacon && !(beacon = player.hasPermission(Perm.user_create_beacon))) {
                                 return Result.DENY_BLOCK_PERM;
                             }
                             break;
                         case HOPPER:
-                            if (!hopper && !(enchant = player.hasPermission(Perm.user_create_hopper))) {
+                            if (!hopper && !(hopper = player.hasPermission(Perm.user_create_hopper))) {
                                 return Result.DENY_BLOCK_PERM;
                             }
                             break;
                         case DROPPER:
-                            if (!dropper && !(enchant = player.hasPermission(Perm.user_create_dropper))) {
+                            if (!dropper && !(dropper = player.hasPermission(Perm.user_create_dropper))) {
+                                return Result.DENY_BLOCK_PERM;
+                            }
+                            break;
+                        case BARREL:
+                            if (!barrel && !(barrel = player.hasPermission(Perm.user_create_barrel))) {
                                 return Result.DENY_BLOCK_PERM;
                             }
                             break;
                         case TRAPPED_CHEST:
-                            if (!trappedChest && !(enchant = player.hasPermission(Perm.user_create_trapped_chest))) {
+                            if (!trappedChest && !(trappedChest = player.hasPermission(Perm.user_create_trapped_chest))) {
                                 return Result.DENY_BLOCK_PERM;
                             }
                             break;
 
                     }
                 }
-                if (!chest && !dispenser && !furnace && !door && !trap && !gate && !brewery && !cauldron && !enchant && !hopper && !dropper && !trappedChest) {
+                if (!chest && !dispenser && !furnace && !door && !trap && !gate && !brewery && !cauldron && !enchant && !hopper && !dropper && !trappedChest && !barrel) {
                     //never found a valid block to protect
                     return Result.DENY_SIGN_PRIVATE_NOTHING_NEARBY;
                 }

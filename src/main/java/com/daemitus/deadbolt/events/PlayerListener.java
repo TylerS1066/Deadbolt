@@ -72,6 +72,7 @@ public class PlayerListener implements Listener {
             case JUNGLE_FENCE_GATE:
             case SPRUCE_FENCE_GATE:
                 return onPlayerInteractDoor(event);
+            case BARREL:
             case CHEST:
             case TRAPPED_CHEST:
             case FURNACE:
@@ -101,6 +102,7 @@ public class PlayerListener implements Listener {
         ItemStack item = event.getItem();
 
         switch (against.getType()) {
+            case BARREL:
             case CHEST:
             case DISPENSER:
             case FURNACE:
@@ -192,6 +194,8 @@ public class PlayerListener implements Listener {
             return false;
         }
         switch (block.getType()) {
+            case BARREL:
+                return player.hasPermission(Perm.user_create_barrel);
             case CHEST:
                 return player.hasPermission(Perm.user_create_chest);
             case TRAPPED_CHEST:

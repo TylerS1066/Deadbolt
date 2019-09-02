@@ -93,6 +93,9 @@ public class Deadbolted {
             case SMOKER:
                 searchFurnace(block, Deadbolt.getConfig().group_furnaces, Deadbolt.getConfig().group_furnaces);
                 break;
+            case BARREL:
+                searchSimpleBlock(block, Deadbolt.getConfig().group_barrels, Deadbolt.getConfig().group_barrels);
+                break;
             case TRAPPED_CHEST:
             case CHEST:
                 searchChest(block, true, false);

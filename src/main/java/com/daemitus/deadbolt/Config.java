@@ -35,6 +35,8 @@ public class Config extends AnnotatedConfig {
     public boolean group_enchantment_tables = true;
     @ConfigComment("Allows brewing stands to act like chests, one sign for all connected blocks")
     public boolean group_brewing_stands = true;
+    @ConfigComment("Allows barrels to act like chests, one sign for all connected blocks")
+    public boolean group_barrels = true;
     @ConfigComment("Allows right click placement of signs automatically on the target")
     public boolean deny_quick_signs = false;
     @ConfigComment("List of blockIDs that can be quick sign protected")

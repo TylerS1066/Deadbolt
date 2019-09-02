@@ -62,6 +62,7 @@ public class BlockListener implements Listener {
         }
         Deadbolted db = Deadbolt.get(block);
         switch (block.getType()) {
+            case BARREL:
             case CHEST:
             case FURNACE:
             case BLAST_FURNACE:
@@ -135,6 +136,8 @@ public class BlockListener implements Listener {
 
     private String getPermission(Material type) {
         switch (type) {
+            case BARREL:
+                return Perm.user_create_barrel;
             case CHEST:
                 return Perm.user_create_chest;
             case FURNACE:
