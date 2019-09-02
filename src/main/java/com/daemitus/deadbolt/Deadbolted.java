@@ -399,7 +399,7 @@ public class Deadbolted {
                 clickedDoor.add(b);
             }
         }
-        if (!isNaturalSound(block) && Deadbolt.getConfig().silent_door_sounds) {
+        if (!isNaturalOpen(block) && Deadbolt.getConfig().silent_door_sounds) {
             block.getWorld().playSound(block.getLocation(),
                     open ? Sound.BLOCK_IRON_DOOR_OPEN : Sound.BLOCK_IRON_DOOR_CLOSE,
                     SoundCategory.BLOCKS, 1.0f, 1.0f);
@@ -419,7 +419,7 @@ public class Deadbolted {
         for(Block b : clickedDoor) {
             if(ToggleDoorTask.timedBlocks.add(b)) {
                 plugin.getServer().getScheduler().scheduleSyncDelayedTask(plugin, new ToggleDoorTask(b,
-                                (runonce && Deadbolt.getConfig().timed_door_sounds && (isNaturalSound(b) || Deadbolt.getConfig().silent_door_sounds)),
+                                (runonce && Deadbolt.getConfig().timed_door_sounds && (isNaturalOpen(b) || Deadbolt.getConfig().silent_door_sounds)),
                                 !open),
                         delay * 20);
                 runonce = false;
@@ -431,57 +431,8 @@ public class Deadbolted {
 
     private boolean isNaturalOpen(Block block) {
         switch (block.getType()) {
-            case OAK_TRAPDOOR:
-            case SPRUCE_TRAPDOOR:
-            case BIRCH_TRAPDOOR:
-            case JUNGLE_TRAPDOOR:
-            case ACACIA_TRAPDOOR:
-            case DARK_OAK_TRAPDOOR:
-            case OAK_DOOR:
-            case SPRUCE_DOOR:
-            case BIRCH_DOOR:
-            case JUNGLE_DOOR:
-            case ACACIA_DOOR:
-            case DARK_OAK_DOOR:
-            case OAK_FENCE_GATE:
-            case DARK_OAK_FENCE_GATE:
-            case ACACIA_FENCE_GATE:
-            case SPRUCE_FENCE_GATE:
-            case BIRCH_FENCE_GATE:
-            case JUNGLE_FENCE_GATE:
-                return true;
-            default:
-                return false;
-        }
-    }
-
-    private boolean isVerticallyJoined(Block block) {
-        switch (block.getType()) {
-            case OAK_DOOR:
             case IRON_DOOR:
-            case SPRUCE_DOOR:
-            case BIRCH_DOOR:
-            case JUNGLE_DOOR:
-            case ACACIA_DOOR:
-            case DARK_OAK_DOOR:
-                return true;
-            case OAK_TRAPDOOR:
-            case SPRUCE_TRAPDOOR:
-            case BIRCH_TRAPDOOR:
-            case JUNGLE_TRAPDOOR:
-            case ACACIA_TRAPDOOR:
-            case DARK_OAK_TRAPDOOR:
             case IRON_TRAPDOOR:
-                return Deadbolt.getConfig().vertical_trapdoors;
-            default:
-                return false;
-
-        }
-    }
-
-    private boolean isNaturalSound(Block block) {
-        switch (block.getType()) {
-            case IRON_DOOR:
                 return false;
             default:
                 return true;
