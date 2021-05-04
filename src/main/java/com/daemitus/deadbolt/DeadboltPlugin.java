@@ -1,7 +1,6 @@
 package com.daemitus.deadbolt;
 
 import com.daemitus.deadbolt.events.*;
-import com.md_5.config.FileYamlStorage;
 import java.io.File;
 import java.util.regex.Pattern;
 import org.bukkit.event.EventHandler;
@@ -13,8 +12,6 @@ public class DeadboltPlugin extends JavaPlugin implements Listener {
 
     public Config c;
     public Language l;
-    private FileYamlStorage<Config> configStorage;
-    private FileYamlStorage<Language> languageStorage;
 
     @Override
     public void onEnable() {
@@ -62,18 +59,18 @@ public class DeadboltPlugin extends JavaPlugin implements Listener {
     }
 
     public void bootStrap() {
-        configStorage = new FileYamlStorage<Config>(new File(getDataFolder(), "config.yml"), Config.class, this);
-        c = configStorage.load();
-        configStorage.save();
+        //configStorage = new FileYamlStorage<Config>(new File(getDataFolder(), "config.yml"), Config.class, this);
+        //c = configStorage.load();
+        //configStorage.save();
 
         File langFile = new File(getDataFolder(), c.language);
         if (!langFile.exists()) {
             Deadbolt.getLogger().warning(langFile.getName() + " not found, copying default english.yml");
             langFile = new File(getDataFolder(), "english.yml");
         }
-        languageStorage = new FileYamlStorage<Language>(langFile, Language.class, this);
-        l = languageStorage.load();
-        languageStorage.save();
+        //languageStorage = new FileYamlStorage<Language>(langFile, Language.class, this);
+        //l = languageStorage.load();
+        //languageStorage.save();
 
         if (l.signtext_private.length() > 13) {
             Deadbolt.getLogger().warning(l.signtext_private + " is too long, defaulting to [" + (l.signtext_private = l.d_signtext_private) + "]");
