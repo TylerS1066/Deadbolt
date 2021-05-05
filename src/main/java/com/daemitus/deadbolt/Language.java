@@ -1,15 +1,10 @@
 package com.daemitus.deadbolt;
 
-import com.md_5.config.AnnotatedConfig;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
 import org.bukkit.block.Sign;
 
 import java.util.regex.Pattern;
 
-@Data
-@EqualsAndHashCode(callSuper = false)
-public class Language extends AnnotatedConfig {
+public class Language {
 
     public transient Pattern p_signtext_private;
     public transient Pattern p_signtext_moreusers;

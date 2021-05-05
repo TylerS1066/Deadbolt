@@ -1,7 +1,5 @@
 package com.daemitus.deadbolt;
 
-import lombok.Data;
-import lombok.EqualsAndHashCode;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -12,7 +10,6 @@ import org.bukkit.entity.Player;
 
 import java.util.*;
 
-@Data
 public class Config {
 
     public String language = "english.yml";

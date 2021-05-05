@@ -9,6 +9,8 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import java.util.Set;
+
 public class DeadboltCommandExecutor implements CommandExecutor {
 
     private final DeadboltPlugin plugin;
@@ -125,7 +127,7 @@ public class DeadboltCommandExecutor implements CommandExecutor {
     }
 
     private boolean fix(Player player) {
-        Block block = player.getTargetBlock(null, 100);
+        Block block = player.getTargetBlock((Set<Material>) null, 100);
         Deadbolted db = Deadbolt.get(block);
 
         if (db.isProtected()) {
@@ -166,7 +168,7 @@ public class DeadboltCommandExecutor implements CommandExecutor {
     }
 
     private boolean fixAll(Player player) {
-        Block block = player.getTargetBlock(null, 100);
+        Block block = player.getTargetBlock((Set<Material>) null, 100);
         Deadbolted db = Deadbolt.get(block);
 
         if (db.isProtected()) {
