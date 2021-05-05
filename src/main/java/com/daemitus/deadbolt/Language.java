@@ -1,10 +1,11 @@
 package com.daemitus.deadbolt;
 
+import com.daemitus.deadbolt.config.AnnotatedConfig;
 import org.bukkit.block.Sign;
 
 import java.util.regex.Pattern;
 
-public class Language {
+public class Language extends AnnotatedConfig {
 
     public transient Pattern p_signtext_private;
     public transient Pattern p_signtext_moreusers;

@@ -1,5 +1,6 @@
 package com.daemitus.deadbolt;
 
+import com.daemitus.deadbolt.config.FileYamlStorage;
 import com.daemitus.deadbolt.events.*;
 import java.io.File;
 import java.util.regex.Pattern;
@@ -12,6 +13,8 @@ public class DeadboltPlugin extends JavaPlugin implements Listener {
 
     public Config c;
     public Language l;
+    private FileYamlStorage<Config> configStorage;
+    private FileYamlStorage<Language> languageStorage;
 
     @Override
     public void onEnable() {
@@ -59,7 +62,6 @@ public class DeadboltPlugin extends JavaPlugin implements Listener {
     }
 
     public void bootStrap() {
-        /*
         configStorage = new FileYamlStorage<Config>(new File(getDataFolder(), "config.yml"), Config.class, this);
         c = configStorage.load();
         configStorage.save();
@@ -94,6 +96,5 @@ public class DeadboltPlugin extends JavaPlugin implements Listener {
             Deadbolt.getLogger().warning(l.signtext_timer + " is too long, defaulting to [" + (l.signtext_timer = l.d_signtext_timer) + ":#]");
         }
         l.p_signtext_timer = Pattern.compile("\\[(?i)(" + l.d_signtext_timer + "|" + l.signtext_timer + "):\\s*([0-9]+)\\]");
-         */
     }
 }
