@@ -59,18 +59,19 @@ public class DeadboltPlugin extends JavaPlugin implements Listener {
     }
 
     public void bootStrap() {
-        //configStorage = new FileYamlStorage<Config>(new File(getDataFolder(), "config.yml"), Config.class, this);
-        //c = configStorage.load();
-        //configStorage.save();
+        /*
+        configStorage = new FileYamlStorage<Config>(new File(getDataFolder(), "config.yml"), Config.class, this);
+        c = configStorage.load();
+        configStorage.save();
 
         File langFile = new File(getDataFolder(), c.language);
         if (!langFile.exists()) {
             Deadbolt.getLogger().warning(langFile.getName() + " not found, copying default english.yml");
             langFile = new File(getDataFolder(), "english.yml");
         }
-        //languageStorage = new FileYamlStorage<Language>(langFile, Language.class, this);
-        //l = languageStorage.load();
-        //languageStorage.save();
+        languageStorage = new FileYamlStorage<Language>(langFile, Language.class, this);
+        l = languageStorage.load();
+        languageStorage.save();
 
         if (l.signtext_private.length() > 13) {
             Deadbolt.getLogger().warning(l.signtext_private + " is too long, defaulting to [" + (l.signtext_private = l.d_signtext_private) + "]");
@@ -93,5 +94,6 @@ public class DeadboltPlugin extends JavaPlugin implements Listener {
             Deadbolt.getLogger().warning(l.signtext_timer + " is too long, defaulting to [" + (l.signtext_timer = l.d_signtext_timer) + ":#]");
         }
         l.p_signtext_timer = Pattern.compile("\\[(?i)(" + l.d_signtext_timer + "|" + l.signtext_timer + "):\\s*([0-9]+)\\]");
+         */
     }
 }
