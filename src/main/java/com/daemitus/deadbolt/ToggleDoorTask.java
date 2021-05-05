@@ -8,7 +8,7 @@ import org.bukkit.block.Block;
 
 public class ToggleDoorTask implements Runnable {
 
-    public static Set<Block> timedBlocks = new HashSet<Block>();
+    public static Set<Block> timedBlocks = new HashSet<>();
     private final Block block;
     private final boolean sound;
 

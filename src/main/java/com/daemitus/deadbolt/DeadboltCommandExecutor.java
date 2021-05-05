@@ -51,8 +51,8 @@ public class DeadboltCommandExecutor implements CommandExecutor {
             return fixAll(player);
         }
         try {
-            return lineChange(player, Integer.valueOf(args[0]), args);
-        } catch (NumberFormatException ex) {
+            return lineChange(player, Integer.parseInt(args[0]), args);
+        } catch (NumberFormatException ignored) {
         }
 
         Deadbolt.getConfig().sendMessage(player, ChatColor.RED, Deadbolt.getLanguage().cmd_command_not_found);
@@ -83,28 +83,28 @@ public class DeadboltCommandExecutor implements CommandExecutor {
 
         lineNum--;
         Sign sign = (Sign) block.getState();
-        String lines[] = sign.getLines();
+        String[] lines = sign.getLines();
 
-        String text = "";
+        StringBuilder text = new StringBuilder();
         for (int i = 1; i < args.length; i++) {
-            text += args[i] + (i + 1 < args.length ? " " : "");
+            text.append(args[i]).append(i + 1 < args.length ? " " : "");
         }
 
-        text = Util.formatForSign(text);
+        text = new StringBuilder(Util.formatForSign(text.toString()));
         if (lineNum == 0) {
-            if (!Util.removeColor(lines[0]).equalsIgnoreCase(Util.removeColor(text))) {
+            if (!Util.removeColor(lines[0]).equalsIgnoreCase(Util.removeColor(text.toString()))) {
                 Deadbolt.getConfig().sendMessage(player, ChatColor.RED, Deadbolt.getLanguage().cmd_identifier_not_changeable);
                 return true;
             }
         } else if (lineNum == 1 && Deadbolt.getLanguage().isPrivate(Util.removeColor(lines[0]))) {
-            if (!Util.removeColor(lines[1]).equalsIgnoreCase(Util.removeColor(text))) {
+            if (!Util.removeColor(lines[1]).equalsIgnoreCase(Util.removeColor(text.toString()))) {
                 if (!player.hasPermission(Perm.admin_change_owner)) {
                     Deadbolt.getConfig().sendMessage(player, ChatColor.RED, Deadbolt.getLanguage().cmd_owner_not_changeable);
                     return true;
                 }
             }
         }
-        lines[lineNum] = text;
+        lines[lineNum] = text.toString();
 
         if (Deadbolt.getConfig().clear_sign_selection) {
             Deadbolt.getConfig().selectedSign.remove(player);
@@ -127,7 +127,7 @@ public class DeadboltCommandExecutor implements CommandExecutor {
     }
 
     private boolean fix(Player player) {
-        Block block = player.getTargetBlock((Set<Material>) null, 100);
+        Block block = player.getTargetBlock(null, 100);
         Deadbolted db = Deadbolt.get(block);
 
         if (db.isProtected()) {

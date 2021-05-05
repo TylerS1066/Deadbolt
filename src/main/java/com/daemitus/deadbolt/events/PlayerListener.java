@@ -21,9 +21,8 @@ import org.bukkit.inventory.ItemStack;
 
 public class PlayerListener implements Listener {
 
-    private final DeadboltPlugin plugin = Deadbolt.getPlugin();
-
     public PlayerListener() {
+        DeadboltPlugin plugin = Deadbolt.getPlugin();
         Bukkit.getServer().getPluginManager().registerEvents(this, plugin);
     }
 
@@ -37,7 +36,7 @@ public class PlayerListener implements Listener {
     }
 
     private boolean handleRightClick(PlayerInteractEvent event) {
-        if (event.getPlayer().getItemInHand().getType().equals(Material.SIGN) && !event.isCancelled()) {
+        if (event.getPlayer().getInventory().getItemInMainHand().getType().equals(Material.SIGN) && !event.isCancelled()) {
             placeQuickSign(event);
         }
         switch (event.getClickedBlock().getType()) {
@@ -74,7 +73,7 @@ public class PlayerListener implements Listener {
 
     }
 
-    private boolean placeQuickSign(PlayerInteractEvent event) {
+    private void placeQuickSign(PlayerInteractEvent event) {
         Player player = event.getPlayer();
         Block against = event.getClickedBlock();
 
@@ -105,17 +104,17 @@ public class PlayerListener implements Listener {
 
                 if (!canQuickProtect(player, against)) {
                     Deadbolt.getConfig().sendMessage(player, ChatColor.RED, Deadbolt.getLanguage().msg_deny_block_perm, against.getType().name());
-                    return false;
+                    return;
                 }
 
                 BlockFace clickedFace = event.getBlockFace();
                 if (!Deadbolt.getConfig().CARDINAL_FACES.contains(clickedFace)) {
-                    return false;
+                    return;
                 }
 
                 Block signBlock = against.getRelative(clickedFace);
                 if (!signBlock.getType().equals(Material.AIR)) {
-                    return false;
+                    return;
                 }
 
                 Deadbolted db = Deadbolt.get(against);
@@ -125,7 +124,7 @@ public class PlayerListener implements Listener {
                 BlockPlaceEvent triggeredEvent = new BlockPlaceEvent(signBlock, replacedBlockState, against, event.getItem(), player, true);
                 Bukkit.getPluginManager().callEvent(triggeredEvent);
                 if (triggeredEvent.isCancelled()) {
-                    return false;
+                    return;
                 }
 
                 signBlock.setTypeIdAndData(Material.WALL_SIGN.getId(), (byte) Util.blockFaceToNotch(clickedFace), false);
@@ -142,22 +141,21 @@ public class PlayerListener implements Listener {
                 } else {
                     Deadbolt.getConfig().sendMessage(player, ChatColor.RED, Deadbolt.getLanguage().msg_deny_sign_quickplace, db.getOwner());
                     signBlock.setType(Material.AIR);
-                    return false;
+                    return;
                 }
 
                 signState.update(true);
-                ItemStack held = player.getItemInHand();
+                ItemStack held = player.getInventory().getItemInMainHand();
                 // Don't reduce amount for creative mode players
                 if (!player.getGameMode().equals(GameMode.CREATIVE))
                     held.setAmount(held.getAmount() - 1);
 
                 if (held.getAmount() == 0) {
-                    player.setItemInHand(null);
+                    player.getInventory().setItemInMainHand(null);
                 }
                 event.setCancelled(true);
-                return false;
+                return;
             default:
-                return true;
         }
     }
 

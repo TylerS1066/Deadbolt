@@ -21,10 +21,10 @@ import java.util.TreeSet;
 
 public class Deadbolted {
 
-    private Set<Block> blocks = new HashSet<Block>();
-    private Set<Block> traversed = new HashSet<Block>();
+    private final Set<Block> blocks = new HashSet<>();
+    private final Set<Block> traversed = new HashSet<>();
     private String owner = null;
-    private Set<String> users = new TreeSet<String>(String.CASE_INSENSITIVE_ORDER);
+    private final Set<String> users = new TreeSet<>(String.CASE_INSENSITIVE_ORDER);
     public static DeadboltPlugin plugin;
 
     public Deadbolted(Block block) {
@@ -130,7 +130,7 @@ public class Deadbolted {
         for (BlockFace bf : Deadbolt.getConfig().CARDINAL_FACES) {
             Block adjacent = block.getRelative(bf);
             if (horizontal && adjacent.getType().equals(block.getType())) {
-                searchDoor(adjacent, horizontal, vertical);
+                searchDoor(adjacent, true, vertical);
             } else if (adjacent.getType().equals(Material.WALL_SIGN)) {
                 parseSignAttached(adjacent, block);
             }
@@ -138,14 +138,14 @@ public class Deadbolted {
         if (vertical) {
             Block adjacentUp = block.getRelative(BlockFace.UP);
             if (adjacentUp.getType().equals(block.getType())) {
-                searchDoor(adjacentUp, horizontal, vertical);
+                searchDoor(adjacentUp, horizontal, true);
             } else {
                 parseNearbySigns(adjacentUp);
             }
             //Get the base block, regardless of type
             Block adjacentDown = block.getRelative(BlockFace.DOWN);
             if (adjacentDown.getType().equals(block.getType())) {
-                searchDoor(adjacentDown, horizontal, vertical);
+                searchDoor(adjacentDown, horizontal, true);
             } else {
                 parseNearbySigns(adjacentDown);
                 add(adjacentDown);
@@ -167,7 +167,7 @@ public class Deadbolted {
                     case DARK_OAK_FENCE_GATE:
                     case JUNGLE_FENCE_GATE:
                     case SPRUCE_FENCE_GATE:
-                        searchFenceGate(adjacent, horizontal, vertical);
+                        searchFenceGate(adjacent, true, vertical);
                         break;
                 }
             } else if (adjacent.getType().equals(Material.WALL_SIGN)) {
@@ -186,7 +186,7 @@ public class Deadbolted {
                     case DARK_OAK_FENCE_GATE:
                     case JUNGLE_FENCE_GATE:
                     case SPRUCE_FENCE_GATE:
-                        searchFenceGate(adjacent, horizontal, vertical);
+                        searchFenceGate(adjacent, horizontal, true);
                         break;
                 }
             }
@@ -203,7 +203,7 @@ public class Deadbolted {
         for (BlockFace bf : Deadbolt.getConfig().CARDINAL_FACES) {
             Block adjacent = block.getRelative(bf);
             if (horizontal && adjacent.getState().getData() instanceof TrapDoor) {
-                searchTrapDoor(adjacent, horizontal, vertical);
+                searchTrapDoor(adjacent, true, vertical);
             } else if (adjacent.getType().equals(Material.WALL_SIGN)) {
                 parseSignAttached(adjacent, block);
             }
@@ -212,7 +212,7 @@ public class Deadbolted {
             for (BlockFace bf : Deadbolt.getConfig().VERTICAL_FACES) {
                 Block adjacent = block.getRelative(bf);
                 if (adjacent.getState().getData() instanceof TrapDoor) {
-                    searchTrapDoor(adjacent, horizontal, vertical);
+                    searchTrapDoor(adjacent, horizontal, true);
                 } else if (adjacent.getType().equals(Material.WALL_SIGN)) {
                     BlockState state = adjacent.getState();
                     org.bukkit.material.Sign signData = (org.bukkit.material.Sign) state.getData();
@@ -232,7 +232,7 @@ public class Deadbolted {
         for (BlockFace bf : Deadbolt.getConfig().CARDINAL_FACES) {
             Block adjacent = block.getRelative(bf);
             if (horizontal && adjacent.getType().equals(block.getType())) {
-                searchSimpleBlock(adjacent, horizontal, vertical);
+                searchSimpleBlock(adjacent, true, vertical);
             } else if (adjacent.getType().equals(Material.WALL_SIGN)) {
                 parseSignAttached(adjacent, block);
             }
@@ -241,7 +241,7 @@ public class Deadbolted {
             for (BlockFace bf : Deadbolt.getConfig().VERTICAL_FACES) {
                 Block adjacent = block.getRelative(bf);
                 if (adjacent.getType().equals(block.getType())) {
-                    searchSimpleBlock(adjacent, horizontal, vertical);
+                    searchSimpleBlock(adjacent, horizontal, true);
                 }
             }
         }
@@ -254,7 +254,7 @@ public class Deadbolted {
         for (BlockFace bf : Deadbolt.getConfig().CARDINAL_FACES) {
             Block adjacent = block.getRelative(bf);
             if (horizontal && adjacent.getState() instanceof Furnace) {
-                searchFurnace(adjacent, horizontal, vertical);
+                searchFurnace(adjacent, true, vertical);
             } else if (adjacent.getType().equals(Material.WALL_SIGN)) {
                 parseSignAttached(adjacent, block);
             }
@@ -263,7 +263,7 @@ public class Deadbolted {
             for (BlockFace bf : Deadbolt.getConfig().VERTICAL_FACES) {
                 Block adjacent = block.getRelative(bf);
                 if (adjacent.getState() instanceof Furnace) {
-                    searchFurnace(adjacent, horizontal, vertical);
+                    searchFurnace(adjacent, horizontal, true);
                 }
             }
         }
@@ -276,7 +276,7 @@ public class Deadbolted {
         for (BlockFace bf : Deadbolt.getConfig().CARDINAL_FACES) {
             Block adjacent = block.getRelative(bf);
             if (horizontal && adjacent.getState() instanceof Chest) {
-                searchChest(adjacent, horizontal, vertical);
+                searchChest(adjacent, true, vertical);
             } else if (adjacent.getType().equals(Material.WALL_SIGN)) {
                 parseSignAttached(adjacent, block);
             }
@@ -285,7 +285,7 @@ public class Deadbolted {
             for (BlockFace bf : Deadbolt.getConfig().VERTICAL_FACES) {
                 Block adjacent = block.getRelative(bf);
                 if (adjacent.getState() instanceof Chest) {
-                    searchChest(adjacent, horizontal, vertical);
+                    searchChest(adjacent, horizontal, true);
                 }
             }
         }
@@ -389,7 +389,7 @@ public class Deadbolted {
     }
 
     public void toggleDoors(Block block) {
-        Set<Block> clickedDoor = new HashSet<Block>();
+        Set<Block> clickedDoor = new HashSet<>();
         if (isNaturalOpen(block)) {
             // special case for Trap Doors so multiple sets don't get miss-aligned
             if (block.getType() != Material.TRAP_DOOR)
@@ -410,7 +410,7 @@ public class Deadbolted {
             }
         }
 
-        List<Block> validToggles = new ArrayList<Block>();
+        List<Block> validToggles = new ArrayList<>();
         for (Block b : blocks) {
             if (b.getType().equals(block.getType())) {
                 validToggles.add(b);
@@ -446,7 +446,7 @@ public class Deadbolted {
             if (ToggleDoorTask.timedBlocks.add(bl)) {
                 plugin.getServer().getScheduler().scheduleSyncDelayedTask(plugin, new ToggleDoorTask(bl,
                         (runonce && Deadbolt.getConfig().timed_door_sounds && (isNaturalSound(bl) || Deadbolt.getConfig().silent_door_sounds))),
-                        delay * 20);
+                        delay * 20L);
                 runonce = false;
             } else {
                 ToggleDoorTask.timedBlocks.remove(bl);
@@ -489,20 +489,13 @@ public class Deadbolted {
     }
 
     private boolean isNaturalSound(Block block) {
-        switch (block.getType()) {
-            case IRON_DOOR_BLOCK:
-                return false;
-            default:
-                return true;
-        }
+        return block.getType() != Material.IRON_DOOR_BLOCK;
     }
 
     /**
      * The purpose of this is to let protections auto-expire if the owner did
      * not play for the last X days.
      *
-     * @param playerToInform
-     * @return
      */
     public boolean isAutoExpired(Player playerToInform) {
         // Are we even supposed to use the auto-expire feature?
@@ -538,7 +531,7 @@ public class Deadbolted {
         for (String validOwnerName : allValidOwnerNames) {
             long lastPlayed = PlayerNameUtil.getLastPlayed(validOwnerName);
             long millisSinceLastPlayed = now - lastPlayed;
-            long daysSinceLastPlayed = (long) Math.floor(millisSinceLastPlayed / (1000 * 60 * 60 * 24));
+            long daysSinceLastPlayed = (long) Math.floor(millisSinceLastPlayed / (1000.0 * 60 * 60 * 24));
             daysTillExpire = Deadbolt.getConfig().auto_expire_days - daysSinceLastPlayed;
             //log(validOwnerName, "lastPlayed", lastPlayed, "millisSinceLastPlayed", millisSinceLastPlayed, "daysSinceLastPlayed", daysSinceLastPlayed, "daysTillExpire", daysTillExpire);
             if (daysTillExpire > 0) {

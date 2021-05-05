@@ -33,7 +33,7 @@ public final class Util {
 
     public static String formatForSign(String line, int maxlen) {
         line = removeColor(line);
-        line = line.substring(0, line.length() > maxlen ? maxlen : line.length());
+        line = line.substring(0, Math.min(line.length(), maxlen));
         return line;
     }
 
@@ -44,11 +44,7 @@ public final class Util {
     public static boolean signNameEqualsPlayerName(String signName, String playerName) {
         String playerName15 = formatForSign(playerName);
 
-        if (signName.equalsIgnoreCase(playerName15)) {
-            return true;
-        }
-
-        return false;
+        return signName.equalsIgnoreCase(playerName15);
     }
 
     public static Block getSignAttached(Sign signState) {

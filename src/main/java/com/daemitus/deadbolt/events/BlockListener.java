@@ -19,9 +19,8 @@ import org.bukkit.event.block.BlockPlaceEvent;
 
 public class BlockListener implements Listener {
 
-    private final DeadboltPlugin plugin = Deadbolt.getPlugin();
-
     public BlockListener() {
+        DeadboltPlugin plugin = Deadbolt.getPlugin();
         Bukkit.getServer().getPluginManager().registerEvents(this, plugin);
     }
 
@@ -125,7 +124,6 @@ public class BlockListener implements Listener {
                     Deadbolt.getConfig().sendMessage(player, ChatColor.RED, Deadbolt.getLanguage().msg_deny_fencegate_expansion);
                     event.setCancelled(true);
                 }
-                return;
         }
     }
 

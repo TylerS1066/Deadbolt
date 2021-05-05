@@ -10,9 +10,8 @@ import org.bukkit.inventory.Inventory;
 
 public class HopperMinecartListener implements Listener {
 
-    private final DeadboltPlugin plugin = Deadbolt.getPlugin();
-
     public HopperMinecartListener() {
+        DeadboltPlugin plugin = Deadbolt.getPlugin();
         plugin.getServer().getPluginManager().registerEvents(this, plugin);
     }
 

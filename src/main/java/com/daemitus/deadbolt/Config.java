@@ -28,37 +28,29 @@ public class Config {
     public boolean deny_pistons = true;
     public boolean deny_redstone = true;
     public boolean deny_hoppercart = true;
-    public List<Integer> redstone_protected_blockids = Arrays.asList(
+    public List<Material> redstone_protected_blockids = Arrays.asList(
             // Doors
-            Material.WOODEN_DOOR.getId(),
-            Material.IRON_DOOR_BLOCK.getId(),
-            Material.SPRUCE_DOOR.getId(),
-            Material.BIRCH_DOOR.getId(),
-            Material.JUNGLE_DOOR.getId(),
-            Material.ACACIA_DOOR.getId(),
-            Material.DARK_OAK_DOOR.getId(),
+            Material.WOODEN_DOOR,
+            Material.IRON_DOOR_BLOCK,
+            Material.SPRUCE_DOOR,
+            Material.BIRCH_DOOR,
+            Material.JUNGLE_DOOR,
+            Material.ACACIA_DOOR,
+            Material.DARK_OAK_DOOR,
             // trap doors
-            Material.TRAP_DOOR.getId(),
-            Material.IRON_TRAPDOOR.getId()
+            Material.TRAP_DOOR,
+            Material.IRON_TRAPDOOR
     );
     public boolean deny_timed_doors = false;
     public boolean forced_timed_doors = false;
     public int forced_timed_doors_delay = 3;
     public boolean timed_door_sounds = true;
     public boolean silent_door_sounds = true;
-    public String default_colors_private_line_1 = "0";
-    public String default_colors_private_line_2 = "0";
-    public String default_colors_private_line_3 = "0";
-    public String default_colors_private_line_4 = "0";
-    public String default_colors_moreusers_line_1 = "0";
-    public String default_colors_moreusers_line_2 = "0";
-    public String default_colors_moreusers_line_3 = "0";
-    public String default_colors_moreusers_line_4 = "0";
     //------------------------------------------------------------------------//
     private final transient String TAG = "Deadbolt: ";
     //------------------------------------------------------------------------//
-    public transient Set<Player> reminder = new HashSet<Player>();
-    public transient Map<Player, Block> selectedSign = new HashMap<Player, Block>();
+    public transient Set<Player> reminder = new HashSet<>();
+    public transient Map<Player, Block> selectedSign = new HashMap<>();
     //------------------------------------------------------------------------//
     public final transient Set<BlockFace> CARDINAL_FACES = EnumSet.of(BlockFace.NORTH, BlockFace.SOUTH, BlockFace.EAST, BlockFace.WEST);
     public final transient Set<BlockFace> VERTICAL_FACES = EnumSet.of(BlockFace.UP, BlockFace.DOWN);

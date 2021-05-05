@@ -11,16 +11,15 @@ import org.bukkit.event.block.BlockRedstoneEvent;
 
 public class RedstoneListener implements Listener {
 
-    private final DeadboltPlugin plugin = Deadbolt.getPlugin();
-
     public RedstoneListener() {
+        DeadboltPlugin plugin = Deadbolt.getPlugin();
         Bukkit.getServer().getPluginManager().registerEvents(this, plugin);
     }
 
     @EventHandler
     public void onBlockRedstoneChange(BlockRedstoneEvent event) {
         Block block = event.getBlock();
-        if (Deadbolt.getConfig().redstone_protected_blockids.contains(block.getTypeId())) {
+        if (Deadbolt.getConfig().redstone_protected_blockids.contains(block.getType())) {
             Deadbolted db = Deadbolt.get(block);
             if (db.isProtected() && !db.isEveryone()) {
                 event.setNewCurrent(event.getOldCurrent());
