@@ -48,18 +48,18 @@ public class Config extends AnnotatedConfig {
     @ConfigComment("Denies Hopper Minecart from interacting with protected blocks")
     public boolean deny_hoppercart = true;
     @ConfigComment("List of blockIDs protected by redstone unless overrode by [everyone]")
-    public List<Material> redstone_protected_blockids = Arrays.asList(
+    public List<Integer> redstone_protected_blockids = Arrays.asList(
             // Doors
-            Material.WOODEN_DOOR,
-            Material.IRON_DOOR_BLOCK,
-            Material.SPRUCE_DOOR,
-            Material.BIRCH_DOOR,
-            Material.JUNGLE_DOOR,
-            Material.ACACIA_DOOR,
-            Material.DARK_OAK_DOOR,
+            Material.WOODEN_DOOR.getId(),
+            Material.IRON_DOOR_BLOCK.getId(),
+            Material.SPRUCE_DOOR.getId(),
+            Material.BIRCH_DOOR.getId(),
+            Material.JUNGLE_DOOR.getId(),
+            Material.ACACIA_DOOR.getId(),
+            Material.DARK_OAK_DOOR.getId(),
             // trap doors
-            Material.TRAP_DOOR,
-            Material.IRON_TRAPDOOR
+            Material.TRAP_DOOR.getId(),
+            Material.IRON_TRAPDOOR.getId()
     );
     @ConfigComment("Denies function of the [timer: x] tag on signs")
     public boolean deny_timed_doors = false;
