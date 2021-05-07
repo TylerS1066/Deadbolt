@@ -160,7 +160,7 @@ public class DeadboltCommandExecutor implements CommandExecutor {
             case DARK_OAK_FENCE_GATE:
             case JUNGLE_FENCE_GATE:
             case SPRUCE_FENCE_GATE:
-                block.setData((byte) (block.getData() ^ 0x4));
+                Util.toggleOpenable(block);
                 break;
             default:
                 Deadbolt.getConfig().sendMessage(player, ChatColor.RED, Deadbolt.getLanguage().cmd_fix_bad_type);
@@ -203,7 +203,7 @@ public class DeadboltCommandExecutor implements CommandExecutor {
             case SPRUCE_FENCE_GATE:
                 for (Block b : db.getBlocks()) {
                     if (b.getType().equals(block.getType())) {
-                        b.setData((byte) (b.getData() ^ 0x4));
+                        Util.toggleOpenable(b);
                     }
                 }
                 break;

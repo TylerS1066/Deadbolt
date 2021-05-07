@@ -19,7 +19,7 @@ public class ToggleDoorTask implements Runnable {
 
     public void run() {
         if (timedBlocks.remove(block)) {
-            block.setData((byte) (block.getData() ^ 0x4));
+            Util.toggleOpenable(block);
             if (sound) {
                 block.getWorld().playEffect(block.getLocation(), Effect.DOOR_TOGGLE, 10);
             }
@@ -30,7 +30,7 @@ public class ToggleDoorTask implements Runnable {
         Iterator<Block> iter = timedBlocks.iterator();
         while (iter.hasNext()) {
             Block next = iter.next();
-            next.setData((byte) (next.getData() ^ 0x4));
+            Util.toggleOpenable(next);
             iter.remove();
         }
     }

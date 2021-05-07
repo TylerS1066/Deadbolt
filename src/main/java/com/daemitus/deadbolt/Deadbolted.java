@@ -420,7 +420,7 @@ public class Deadbolted {
 
         for (Block b : validToggles) {
             if (b.getType().equals(block.getType())) {
-                b.setData((byte) (b.getData() ^ 0x4));
+                Util.toggleOpenable(b);
             }
         }
 

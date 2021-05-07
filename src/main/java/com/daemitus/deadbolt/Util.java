@@ -6,6 +6,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.Sign;
+import org.bukkit.material.Openable;
 
 public final class Util {
 
@@ -71,5 +72,13 @@ public final class Util {
             return "[" + text.substring(1, 14) + "]";
         }
         return text;
+    }
+
+    public static void toggleOpenable(Block block) {
+        if(!((block.getState()) instanceof Openable))
+            return;
+
+        Openable openable = (Openable) block.getState().getData();
+        openable.setOpen(!openable.isOpen());
     }
 }
