@@ -1,5 +1,6 @@
 package com.daemitus.deadbolt;
 
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Effect;
 import org.bukkit.Material;
@@ -32,7 +33,6 @@ public class Deadbolted {
     }
 
     private void search(Block block) {
-
         switch (block.getType()) {
             case AIR:
                 break;
@@ -371,6 +371,7 @@ public class Deadbolted {
     private boolean add(Block... block) {
         boolean success = true;
         for (Block b : block) {
+            Bukkit.broadcastMessage("add " + b);
             success &= blocks.add(b) && traversed.add(b);
         }
         return success;
@@ -414,12 +415,17 @@ public class Deadbolted {
         for (Block b : blocks) {
             if (b.getType().equals(block.getType())) {
                 validToggles.add(b);
+                Bukkit.broadcastMessage("Adding " + b);
+            }
+            else {
+                Bukkit.broadcastMessage("Skipping " + b);
             }
         }
         validToggles.removeAll(clickedDoor);
 
         for (Block b : validToggles) {
             if (b.getType().equals(block.getType())) {
+                Bukkit.broadcastMessage("Toggling " + b);
                 Util.toggleOpenable(b);
             }
         }
