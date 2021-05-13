@@ -4,6 +4,7 @@ import net.tylers1066.util.Util;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.HashSet;
 
@@ -15,11 +16,10 @@ public class Deadbolt {
     private final boolean isEveryone;
 
     public Deadbolt(Block base) {
-        baseType = base.getType();
-
         DeadboltDetectionTask detection = new DeadboltDetectionTask(base);
         detection.run();
 
+        baseType = detection.getBaseType();
         baseBlocks = detection.getBaseBlocks();
 
         DeadboltParseTask parse = new DeadboltParseTask(detection.getSigns());
@@ -64,5 +64,14 @@ public class Deadbolt {
                 Util.toggleOpenable(b);
             }
         }
+    }
+
+    @Nullable
+    public Material getBaseType() {
+        return baseType;
+    }
+
+    public int getBlockCount() {
+        return baseBlocks.size();
     }
 }

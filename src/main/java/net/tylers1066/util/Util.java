@@ -6,6 +6,8 @@ import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.BlockState;
 import org.bukkit.block.Sign;
+import org.bukkit.material.Attachable;
+import org.bukkit.material.MaterialData;
 import org.bukkit.material.Openable;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -51,6 +53,20 @@ public class Util {
         }
     }
 
+    public static boolean isGate(@NotNull Material m) {
+        switch(m) {
+            case FENCE_GATE:
+            case BIRCH_FENCE_GATE:
+            case SPRUCE_FENCE_GATE:
+            case JUNGLE_FENCE_GATE:
+            case ACACIA_FENCE_GATE:
+            case DARK_OAK_FENCE_GATE:
+                return true;
+            default:
+                return false;
+        }
+    }
+
     public static boolean isChest(@NotNull Material m) {
         switch (m) {
             case CHEST:
@@ -74,6 +90,32 @@ public class Util {
 
     public static boolean isWallSign(@NotNull Material m) {
         return m == Material.WALL_SIGN;
+    }
+
+    public static boolean isDispenser(@NotNull Material m) {
+        return m == Material.DISPENSER;
+    }
+
+    public static boolean isDropper(@NotNull Material m) {
+        return m == Material.DROPPER;
+    }
+
+    public static boolean isOther(@NotNull Material m) {
+        switch(m) {
+            case BREWING_STAND:
+            case CAULDRON:
+            case ENCHANTMENT_TABLE:
+            case BEACON:
+            case ENDER_CHEST:
+            case ANVIL:
+                return true;
+            default:
+                return false;
+        }
+    }
+
+    public static boolean isProtectableBlock(@NotNull Material m) {
+        return isDoor(m) || isTrapdoor(m) || isChest(m) || isSign(m) || isDispenser(m) || isDropper(m) || isOther(m);
     }
 
     @Nullable
@@ -109,6 +151,16 @@ public class Util {
 
         Openable o = (Openable) state;
         o.setOpen(!o.isOpen());
+    }
+
+    @Nullable
+    public static Block getAttached(@NotNull Block b) {
+        MaterialData data = b.getState().getData();
+        if(!(data instanceof Attachable))
+            return null;
+
+        Attachable a = (Attachable) data;
+        return b.getRelative(a.getAttachedFace());
     }
 
     @NotNull

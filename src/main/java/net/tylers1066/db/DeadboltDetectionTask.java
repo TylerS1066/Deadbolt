@@ -17,9 +17,15 @@ public class DeadboltDetectionTask {
     private final HashSet<Block> baseBlocks = new HashSet<>();
     private final HashSet<Block> signs = new HashSet<>();
     private final HashSet<Block> traversed = new HashSet<>();
+    private Material baseType;
 
     public DeadboltDetectionTask(Block base) {
         this.base = base;
+    }
+
+    @Nullable
+    public Material getBaseType() {
+        return baseType;
     }
 
     public HashSet<Block> getBaseBlocks() {
@@ -31,21 +37,8 @@ public class DeadboltDetectionTask {
     }
 
     public void run() {
-        detect(base, false);
+        detect(base, false, false);
         pruneSigns();
-    }
-
-    @NotNull
-    private HashSet<Block> getTrapdoorSupportingBlocks(Block base) {
-        HashSet<Block> blocks = new HashSet<>();
-
-        MaterialData data = base.getState().getData();
-        if(!(data instanceof Attachable))
-            return blocks; // This should never be a problem!
-
-        Attachable a = (Attachable) data;
-        blocks.add(base.getRelative(a.getAttachedFace()));
-        return blocks;
     }
 
     @NotNull
@@ -67,7 +60,12 @@ public class DeadboltDetectionTask {
     private HashSet<Block> getSupportingBlocks(Block base) {
         Material type = base.getType();
         if(Util.isTrapdoor(type)) {
-            return getTrapdoorSupportingBlocks(base);
+            Block b = Util.getAttached(base);
+            if(b != null) {
+                HashSet<Block> blocks = new HashSet<>();
+                blocks.add(b);
+                return blocks;
+            }
         }
         else if(Util.isDoor(type)) {
             return getDoorSupportingBlocks(base);
@@ -79,7 +77,9 @@ public class DeadboltDetectionTask {
      * @param base Base block to search from
      * @param signOnly Search this block as a base block (false) or as a signOnly block (true)
      */
-    private void detect(Block base, boolean signOnly) {
+    private void detect(Block base, boolean signOnly, boolean sourceSign) {
+        // This logic is 100% based on searching from a door/trapdoor/chest/furnace/etc
+        // TODO: Improve it to have a secondary algorithm to search from a sign
         if(traversed.contains(base))
             return;
 
@@ -95,25 +95,15 @@ public class DeadboltDetectionTask {
 
         // Search supporting blocks as base blocks
         for (Block b : getSupportingBlocks(base)) {
-            detect(b, false);
+            detect(b, false, false);
         }
 
         // Search adjacent blocks
         for(Block b : Util.getCardinalBlocks(base)) {
-            detect(b, b.getType() != this.base.getType());
+            detect(b, b.getType() != this.base.getType(), false);
             // If not of same type, search for only signs
             // Else, search as a base block
         }
-    }
-
-    @Nullable
-    private Block getSignSupportingBlock(Block base) {
-        MaterialData data = base.getState().getData();
-        if(!(data instanceof Attachable))
-            return null; // This should never be a problem!
-
-        Attachable a = (Attachable) data;
-        return base.getRelative(a.getAttachedFace());
     }
 
     private void pruneSigns() {
@@ -125,7 +115,7 @@ public class DeadboltDetectionTask {
                 continue;
             }
 
-            Block b = getSignSupportingBlock(sign);
+            Block b = Util.getAttached(sign);
             if(b == null || !baseBlocks.contains(b))
                 pruneSet.add(sign);
         }
