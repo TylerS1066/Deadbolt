@@ -5,27 +5,25 @@ import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.Sign;
-import org.bukkit.material.Attachable;
-import org.bukkit.material.MaterialData;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.HashSet;
 
 public class DeadboltDetectionTask {
-    private final Block base;
+    private final Block root;
     private final HashSet<Block> baseBlocks = new HashSet<>();
     private final HashSet<Block> signs = new HashSet<>();
     private final HashSet<Block> traversed = new HashSet<>();
-    private Material baseType;
+    private Material type;
 
-    public DeadboltDetectionTask(Block base) {
-        this.base = base;
+    public DeadboltDetectionTask(Block root) {
+        this.root = root;
     }
 
     @Nullable
-    public Material getBaseType() {
-        return baseType;
+    public Material getType() {
+        return type;
     }
 
     public HashSet<Block> getBaseBlocks() {
@@ -37,7 +35,7 @@ public class DeadboltDetectionTask {
     }
 
     public void run() {
-        detect(base, false, false);
+        detect(root, DetectionType.ROOT);
         pruneSigns();
     }
 
@@ -73,36 +71,112 @@ public class DeadboltDetectionTask {
         return new HashSet<>();
     }
 
+    private enum DetectionType {
+        ROOT,
+        ROOT_ATTACHED,
+        NEW_TYPE,
+        SAME_TYPE,
+        SUPPORTING_BLOCK,
+        SIGN_ONLY
+    }
+
+    private void detectSurrounding(@NotNull Block block, @NotNull DetectionType dt) {
+        for(Block b : Util.getSurroundingBlocks(block)) {
+            detect(b, dt);
+        }
+    }
+
     /**
-     * @param base Base block to search from
-     * @param signOnly Search this block as a base block (false) or as a signOnly block (true)
+     * @param block Base block to detect from
+     * @param dt Detection type to detect
      */
-    private void detect(Block base, boolean signOnly, boolean sourceSign) {
-        // This logic is 100% based on searching from a door/trapdoor/chest/furnace/etc
-        // TODO: Improve it to have a secondary algorithm to search from a sign
-        if(traversed.contains(base))
+    private void detect(@NotNull Block block, DetectionType dt) {
+        if(traversed.contains(block))
             return;
 
-        traversed.add(base);
+        traversed.add(block);
 
-        if (Util.isSign(base.getType())) {
-            signs.add(base);
-        }
-        if(signOnly)
-            return;
+        Material type = block.getType();
+        switch(dt) {
+            case ROOT:
+                if(Util.isProtectableBlock(type)) {
+                    // This is a valid block to protect, start search
+                    this.type = type;
+                    detectSurrounding(block, DetectionType.SAME_TYPE);
+                }
+                else if(Util.isWallSign(type)) {
+                    // This is a sign, start searching from the attached block
+                    Block other = Util.getAttached(block);
+                    if(other == null)
+                        return;
 
-        baseBlocks.add(base);
+                    detect(other, DetectionType.ROOT_ATTACHED);
+                }
+                // This is not a valid block to protect!
+                break;
 
-        // Search supporting blocks as base blocks
-        for (Block b : getSupportingBlocks(base)) {
-            detect(b, false, false);
-        }
+            case ROOT_ATTACHED:
+                for(Block b : Util.getSurroundingBlocks(block)) {
+                    if(Util.isDoor(b.getType()) && getDoorSupportingBlocks(b).contains(block)) {
+                        // Is door that is supported by this block
+                        detect(b, DetectionType.NEW_TYPE);
+                    }
+                    else if(Util.isTrapdoor(b.getType()) && Util.getAttached(b) == block) {
+                        // Is trapdoor that is supported by this block
+                        detect(b, DetectionType.NEW_TYPE);
+                    }
 
-        // Search adjacent blocks
-        for(Block b : Util.getCardinalBlocks(base)) {
-            detect(b, b.getType() != this.base.getType(), false);
-            // If not of same type, search for only signs
-            // Else, search as a base block
+                    // Is not an attached block, search only for a sign
+                    detect(b, DetectionType.SIGN_ONLY);
+                }
+                break;
+
+            case NEW_TYPE:
+                if(this.type != null) {
+                    // New type already detected, try again as SAME_TYPE
+                    detect(block, DetectionType.SAME_TYPE);
+                    return;
+                }
+
+                // This is a new (possible) base block
+                if(!Util.isProtectableBlock(type))
+                    return;
+
+                // This is a valid block to protect, start search
+                this.type = type;
+                detectSurrounding(block, DetectionType.SAME_TYPE);
+                break;
+
+            case SAME_TYPE:
+                if(Util.isWallSign(type)) {
+                    signs.add(block);
+                    return;
+                }
+
+                if(type != this.type)
+                    return;
+
+                baseBlocks.add(block);
+
+                detectSurrounding(block, DetectionType.SAME_TYPE);
+
+                for(Block b : getSupportingBlocks(block)) {
+                    detect(b, DetectionType.SUPPORTING_BLOCK);
+                }
+                break;
+
+            case SIGN_ONLY:
+                if(!Util.isWallSign(type))
+                    return;
+
+                signs.add(block);
+                break;
+
+            case SUPPORTING_BLOCK:
+                detectSurrounding(block, DetectionType.SIGN_ONLY);
+
+            default:
+                break;
         }
     }
 

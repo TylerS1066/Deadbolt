@@ -19,7 +19,7 @@ public class Deadbolt {
         DeadboltDetectionTask detection = new DeadboltDetectionTask(base);
         detection.run();
 
-        baseType = detection.getBaseType();
+        baseType = detection.getType();
         baseBlocks = detection.getBaseBlocks();
 
         DeadboltParseTask parse = new DeadboltParseTask(detection.getSigns());

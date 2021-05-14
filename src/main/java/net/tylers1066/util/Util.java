@@ -16,12 +16,15 @@ import java.util.HashSet;
 
 public class Util {
     private static final HashSet<BlockFace> CARDINAL_FACES = new HashSet<>();
+    private static final HashSet<BlockFace> VERTICAL_FACES = new HashSet<>();
 
     public static void init() {
         CARDINAL_FACES.add(BlockFace.NORTH);
         CARDINAL_FACES.add(BlockFace.EAST);
         CARDINAL_FACES.add(BlockFace.SOUTH);
         CARDINAL_FACES.add(BlockFace.WEST);
+        VERTICAL_FACES.add(BlockFace.UP);
+        VERTICAL_FACES.add(BlockFace.DOWN);
     }
 
     public static boolean isDoor(@NotNull Material m) {
@@ -77,17 +80,6 @@ public class Util {
         }
     }
 
-    public static boolean isSign(@NotNull Material m) {
-        switch(m) {
-            case WALL_SIGN:
-            case SIGN:
-            case SIGN_POST:
-                return true;
-            default:
-                return false;
-        }
-    }
-
     public static boolean isWallSign(@NotNull Material m) {
         return m == Material.WALL_SIGN;
     }
@@ -115,7 +107,18 @@ public class Util {
     }
 
     public static boolean isProtectableBlock(@NotNull Material m) {
-        return isDoor(m) || isTrapdoor(m) || isChest(m) || isSign(m) || isDispenser(m) || isDropper(m) || isOther(m);
+        return isDoor(m) || isTrapdoor(m) || isChest(m) || isDispenser(m) || isDropper(m) || isGate(m) || isOther(m);
+    }
+
+    private static boolean isSign(@NotNull Material m) {
+        switch(m) {
+            case WALL_SIGN:
+            case SIGN:
+            case SIGN_POST:
+                return true;
+            default:
+                return false;
+        }
     }
 
     @Nullable
@@ -167,6 +170,18 @@ public class Util {
     public static HashSet<Block> getCardinalBlocks(Block base) {
         HashSet<Block> blocks = new HashSet<>();
         for(BlockFace bf : CARDINAL_FACES) {
+            blocks.add(base.getRelative(bf));
+        }
+        return blocks;
+    }
+
+    @NotNull
+    public static HashSet<Block> getSurroundingBlocks(Block base) {
+        HashSet<Block> blocks = new HashSet<>();
+        for(BlockFace bf : CARDINAL_FACES) {
+            blocks.add(base.getRelative(bf));
+        }
+        for(BlockFace bf : VERTICAL_FACES) {
             blocks.add(base.getRelative(bf));
         }
         return blocks;
