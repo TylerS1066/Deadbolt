@@ -80,7 +80,8 @@ public class Deadbolt {
     }
 
     public void toggleDoors() {
-        verify();
+        if(!verify())
+            return;
 
         for(EnhancedBlock b : blocks) {
             Material type = b.getBlock().getType();
