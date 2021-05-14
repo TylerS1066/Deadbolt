@@ -1,5 +1,6 @@
 package net.tylers1066.listener;
 
+import net.tylers1066.config.Config;
 import net.tylers1066.db.Deadbolt;
 import org.bukkit.block.Block;
 import org.bukkit.event.EventHandler;
@@ -12,6 +13,9 @@ import java.util.Iterator;
 public class ExplosionListener implements Listener {
     @EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
     public void onEntityExplode(EntityExplodeEvent e) {
+        if(!Config.denyExplosions)
+            return;
+
         Iterator<Block> iter = e.blockList().iterator();
         while(iter.hasNext()) {
             Block b = iter.next();

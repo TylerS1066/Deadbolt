@@ -39,7 +39,7 @@ public class Util {
                 return true;
             case IRON_DOOR:
             case IRON_DOOR_BLOCK:
-                return Config.PROTECT_IRON_DOORS;
+                return Config.protectIronDoors;
             default:
                 return false;
         }
@@ -50,7 +50,7 @@ public class Util {
             case TRAP_DOOR:
                 return true;
             case IRON_TRAPDOOR:
-                return Config.PROTECT_IRON_TRAPDOORS;
+                return Config.protectIronTrapdoors;
             default:
                 return false;
         }
