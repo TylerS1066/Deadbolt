@@ -1,5 +1,6 @@
 package net.tylers1066.db;
 
+import net.tylers1066.util.EnhancedSign;
 import net.tylers1066.util.Util;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -12,7 +13,7 @@ import java.util.HashSet;
 
 public class DeadboltDetectionTask {
     private final Block root;
-    private final HashSet<Block> baseBlocks = new HashSet<>();
+    private final HashSet<Block> blocks = new HashSet<>();
     private final HashSet<Block> signs = new HashSet<>();
     private final HashSet<Block> traversed = new HashSet<>();
     private Material type;
@@ -26,8 +27,8 @@ public class DeadboltDetectionTask {
         return type;
     }
 
-    public HashSet<Block> getBaseBlocks() {
-        return baseBlocks;
+    public HashSet<Block> getBlocks() {
+        return blocks;
     }
 
     public HashSet<Block> getSigns() {
@@ -156,7 +157,7 @@ public class DeadboltDetectionTask {
                 if(type != this.type)
                     return;
 
-                baseBlocks.add(block);
+                blocks.add(block);
 
                 detectSurrounding(block, DetectionType.SAME_TYPE);
 
@@ -183,14 +184,14 @@ public class DeadboltDetectionTask {
     private void pruneSigns() {
         HashSet<Block> pruneSet = new HashSet<>();
         for(Block sign : signs) {
-            Sign s = Util.blockToBlockSign(sign);
+            Sign s = (new EnhancedSign(sign)).getSign();
             if(s == null || !Util.isValidHeader(s)) {
                 pruneSet.add(sign);
                 continue;
             }
 
             Block b = Util.getAttached(sign);
-            if(b == null || !baseBlocks.contains(b))
+            if(b == null || !blocks.contains(b))
                 pruneSet.add(sign);
         }
         for(Block b : pruneSet)

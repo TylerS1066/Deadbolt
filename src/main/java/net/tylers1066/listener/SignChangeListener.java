@@ -1,6 +1,7 @@
 package net.tylers1066.listener;
 
 import net.tylers1066.db.Deadbolt;
+import net.tylers1066.util.EnhancedSign;
 import net.tylers1066.util.Util;
 import org.bukkit.block.Sign;
 import org.bukkit.entity.Player;
@@ -11,7 +12,7 @@ import org.bukkit.event.block.SignChangeEvent;
 public class SignChangeListener implements Listener {
     @EventHandler
     public void onSignChange(SignChangeEvent e) {
-        Sign sign = Util.blockToBlockSign(e.getBlock());
+        Sign sign = (new EnhancedSign(e.getBlock())).getSign();
 
         if(sign == null)
             return;

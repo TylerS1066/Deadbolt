@@ -1,5 +1,6 @@
 package net.tylers1066.db;
 
+import net.tylers1066.util.EnhancedSign;
 import net.tylers1066.util.Util;
 import org.bukkit.block.Block;
 import org.bukkit.block.Sign;
@@ -9,18 +10,25 @@ import org.jetbrains.annotations.Nullable;
 import java.util.HashSet;
 
 public class DeadboltParseTask {
-    private final HashSet<Block> signs;
+    private final HashSet<Block> signBlocks;
+
     private String owner;
     private final HashSet<String> members = new HashSet<>();
+    private final HashSet<EnhancedSign> signs = new HashSet<>();
     private boolean isEveryone = false;
+
     private int timer = -1;
 
-    public DeadboltParseTask(HashSet<Block> signs) {
-        this.signs = signs;
+    public DeadboltParseTask(HashSet<Block> signBlocks) {
+        this.signBlocks = signBlocks;
     }
 
     public void run() {
         parse();
+    }
+
+    public HashSet<EnhancedSign> getSigns() {
+        return signs;
     }
 
     @Nullable
@@ -69,8 +77,10 @@ public class DeadboltParseTask {
     }
 
     private void parse() {
-        for(Block b : signs) {
-            Sign s = Util.blockToBlockSign(b);
+        for(Block b : signBlocks) {
+            EnhancedSign es = new EnhancedSign(b);
+
+            Sign s = es.getSign();
             if(s == null)
                 continue;
 
@@ -81,11 +91,13 @@ public class DeadboltParseTask {
                 owner = s.getLine(1);
                 add(s.getLine(2));
                 add(s.getLine(3));
+                signs.add(es);
             }
             else if(Util.isValidMoreUsersSign(s)) {
                 add(s.getLine(1));
                 add(s.getLine(2));
                 add(s.getLine(3));
+                signs.add(es);
             }
         }
     }

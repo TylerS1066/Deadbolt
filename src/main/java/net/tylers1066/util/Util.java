@@ -110,29 +110,6 @@ public class Util {
         return isDoor(m) || isTrapdoor(m) || isChest(m) || isDispenser(m) || isDropper(m) || isGate(m) || isOther(m);
     }
 
-    private static boolean isSign(@NotNull Material m) {
-        switch(m) {
-            case WALL_SIGN:
-            case SIGN:
-            case SIGN_POST:
-                return true;
-            default:
-                return false;
-        }
-    }
-
-    @Nullable
-    public static Sign blockToBlockSign(@NotNull Block b) {
-        if(!isSign(b.getType()))
-            return null;
-
-        BlockState state = b.getState();
-        if(!(state instanceof Sign))
-            return null;
-
-        return (Sign) state;
-    }
-
     public static boolean isValidPrivateSign(@NotNull Sign sign) {
         String line0 = sign.getLine(0);
         return line0.equalsIgnoreCase("[Private]");
