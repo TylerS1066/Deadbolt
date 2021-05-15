@@ -16,4 +16,8 @@ public class SelectionManager {
     public static Selection get(Player p) {
         return map.get(p);
     }
+
+    public static void clear(Player p) {
+        map.remove(p);
+    }
 }
