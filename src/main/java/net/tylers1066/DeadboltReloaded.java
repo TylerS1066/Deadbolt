@@ -25,6 +25,7 @@ public final class DeadboltReloaded extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new ExplosionListener(), this);
         getServer().getPluginManager().registerEvents(new HopperMinecartListener(), this);
         getServer().getPluginManager().registerEvents(new PistonListener(), this);
+        getServer().getPluginManager().registerEvents(new PlayerInteractListener(), this);
         getServer().getPluginManager().registerEvents(new RedstoneListener(), this);
         getServer().getPluginManager().registerEvents(new SignChangeListener(), this);
 

@@ -58,6 +58,9 @@ public class Deadbolt {
         if(isEveryone)
             return true;
 
+        if(isOwner(p))
+            return true;
+
         String name = p.getName();
         for(String s : members) {
             if(s.equalsIgnoreCase(name))

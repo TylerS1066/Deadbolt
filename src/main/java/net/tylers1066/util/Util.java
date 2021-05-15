@@ -27,6 +27,12 @@ public class Util {
         VERTICAL_FACES.add(BlockFace.DOWN);
     }
 
+
+    public static boolean isWallSign(@NotNull Material m) {
+        return m == Material.WALL_SIGN;
+    }
+
+
     public static boolean isDoor(@NotNull Material m) {
         switch(m) {
             case DARK_OAK_DOOR:
@@ -70,6 +76,7 @@ public class Util {
         }
     }
 
+
     public static boolean isChest(@NotNull Material m) {
         switch (m) {
             case CHEST:
@@ -80,8 +87,14 @@ public class Util {
         }
     }
 
-    public static boolean isWallSign(@NotNull Material m) {
-        return m == Material.WALL_SIGN;
+    public static boolean isFurnace(@NotNull Material m) {
+        switch(m) {
+            case FURNACE:
+            case BURNING_FURNACE:
+                return true;
+            default:
+                return false;
+        }
     }
 
     public static boolean isDispenser(@NotNull Material m) {
@@ -92,7 +105,7 @@ public class Util {
         return m == Material.DROPPER;
     }
 
-    public static boolean isOther(@NotNull Material m) {
+    public static boolean isOtherContainer(@NotNull Material m) {
         switch(m) {
             case BREWING_STAND:
             case CAULDRON:
@@ -106,8 +119,14 @@ public class Util {
         }
     }
 
+
     public static boolean isProtectableBlock(@NotNull Material m) {
-        return isDoor(m) || isTrapdoor(m) || isChest(m) || isDispenser(m) || isDropper(m) || isGate(m) || isOther(m);
+        return isDoor(m) || isTrapdoor(m) || isChest(m) || isFurnace(m) || isDispenser(m) || isDropper(m) || isGate(m) || isOtherContainer(m);
+    }
+
+
+    public static boolean isValidHeader(@NotNull Sign sign) {
+        return isValidPrivateSign(sign) || isValidMoreUsersSign(sign);
     }
 
     public static boolean isValidPrivateSign(@NotNull Sign sign) {
@@ -120,9 +139,6 @@ public class Util {
         return line0.equalsIgnoreCase("[More Users]");
     }
 
-    public static boolean isValidHeader(@NotNull Sign sign) {
-        return isValidPrivateSign(sign) || isValidMoreUsersSign(sign);
-    }
 
     public static void toggleOpenable(@NotNull Block b) {
         BlockState state = b.getState();
@@ -133,6 +149,7 @@ public class Util {
         o.setOpen(!o.isOpen());
     }
 
+
     @Nullable
     public static Block getAttached(@NotNull Block b) {
         MaterialData data = b.getState().getData();
@@ -142,6 +159,7 @@ public class Util {
         Attachable a = (Attachable) data;
         return b.getRelative(a.getAttachedFace());
     }
+
 
     @NotNull
     public static HashSet<Block> getCardinalBlocks(Block base) {
