@@ -9,6 +9,8 @@ import org.bukkit.plugin.java.JavaPlugin;
 public final class DeadboltReloaded extends JavaPlugin {
     @Override
     public void onEnable() {
+        saveDefaultConfig();
+
         Util.init();
 
         Config.protectIronDoors = getConfig().getBoolean("protectIronDoors", true);
