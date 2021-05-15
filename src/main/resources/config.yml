@@ -1,0 +1,5 @@
+protectIronDoors: true
+protectIronTrapdoors: true
+
+denyExplosions: false
+denyPistons: true
