@@ -103,6 +103,7 @@ public class DeadboltDetectionTask {
 
         Material type = block.getType();
         switch(dt) {
+
             case ROOT:
                 if(Util.isProtectableBlock(type)) {
                     // This is a valid block to protect, start search
@@ -120,7 +121,9 @@ public class DeadboltDetectionTask {
                 // This is not a valid block to protect!
                 break;
 
+
             case ROOT_ATTACHED:
+                detect(block, DetectionType.NEW_TYPE);
                 for(Block b : Util.getSurroundingBlocks(block)) {
                     if(Util.isDoor(b.getType()) && getDoorSupportingBlocks(b).contains(block)) {
                         // Is door that is supported by this block
@@ -135,6 +138,7 @@ public class DeadboltDetectionTask {
                     detect(b, DetectionType.SIGN_ONLY);
                 }
                 break;
+
 
             case NEW_TYPE:
                 if(this.type != null) {
@@ -151,6 +155,7 @@ public class DeadboltDetectionTask {
                 this.type = type;
                 detectSurrounding(block, DetectionType.SAME_TYPE);
                 break;
+
 
             case SAME_TYPE:
                 if(Util.isWallSign(type)) {
@@ -170,6 +175,7 @@ public class DeadboltDetectionTask {
                 }
                 break;
 
+
             case SIGN_ONLY:
                 if(!Util.isWallSign(type))
                     return;
@@ -177,8 +183,10 @@ public class DeadboltDetectionTask {
                 signs.add(block);
                 break;
 
+
             case SUPPORTING_BLOCK:
                 detectSurrounding(block, DetectionType.SIGN_ONLY);
+
 
             default:
                 break;
