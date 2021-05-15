@@ -17,6 +17,9 @@ public final class DeadboltReloaded extends JavaPlugin {
         Config.denyExplosions = getConfig().getBoolean("denyExplosions", false);
         Config.denyPistons = getConfig().getBoolean("denyPistons", true);
 
+        getServer().getPluginManager().registerEvents(new BlockBreakListener(), this);
+        getServer().getPluginManager().registerEvents(new BlockBurnListener(), this);
+        getServer().getPluginManager().registerEvents(new BlockPlaceListener(), this);
         getServer().getPluginManager().registerEvents(new EndermanListener(), this);
         getServer().getPluginManager().registerEvents(new EntityInteractListener(), this);
         getServer().getPluginManager().registerEvents(new ExplosionListener(), this);
