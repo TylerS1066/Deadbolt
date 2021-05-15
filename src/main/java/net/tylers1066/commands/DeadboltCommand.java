@@ -67,9 +67,7 @@ public class DeadboltCommand implements CommandExecutor {
         }
 
         // Format for sign
-        String line = text.toString();
-        line = ChatColor.stripColor(line);
-        line = line.substring(0, Math.min(line.length(), 15));
+        String line = Util.formatForSign(text.toString());
 
         // Update sign
         s.setLine(lineNum, line);

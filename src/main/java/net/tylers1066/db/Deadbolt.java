@@ -47,7 +47,7 @@ public class Deadbolt {
     }
 
     public boolean isOwner(Player p) {
-        return p.getName().equalsIgnoreCase(owner);
+        return Util.formatForSign(p.getName()).equalsIgnoreCase(owner);
     }
 
     public boolean isEveryone() {
@@ -61,7 +61,7 @@ public class Deadbolt {
         if(isOwner(p))
             return true;
 
-        String name = p.getName();
+        String name = Util.formatForSign(p.getName());
         for(String s : members) {
             if(s.equalsIgnoreCase(name))
                 return true;

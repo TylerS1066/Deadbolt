@@ -17,30 +17,41 @@ public class SignChangeListener implements Listener {
         if(sign == null)
             return;
 
-        if(!Util.isValidHeader(sign))
+        if(!Util.isWallSign(e.getBlock().getType()))
             return;
 
-        if(Util.isWallSign(e.getBlock().getType())) {
+        if(Util.isValidHeader(sign)) {
             // player hacking, bad on dem
             e.setCancelled(true);
             return;
         }
 
+        String line0 = e.getLine(0);
+        if(!Util.isValidHeader(line0))
+            return;
+
         Deadbolt db = new Deadbolt(e.getBlock());
 
-        if(!validatePlacement(db, e.getPlayer(), sign)) {
+        if(!validatePlacement(db, e.getPlayer(), line0)) {
+            // Not valid change, either not allowed or something
             e.setCancelled(true);
+        }
+        else {
+            if(Util.isValidPrivateSign(line0)) {
+                // New private sign, allow it and fill out line 1
+                e.getLines()[1] = Util.formatForSign(e.getPlayer().getName());
+            }
         }
     }
 
-    private boolean validatePlacement(Deadbolt db, Player p, Sign sign) {
+    private boolean validatePlacement(Deadbolt db, Player p, String line0) {
         if(db.isProtected()) {
             // Only allow the owner to place a [More Users] sign
-            return db.isOwner(p) && Util.isValidMoreUsersSign(sign);
+            return db.isOwner(p) && Util.isValidMoreUsersSign(line0);
         }
 
         // Unprotected deadbolt, reject if a [More Users] or invalid header
-        if(!Util.isValidPrivateSign(sign) || Util.isValidMoreUsersSign(sign))
+        if(!Util.isValidPrivateSign(line0) || Util.isValidMoreUsersSign(line0))
             return false;
 
         // TODO: check perms

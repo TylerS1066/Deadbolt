@@ -1,6 +1,7 @@
 package net.tylers1066.util;
 
 import net.tylers1066.config.Config;
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
@@ -125,18 +126,31 @@ public class Util {
     }
 
 
+    public static boolean isValidHeader(@NotNull String line0) {
+        return isValidPrivateSign(line0) || isValidMoreUsersSign(line0);
+    }
+
+    public static boolean isValidPrivateSign(@NotNull String line0) {
+        return line0.equalsIgnoreCase("[Private]");
+    }
+
+    public static boolean isValidMoreUsersSign(@NotNull String line0) {
+        return line0.equalsIgnoreCase("[More Users]");
+    }
+
     public static boolean isValidHeader(@NotNull Sign sign) {
-        return isValidPrivateSign(sign) || isValidMoreUsersSign(sign);
+        String line0 = sign.getLine(0);
+        return isValidHeader(line0);
     }
 
     public static boolean isValidPrivateSign(@NotNull Sign sign) {
         String line0 = sign.getLine(0);
-        return line0.equalsIgnoreCase("[Private]");
+        return isValidPrivateSign(line0);
     }
 
     public static boolean isValidMoreUsersSign(@NotNull Sign sign) {
         String line0 = sign.getLine(0);
-        return line0.equalsIgnoreCase("[More Users]");
+        return isValidMoreUsersSign(line0);
     }
 
 
@@ -180,5 +194,13 @@ public class Util {
             blocks.add(base.getRelative(bf));
         }
         return blocks;
+    }
+
+
+    @NotNull
+    public static String formatForSign(String s) {
+        s = ChatColor.stripColor(s);
+        s = s.substring(0, Math.min(s.length(), 15));
+        return s;
     }
 }
