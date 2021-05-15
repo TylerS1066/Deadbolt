@@ -2,6 +2,7 @@ package net.tylers1066.db;
 
 import net.tylers1066.util.EnhancedSign;
 import net.tylers1066.util.Util;
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
@@ -36,8 +37,11 @@ public class DeadboltDetectionTask {
     }
 
     public void run() {
+        Bukkit.broadcastMessage("Detecting from: '" + root + "'");
         detect(root, DetectionType.ROOT);
+        Bukkit.broadcastMessage("Found " + blocks.size() + " blocks of type " + type + " and " + signs.size() + " signs");
         pruneSigns();
+        Bukkit.broadcastMessage("Now has " + signs.size() + " signs");
     }
 
     @NotNull
