@@ -60,13 +60,18 @@ public class DeadboltDetectionTask {
 
     @NotNull
     private HashSet<Block> getSupportingBlocks(Block base) {
+        Bukkit.broadcastMessage("Getting supporting blocks of " + base);
         Material type = base.getType();
         if(Util.isTrapdoor(type)) {
             Block b = Util.getAttached(base);
             if(b != null) {
                 HashSet<Block> blocks = new HashSet<>();
                 blocks.add(b);
+                Bukkit.broadcastMessage("Found trapdoor " + b);
                 return blocks;
+            }
+            else {
+                Bukkit.broadcastMessage("Null trapdoor support");
             }
         }
         else if(Util.isDoor(type)) {

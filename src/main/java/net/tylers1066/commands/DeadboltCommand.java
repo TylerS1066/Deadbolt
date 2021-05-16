@@ -4,6 +4,7 @@ import net.tylers1066.DeadboltReloaded;
 import net.tylers1066.selection.Selection;
 import net.tylers1066.selection.SelectionManager;
 import net.tylers1066.util.Util;
+import org.bukkit.ChatColor;
 import org.bukkit.block.Sign;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -17,7 +18,7 @@ public class DeadboltCommand implements CommandExecutor {
             return false;
 
         if(args.length < 1) {
-            sender.sendMessage("Deadbolt v" + DeadboltReloaded.getInstance().getDescription().getVersion());
+            sender.sendMessage(ChatColor.GOLD + "Deadbolt-Reloaded" + ChatColor.WHITE + " v" + DeadboltReloaded.getInstance().getDescription().getVersion());
             return true;
         }
 
