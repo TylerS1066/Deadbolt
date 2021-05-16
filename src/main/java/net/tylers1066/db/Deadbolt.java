@@ -97,7 +97,7 @@ public class Deadbolt {
             if(type != this.type)
                 continue;
 
-            if(Util.isDoor(type) || Util.isTrapdoor(type) || Util.isGate(type)) {
+            if(Util.isTrapdoor(type) || Util.isGate(type) || (Util.isDoor(type) && Util.isLowerDoor(b.getBlock()))) {
                 BlockState s = b.getBlock().getState();
                 MaterialData data = s.getData();
                 if(!(data instanceof Openable))

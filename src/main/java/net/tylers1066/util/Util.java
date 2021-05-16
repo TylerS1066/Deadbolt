@@ -7,6 +7,7 @@ import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.Sign;
 import org.bukkit.material.Attachable;
+import org.bukkit.material.Door;
 import org.bukkit.material.MaterialData;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -48,6 +49,15 @@ public class Util {
             default:
                 return false;
         }
+    }
+
+    public static boolean isLowerDoor(@NotNull Block b) {
+        MaterialData data = b.getState().getData();
+        if(!(data instanceof Door))
+            return false;
+
+        Door d = (Door) data;
+        return !d.isTopHalf();
     }
 
     public static boolean isTrapdoor(@NotNull Material m) {
