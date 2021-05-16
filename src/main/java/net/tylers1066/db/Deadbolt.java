@@ -88,26 +88,34 @@ public class Deadbolt {
     public void toggleDoors() {
         boolean isOpen = false;
         boolean first = true;
-        if(!verify())
+        if(!verify()) {
+            Bukkit.broadcastMessage("Failed verification");
             return;
+        }
 
         for(EnhancedBlock b : blocks) {
+            Bukkit.broadcastMessage("Toggling " + b.getBlock());
             Material type = b.getBlock().getType();
             if(type != this.type)
                 continue;
 
             if(Util.isDoor(type) || Util.isTrapdoor(type) || Util.isGate(type)) {
                 BlockState state = b.getBlock().getState();
-                if(!(state instanceof Openable))
+                if(!(state instanceof Openable)) {
+                    Bukkit.broadcastMessage("Not openable");
                     return;
+                }
 
                 Openable o = (Openable) state;
                 if(first) {
                     isOpen = !o.isOpen();
                     first = false;
                 }
-                Bukkit.broadcastMessage("Toggling " + b.getBlock() + " to " + isOpen);
+                Bukkit.broadcastMessage("Toggling  to " + isOpen);
                 o.setOpen(isOpen);
+            }
+            else {
+                Bukkit.broadcastMessage("Failed type");
             }
         }
     }
@@ -122,6 +130,7 @@ public class Deadbolt {
     }
 
     public String toString() {
-        return "Deadbolt of type " + type + " with " + blocks.size() + " blocks and " + signs.size() + " signs with owner " + (owner == null ? "null" : owner);
+        return "Deadbolt of type " + (type == null ? "null" : type) + " with " + blocks.size() + " blocks and "
+                + signs.size() + " signs with owner " + (owner == null ? "null" : owner);
     }
 }
