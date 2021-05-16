@@ -44,39 +44,26 @@ public class DeadboltDetectionTask {
         Bukkit.broadcastMessage("Now has " + signs.size() + " signs");
     }
 
-    @NotNull
-    private HashSet<Block> getDoorSupportingBlocks(Block base) {
-        HashSet<Block> blocks = new HashSet<>();
-
+    @Nullable
+    private Block getDoorSupportingBlock(Block base) {
         // Return empty if this is the top of the door
         if(!Util.isLowerDoor(base))
-            return blocks;
+            return null;
 
         // Add the supporting block and return
-        blocks.add(base.getRelative(BlockFace.DOWN));
-        return blocks;
+        return base.getRelative(BlockFace.DOWN);
     }
 
-    @NotNull
-    private HashSet<Block> getSupportingBlocks(Block base) {
-        Bukkit.broadcastMessage("Getting supporting blocks of " + base);
+    @Nullable
+    private Block getSupportingBlock(Block base) {
         Material type = base.getType();
         if(Util.isTrapdoor(type)) {
-            Block b = Util.getAttached(base);
-            if(b != null) {
-                HashSet<Block> blocks = new HashSet<>();
-                blocks.add(b);
-                Bukkit.broadcastMessage("Found trapdoor " + b);
-                return blocks;
-            }
-            else {
-                Bukkit.broadcastMessage("Null trapdoor support");
-            }
+            return Util.getAttached(base);
         }
         else if(Util.isDoor(type)) {
-            return getDoorSupportingBlocks(base);
+            return getDoorSupportingBlock(base);
         }
-        return new HashSet<>();
+        return null;
     }
 
     private enum DetectionType {
@@ -92,6 +79,12 @@ public class DeadboltDetectionTask {
         for(Block b : Util.getSurroundingBlocks(block)) {
             detect(b, dt);
         }
+    }
+
+    private void detectSupporting(@NotNull Block block) {
+        Block b = getSupportingBlock(block);
+        if(b != null)
+            detect(b, DetectionType.SUPPORTING_BLOCK);
     }
 
     /**
@@ -113,9 +106,7 @@ public class DeadboltDetectionTask {
                     // This is a valid block to protect, start search
                     this.type = type;
                     blocks.add(block);
-                    for(Block b : getSupportingBlocks(block)) {
-                        detect(b, DetectionType.SUPPORTING_BLOCK);
-                    }
+                    detectSupporting(block);
                     detectSurrounding(block, DetectionType.SAME_TYPE);
                 }
                 else if(Util.isWallSign(type)) {
@@ -133,16 +124,13 @@ public class DeadboltDetectionTask {
 
             case ROOT_ATTACHED:
                 for(Block b : Util.getSurroundingBlocks(block)) {
-                    if(Util.isDoor(b.getType()) && getDoorSupportingBlocks(b).contains(block)) {
-                        // Is door that is supported by this block
-                        detect(b, DetectionType.NEW_TYPE);
-                    }
-                    else if(Util.isTrapdoor(b.getType()) && Util.getAttached(b) == block) {
-                        // Is trapdoor that is supported by this block
+                    if(getSupportingBlock(b) == block) {
+                        // Other block is supported by this
                         detect(b, DetectionType.NEW_TYPE);
                     }
 
                     // Is not an attached block, search only for a sign
+                    detect(b, DetectionType.SIGN_ONLY);
                 }
                 detect(block, DetectionType.NEW_TYPE);
                 break;
@@ -163,9 +151,7 @@ public class DeadboltDetectionTask {
                 this.type = type;
 
                 blocks.add(block);
-                for(Block b : getSupportingBlocks(block)) {
-                    detect(b, DetectionType.SUPPORTING_BLOCK);
-                }
+                detectSupporting(block);
                 detectSurrounding(block, DetectionType.SAME_TYPE);
                 break;
 
@@ -183,9 +169,7 @@ public class DeadboltDetectionTask {
                 }
 
                 blocks.add(block);
-                for(Block b : getSupportingBlocks(block)) {
-                    detect(b, DetectionType.SUPPORTING_BLOCK);
-                }
+                detectSupporting(block);
                 detectSurrounding(block, DetectionType.SAME_TYPE);
                 break;
 
