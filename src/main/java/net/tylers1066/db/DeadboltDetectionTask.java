@@ -38,7 +38,9 @@ public class DeadboltDetectionTask {
 
     public void run() {
         detect(root, DetectionType.ROOT);
+        Bukkit.broadcastMessage("Found " + blocks.size() + " of type " + type + " and " + signs.size() + " signs");
         pruneSigns();
+        Bukkit.broadcastMessage("Now has " + signs.size() + " signs");
     }
 
     @NotNull
@@ -170,8 +172,11 @@ public class DeadboltDetectionTask {
                     return;
                 }
 
-                if(type != this.type)
-                    return;
+                if(type != this.type) {
+                    // Fix for chests being different types but still wanted to be merged
+                    if(!(Util.isChest(type) && Util.isChest(this.type)))
+                        return;
+                }
 
                 blocks.add(block);
                 detectSurrounding(block, DetectionType.SAME_TYPE);
