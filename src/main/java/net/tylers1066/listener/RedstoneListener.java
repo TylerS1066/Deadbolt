@@ -13,11 +13,11 @@ public class RedstoneListener implements Listener {
     public void onBlockRedstone(BlockRedstoneEvent e) {
         Block b = e.getBlock();
 
-        Material type = b.getType();
-        if(Util.isDoor(type) || Util.isTrapdoor(type))
-            return;
-
         Deadbolt db = new Deadbolt(b);
+
+        Material type = db.getType();
+        if(type == null || !Util.isDoor(type) && !Util.isTrapdoor(type))
+            return;
 
         if(!db.isProtected() || db.isEveryone())
             return;
