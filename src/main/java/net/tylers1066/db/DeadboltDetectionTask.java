@@ -126,7 +126,7 @@ public class DeadboltDetectionTask {
                 for(Block b : Util.getSurroundingBlocks(block)) {
                     Block support = getSupportingBlock(b);
                     Bukkit.broadcastMessage("Checking " + b + " supported by " + support);
-                    if(support == block) {
+                    if(block.equals(support)) {
                         // Other block is supported by this
                         detect(b, DetectionType.NEW_TYPE);
                     }
