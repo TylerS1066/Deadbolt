@@ -27,7 +27,6 @@ public class PlayerInteractListener implements Listener {
 
         e.setUseInteractedBlock(Event.Result.DENY);
         e.setUseItemInHand(Event.Result.DENY);
-        e.setCancelled(true);
     }
 
     private boolean handle(Player p, Block b) {
