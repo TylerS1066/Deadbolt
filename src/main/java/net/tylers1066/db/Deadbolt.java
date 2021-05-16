@@ -107,6 +107,7 @@ public class Deadbolt {
                     first = false;
                 }
                 o.setOpen(isOpen);
+                b.getBlock().getState().setData(data);
                 b.getBlock().getState().update();
             }
         }
