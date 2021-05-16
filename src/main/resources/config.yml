@@ -3,3 +3,4 @@ protectIronTrapdoors: true
 
 denyExplosions: false
 denyPistons: true
+denyRedstone: false

@@ -6,4 +6,5 @@ public class Config {
 
     public static boolean denyExplosions = false;
     public static boolean denyPistons = true;
+    public static boolean denyRedstone = false;
 }

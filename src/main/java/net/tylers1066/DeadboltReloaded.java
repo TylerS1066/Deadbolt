@@ -25,17 +25,21 @@ public final class DeadboltReloaded extends JavaPlugin {
 
         Config.denyExplosions = getConfig().getBoolean("denyExplosions", false);
         Config.denyPistons = getConfig().getBoolean("denyPistons", true);
+        Config.denyRedstone = getConfig().getBoolean("denyRedstone", false);
 
         getServer().getPluginManager().registerEvents(new BlockBreakListener(), this);
         getServer().getPluginManager().registerEvents(new BlockBurnListener(), this);
         getServer().getPluginManager().registerEvents(new BlockPlaceListener(), this);
         getServer().getPluginManager().registerEvents(new EndermanListener(), this);
         getServer().getPluginManager().registerEvents(new EntityInteractListener(), this);
-        getServer().getPluginManager().registerEvents(new ExplosionListener(), this);
+        if(Config.denyExplosions)
+            getServer().getPluginManager().registerEvents(new ExplosionListener(), this);
         getServer().getPluginManager().registerEvents(new HopperMinecartListener(), this);
-        getServer().getPluginManager().registerEvents(new PistonListener(), this);
+        if(Config.denyPistons)
+            getServer().getPluginManager().registerEvents(new PistonListener(), this);
         getServer().getPluginManager().registerEvents(new PlayerInteractListener(), this);
-        getServer().getPluginManager().registerEvents(new RedstoneListener(), this);
+        if(Config.denyRedstone)
+            getServer().getPluginManager().registerEvents(new RedstoneListener(), this);
         getServer().getPluginManager().registerEvents(new SignChangeListener(), this);
 
         getCommand("deadbolt").setExecutor(new DeadboltCommand());
