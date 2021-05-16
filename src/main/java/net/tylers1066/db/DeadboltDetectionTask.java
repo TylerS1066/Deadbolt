@@ -114,10 +114,10 @@ public class DeadboltDetectionTask {
                     // This is a valid block to protect, start search
                     this.type = type;
                     blocks.add(block);
-                    detectSurrounding(block, DetectionType.SAME_TYPE);
                     for(Block b : getSupportingBlocks(block)) {
                         detect(b, DetectionType.SUPPORTING_BLOCK);
                     }
+                    detectSurrounding(block, DetectionType.SAME_TYPE);
                 }
                 else if(Util.isWallSign(type)) {
                     // This is a sign, start searching from the attached block
@@ -165,10 +165,10 @@ public class DeadboltDetectionTask {
                 this.type = type;
 
                 blocks.add(block);
-                detectSurrounding(block, DetectionType.SAME_TYPE);
                 for(Block b : getSupportingBlocks(block)) {
                     detect(b, DetectionType.SUPPORTING_BLOCK);
                 }
+                detectSurrounding(block, DetectionType.SAME_TYPE);
                 break;
 
 
@@ -185,10 +185,10 @@ public class DeadboltDetectionTask {
                 }
 
                 blocks.add(block);
-                detectSurrounding(block, DetectionType.SAME_TYPE);
                 for(Block b : getSupportingBlocks(block)) {
                     detect(b, DetectionType.SUPPORTING_BLOCK);
                 }
+                detectSurrounding(block, DetectionType.SAME_TYPE);
                 break;
 
 
