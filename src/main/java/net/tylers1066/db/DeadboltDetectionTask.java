@@ -115,7 +115,7 @@ public class DeadboltDetectionTask {
                     if(other == null)
                         return;
 
-                    detect(block, DetectionType.SIGN_ONLY);
+                    signs.add(block);
                     supporting.add(other);
                     detect(other, DetectionType.ROOT_ATTACHED);
                 }
