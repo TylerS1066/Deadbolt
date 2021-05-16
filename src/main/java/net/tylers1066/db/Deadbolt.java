@@ -3,7 +3,6 @@ package net.tylers1066.db;
 import net.tylers1066.util.EnhancedBlock;
 import net.tylers1066.util.EnhancedSign;
 import net.tylers1066.util.Util;
-import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
@@ -104,11 +103,11 @@ public class Deadbolt {
 
                 Openable o = (Openable) data;
                 if(first) {
-                    isOpen = o.isOpen();
+                    isOpen = !o.isOpen();
                     first = false;
                 }
-                Bukkit.broadcastMessage("Toggling to " + isOpen);
                 o.setOpen(isOpen);
+                b.getBlock().getState().update();
             }
         }
     }
