@@ -6,8 +6,8 @@ import net.tylers1066.util.Util;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
-import org.bukkit.block.BlockState;
 import org.bukkit.entity.Player;
+import org.bukkit.material.MaterialData;
 import org.bukkit.material.Openable;
 import org.jetbrains.annotations.Nullable;
 
@@ -100,13 +100,13 @@ public class Deadbolt {
                 continue;
 
             if(Util.isDoor(type) || Util.isTrapdoor(type) || Util.isGate(type)) {
-                BlockState state = b.getBlock().getState();
-                if(!(state instanceof Openable)) {
+                MaterialData data = b.getBlock().getState().getData();
+                if(!(data instanceof Openable)) {
                     Bukkit.broadcastMessage("Not openable");
                     return;
                 }
 
-                Openable o = (Openable) state;
+                Openable o = (Openable) data;
                 if(first) {
                     isOpen = !o.isOpen();
                     first = false;
