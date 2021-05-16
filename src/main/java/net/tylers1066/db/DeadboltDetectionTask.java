@@ -124,15 +124,14 @@ public class DeadboltDetectionTask {
                     if(other == null)
                         return;
 
-                    detect(other, DetectionType.ROOT_ATTACHED);
                     detect(block, DetectionType.SIGN_ONLY);
+                    detect(other, DetectionType.ROOT_ATTACHED);
                 }
                 // This is not a valid block to protect!
                 break;
 
 
             case ROOT_ATTACHED:
-                detect(block, DetectionType.NEW_TYPE);
                 for(Block b : Util.getSurroundingBlocks(block)) {
                     if(Util.isDoor(b.getType()) && getDoorSupportingBlocks(b).contains(block)) {
                         // Is door that is supported by this block
@@ -144,8 +143,8 @@ public class DeadboltDetectionTask {
                     }
 
                     // Is not an attached block, search only for a sign
-                    detect(b, DetectionType.SIGN_ONLY);
                 }
+                detect(block, DetectionType.NEW_TYPE);
                 break;
 
 
