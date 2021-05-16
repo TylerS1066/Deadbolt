@@ -195,7 +195,9 @@ public class DeadboltDetectionTask {
 
 
             case SUPPORTING_BLOCK:
+                Bukkit.broadcastMessage("Detecting " + block + "as supporting");
                 detectSurrounding(block, DetectionType.SIGN_ONLY);
+                break;
 
 
             default:
