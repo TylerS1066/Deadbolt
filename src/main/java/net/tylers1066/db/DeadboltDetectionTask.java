@@ -2,7 +2,6 @@ package net.tylers1066.db;
 
 import net.tylers1066.util.EnhancedSign;
 import net.tylers1066.util.Util;
-import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
@@ -38,9 +37,7 @@ public class DeadboltDetectionTask {
 
     public void run() {
         detect(root, DetectionType.ROOT);
-        Bukkit.broadcastMessage("Found " + blocks.size() + " of type " + type + " and " + signs.size() + " signs");
         pruneSigns();
-        Bukkit.broadcastMessage("Now has " + signs.size() + " signs");
     }
 
     @Nullable
@@ -91,8 +88,6 @@ public class DeadboltDetectionTask {
      * @param dt Detection type to detect
      */
     private void detect(@NotNull Block block, DetectionType dt) {
-        Bukkit.broadcastMessage("Detect " + block + "," + dt);
-
         if(blocks.contains(block) || signs.contains(block) || supporting.contains(block))
             return;
 
@@ -123,15 +118,12 @@ public class DeadboltDetectionTask {
             case ROOT_ATTACHED:
                 supporting.add(block);
                 for(Block b : Util.getSurroundingBlocks(block)) {
-                    Bukkit.broadcastMessage("Checking " + b);
                     Block support = getSupportingBlock(b);
                     if(block.equals(support)) {
-                        Bukkit.broadcastMessage("Supported");
                         // Other block is supported by this
                         detect(b, DetectionType.NEW_TYPE);
                     }
                     else {
-                        Bukkit.broadcastMessage("Not Supported");
                         // Is not an attached block, search only for a sign
                         detect(b, DetectionType.SIGN_ONLY);
                     }
