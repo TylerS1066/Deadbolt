@@ -3,6 +3,7 @@ package net.tylers1066.db;
 import net.tylers1066.util.EnhancedBlock;
 import net.tylers1066.util.EnhancedSign;
 import net.tylers1066.util.Util;
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
@@ -108,7 +109,9 @@ public class Deadbolt {
                     first = false;
                 }
                 o.setOpen(isOpen);
-                block.getState().setData(data);
+                block.getState().setData((MaterialData) o);
+                block.getState().update(true);
+                Bukkit.broadcastMessage("Toggled " + block + " to " + isOpen);
             }
         }
     }
