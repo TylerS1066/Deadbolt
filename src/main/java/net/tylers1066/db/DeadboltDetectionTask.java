@@ -17,7 +17,6 @@ public class DeadboltDetectionTask {
     private final HashSet<Block> blocks = new HashSet<>();
     private final HashSet<Block> supporting = new HashSet<>();
     private final HashSet<Block> signs = new HashSet<>();
-    private final HashSet<Block> traversed = new HashSet<>();
     private Material type;
 
     public DeadboltDetectionTask(Block root) {
@@ -93,10 +92,9 @@ public class DeadboltDetectionTask {
      */
     private void detect(@NotNull Block block, DetectionType dt) {
         Bukkit.broadcastMessage("Detect " + block + "," + dt);
-        if(traversed.contains(block))
-            return;
 
-        traversed.add(block);
+        if(blocks.contains(block) || signs.contains(block) || supporting.contains(block))
+            return;
 
         Material type = block.getType();
         switch(dt) {
