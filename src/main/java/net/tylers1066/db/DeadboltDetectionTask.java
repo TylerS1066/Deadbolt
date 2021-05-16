@@ -124,13 +124,16 @@ public class DeadboltDetectionTask {
 
             case ROOT_ATTACHED:
                 for(Block b : Util.getSurroundingBlocks(block)) {
-                    if(getSupportingBlock(b) == block) {
+                    Block support = getSupportingBlock(b);
+                    Bukkit.broadcastMessage("Checking " + b + " supported by " + support);
+                    if(support == block) {
                         // Other block is supported by this
                         detect(b, DetectionType.NEW_TYPE);
                     }
-
-                    // Is not an attached block, search only for a sign
-                    detect(b, DetectionType.SIGN_ONLY);
+                    else {
+                        // Is not an attached block, search only for a sign
+                        detect(b, DetectionType.SIGN_ONLY);
+                    }
                 }
                 detect(block, DetectionType.NEW_TYPE);
                 break;
