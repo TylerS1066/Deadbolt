@@ -60,19 +60,18 @@ public class PlayerInteractListener implements Listener {
     }
 
     private boolean handleOpenable(Player p, Block b) {
-        // does not properly deny openable doors
         Deadbolt db = new Deadbolt(b);
 
         Bukkit.broadcastMessage("Openable: " + db);
 
         if(!db.isProtected())
-            return true;
+            return false;
 
         if(!db.isMember(p))
             return true;
 
         db.toggleDoors();
-        return false;
+        return true;
     }
 
     private boolean handleContainer(Player p, Block b) {
