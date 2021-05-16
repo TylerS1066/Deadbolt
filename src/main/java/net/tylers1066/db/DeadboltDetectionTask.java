@@ -15,6 +15,7 @@ import java.util.HashSet;
 public class DeadboltDetectionTask {
     private final Block root;
     private final HashSet<Block> blocks = new HashSet<>();
+    private final HashSet<Block> supporting = new HashSet<>();
     private final HashSet<Block> signs = new HashSet<>();
     private final HashSet<Block> traversed = new HashSet<>();
     private Material type;
@@ -201,6 +202,7 @@ public class DeadboltDetectionTask {
 
 
             case SUPPORTING_BLOCK:
+                supporting.add(block);
                 detectSurrounding(block, DetectionType.SIGN_ONLY);
                 break;
 
@@ -220,7 +222,7 @@ public class DeadboltDetectionTask {
             }
 
             Block b = Util.getAttached(sign);
-            if(b == null || !blocks.contains(b))
+            if(b == null || !(blocks.contains(b) || supporting.contains(b)))
                 pruneSet.add(sign);
         }
         for(Block b : pruneSet)
