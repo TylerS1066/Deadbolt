@@ -65,13 +65,13 @@ public class PlayerInteractListener implements Listener {
         Bukkit.broadcastMessage("Openable: " + db);
 
         if(!db.isProtected())
-            return false;
+            return true;
 
         if(!db.isMember(p))
-            return false;
+            return true;
 
         db.toggleDoors();
-        return true;
+        return false;
     }
 
     private boolean handleContainer(Player p, Block b) {
