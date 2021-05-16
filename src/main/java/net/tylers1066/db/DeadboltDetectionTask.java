@@ -108,6 +108,7 @@ public class DeadboltDetectionTask {
                 if(Util.isProtectableBlock(type)) {
                     // This is a valid block to protect, start search
                     this.type = type;
+                    blocks.add(block);
                     detectSurrounding(block, DetectionType.SAME_TYPE);
                 }
                 else if(Util.isWallSign(type)) {
@@ -117,6 +118,7 @@ public class DeadboltDetectionTask {
                         return;
 
                     detect(other, DetectionType.ROOT_ATTACHED);
+                    detect(block, DetectionType.SIGN_ONLY);
                 }
                 // This is not a valid block to protect!
                 break;
@@ -153,6 +155,7 @@ public class DeadboltDetectionTask {
 
                 // This is a valid block to protect, start search
                 this.type = type;
+                blocks.add(block);
                 detectSurrounding(block, DetectionType.SAME_TYPE);
                 break;
 
