@@ -116,7 +116,7 @@ public class DeadboltDetectionTask {
                         return;
 
                     detect(block, DetectionType.SIGN_ONLY);
-                    supporting.add(block);
+                    supporting.add(other);
                     detect(other, DetectionType.ROOT_ATTACHED);
                 }
                 // This is not a valid block to protect!
