@@ -48,14 +48,12 @@ public class DeadboltDetectionTask {
     private HashSet<Block> getDoorSupportingBlocks(Block base) {
         HashSet<Block> blocks = new HashSet<>();
 
-        // Add top of door if base is the bottom
-        Block up = base.getRelative(BlockFace.UP);
-        if(up.getType() == base.getType())
-            blocks.add(up);
+        // Return empty if this is the top of the door
+        if(!Util.isLowerDoor(base))
+            return blocks;
 
-        // Always add the block below, it is either the bottom or the supporting block
+        // Add the supporting block and return
         blocks.add(base.getRelative(BlockFace.DOWN));
-
         return blocks;
     }
 
