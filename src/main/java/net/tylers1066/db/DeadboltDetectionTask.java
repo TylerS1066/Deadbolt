@@ -42,12 +42,10 @@ public class DeadboltDetectionTask {
 
     @Nullable
     private Block getDoorSupportingBlock(Block base) {
-        // Return empty if this is the top of the door
-        if(!Util.isLowerDoor(base))
-            return null;
-
-        // Add the supporting block and return
-        return base.getRelative(BlockFace.DOWN);
+        if(Util.isLowerDoor(base))
+            return base.getRelative(BlockFace.DOWN);
+        else
+            return base.getRelative(BlockFace.UP);
     }
 
     @Nullable
@@ -116,19 +114,23 @@ public class DeadboltDetectionTask {
 
 
             case ROOT_ATTACHED:
-                supporting.add(block);
-                for(Block b : Util.getSurroundingBlocks(block)) {
-                    Block support = getSupportingBlock(b);
-                    if(block.equals(support)) {
-                        // Other block is supported by this
-                        detect(b, DetectionType.NEW_TYPE);
-                    }
-                    else {
-                        // Is not an attached block, search only for a sign
-                        detect(b, DetectionType.SIGN_ONLY);
+                if(Util.isProtectableBlock(type)) {
+                    // This is a valid block to protect, start search
+                    this.type = type;
+                    blocks.add(block);
+                    detectSupporting(block);
+                    detectSurrounding(block, DetectionType.SAME_TYPE);
+                }
+                else {
+                    supporting.add(block);
+                    for (Block b : Util.getSurroundingBlocks(block)) {
+                        Block support = getSupportingBlock(b);
+                        if (block.equals(support)) // Other block is supported by this
+                            detect(b, DetectionType.NEW_TYPE);
+                        else // Is not an attached block, search only for a sign
+                            detect(b, DetectionType.SIGN_ONLY);
                     }
                 }
-                detect(block, DetectionType.NEW_TYPE);
                 break;
 
 
