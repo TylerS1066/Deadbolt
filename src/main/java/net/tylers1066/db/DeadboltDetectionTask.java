@@ -37,11 +37,8 @@ public class DeadboltDetectionTask {
     }
 
     public void run() {
-        Bukkit.broadcastMessage("Detecting from: '" + root + "'");
         detect(root, DetectionType.ROOT);
-        Bukkit.broadcastMessage("Found " + blocks.size() + " blocks of type " + type + " and " + signs.size() + " signs");
         pruneSigns();
-        Bukkit.broadcastMessage("Now has " + signs.size() + " signs");
     }
 
     @NotNull
@@ -117,10 +114,8 @@ public class DeadboltDetectionTask {
                 else if(Util.isWallSign(type)) {
                     // This is a sign, start searching from the attached block
                     Block other = Util.getAttached(block);
-                    if(other == null) {
-                        Bukkit.broadcastMessage("Null attachment");
+                    if(other == null)
                         return;
-                    }
 
                     detect(other, DetectionType.ROOT_ATTACHED);
                     detect(block, DetectionType.SIGN_ONLY);
@@ -148,7 +143,6 @@ public class DeadboltDetectionTask {
 
 
             case NEW_TYPE:
-                Bukkit.broadcastMessage("Detecting " + block + " as new block");
                 if(this.type != null) {
                     // New type already detected, try again as SAME_TYPE
                     detect(block, DetectionType.SAME_TYPE);

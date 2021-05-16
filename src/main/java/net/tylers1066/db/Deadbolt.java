@@ -89,33 +89,26 @@ public class Deadbolt {
         boolean isOpen = false;
         boolean first = true;
         if(!verify()) {
-            Bukkit.broadcastMessage("Failed verification");
             return;
         }
 
         for(EnhancedBlock b : blocks) {
-            Bukkit.broadcastMessage("Toggling " + b.getBlock());
             Material type = b.getBlock().getType();
             if(type != this.type)
                 continue;
 
             if(Util.isDoor(type) || Util.isTrapdoor(type) || Util.isGate(type)) {
                 MaterialData data = b.getBlock().getState().getData();
-                if(!(data instanceof Openable)) {
-                    Bukkit.broadcastMessage("Not openable");
+                if(!(data instanceof Openable))
                     return;
-                }
 
                 Openable o = (Openable) data;
                 if(first) {
-                    isOpen = !o.isOpen();
+                    isOpen = o.isOpen();
                     first = false;
                 }
-                Bukkit.broadcastMessage("Toggling  to " + isOpen);
+                Bukkit.broadcastMessage("Toggling to " + isOpen);
                 o.setOpen(isOpen);
-            }
-            else {
-                Bukkit.broadcastMessage("Failed type");
             }
         }
     }

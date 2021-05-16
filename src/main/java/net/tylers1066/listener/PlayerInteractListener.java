@@ -30,7 +30,6 @@ public class PlayerInteractListener implements Listener {
     }
 
     private boolean handle(Player p, Block b) {
-        Bukkit.broadcastMessage(p.getDisplayName() + " right clicked " + b);
         Material type = b.getType();
         if(Util.isWallSign(type)) {
             return handleSign(p, b);
