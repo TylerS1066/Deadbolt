@@ -198,7 +198,6 @@ public class Util {
 
     @NotNull
     public static String formatForSign(String s) {
-        s = ChatColor.stripColor(s);
         s = s.substring(0, Math.min(s.length(), 15));
         return s;
     }

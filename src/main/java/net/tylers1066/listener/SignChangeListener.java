@@ -3,6 +3,8 @@ package net.tylers1066.listener;
 import net.tylers1066.db.Deadbolt;
 import net.tylers1066.util.EnhancedSign;
 import net.tylers1066.util.Util;
+import org.bukkit.ChatColor;
+import org.bukkit.Material;
 import org.bukkit.block.Sign;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -37,9 +39,13 @@ public class SignChangeListener implements Listener {
             e.setCancelled(true);
         }
         else {
-            if(Util.isValidPrivateSign(line0)) {
+            if(Util.isValidPrivateSign(line0) && validatePermissions(db.getType(), e.getPlayer())) {
                 // New private sign, allow it and fill out line 1
                 e.getLines()[1] = Util.formatForSign(e.getPlayer().getName());
+                if(!e.getPlayer().hasPermission("deadbolt.user.color")) {
+                    e.getLines()[2] = ChatColor.stripColor(e.getLine(2));
+                    e.getLines()[3] = ChatColor.stripColor(e.getLine(3));
+                }
             }
         }
     }
@@ -58,5 +64,23 @@ public class SignChangeListener implements Listener {
 
         // Found some good blocks
         return db.getBlockCount() > 0;
+    }
+
+    private boolean validatePermissions(Material type, Player p) {
+        if(Util.isChest(type) && p.hasPermission("deadbolt.user.create.chest"))
+            return true;
+        if(Util.isDispenser(type) && p.hasPermission("deadbolt.user.create.dispenser"))
+            return true;
+        if(Util.isDoor(type) && p.hasPermission("deadbolt.user.create.door"))
+            return true;
+        if(Util.isFurnace(type) && p.hasPermission("deadbolt.user.create.furnace"))
+            return true;
+        if(Util.isTrapdoor(type) && p.hasPermission("deadbolt.user.create.trapdoor"))
+            return true;
+        if(Util.isGate(type) && p.hasPermission("deadbolt.user.create.fencegate"))
+            return true;
+        if(Util.isDropper(type) && p.hasPermission("deadbolt.user.create.dropper"))
+            return true;
+        return Util.isOtherContainer(type) && p.hasPermission("deadbolt.user.create.other");
     }
 }
