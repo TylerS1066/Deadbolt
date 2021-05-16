@@ -97,7 +97,8 @@ public class Deadbolt {
                 continue;
 
             if(Util.isDoor(type) || Util.isTrapdoor(type) || Util.isGate(type)) {
-                MaterialData data = b.getBlock().getState().getData();
+                Block block = b.getBlock();
+                MaterialData data = block.getState().getData();
                 if(!(data instanceof Openable))
                     return;
 
@@ -107,8 +108,7 @@ public class Deadbolt {
                     first = false;
                 }
                 o.setOpen(isOpen);
-                b.getBlock().getState().setData(data);
-                b.getBlock().getState().update();
+                block.getState().setData(data);
             }
         }
     }
