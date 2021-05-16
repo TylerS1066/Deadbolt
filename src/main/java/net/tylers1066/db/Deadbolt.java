@@ -112,7 +112,6 @@ public class Deadbolt {
                 o.setOpen(isOpen);
                 s.setData(data);
                 s.update();
-                Bukkit.broadcastMessage("Toggled " + b.getBlock() + " to " + isOpen);
             }
         }
     }

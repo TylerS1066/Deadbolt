@@ -16,7 +16,7 @@ public class RedstoneListener implements Listener {
         Deadbolt db = new Deadbolt(b);
 
         Material type = db.getType();
-        if(type == null || !Util.isDoor(type) && !Util.isTrapdoor(type))
+        if(type == null || !Util.isDoor(type) && !Util.isTrapdoor(type) || !Util.isGate(type))
             return;
 
         if(!db.isProtected() || db.isEveryone())
