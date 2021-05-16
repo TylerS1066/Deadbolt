@@ -6,6 +6,7 @@ import net.tylers1066.util.Util;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
+import org.bukkit.block.BlockState;
 import org.bukkit.entity.Player;
 import org.bukkit.material.MaterialData;
 import org.bukkit.material.Openable;
@@ -98,8 +99,8 @@ public class Deadbolt {
                 continue;
 
             if(Util.isDoor(type) || Util.isTrapdoor(type) || Util.isGate(type)) {
-                Block block = b.getBlock();
-                MaterialData data = block.getState().getData();
+                BlockState s = b.getBlock().getState();
+                MaterialData data = s.getData();
                 if(!(data instanceof Openable))
                     return;
 
@@ -109,9 +110,9 @@ public class Deadbolt {
                     first = false;
                 }
                 o.setOpen(isOpen);
-                block.getState().setData((MaterialData) o);
-                block.getState().update(true);
-                Bukkit.broadcastMessage("Toggled " + block + " to " + isOpen);
+                s.setData(data);
+                s.update();
+                Bukkit.broadcastMessage("Toggled " + b.getBlock() + " to " + isOpen);
             }
         }
     }
