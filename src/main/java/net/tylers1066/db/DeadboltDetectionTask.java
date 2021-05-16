@@ -110,6 +110,9 @@ public class DeadboltDetectionTask {
                     this.type = type;
                     blocks.add(block);
                     detectSurrounding(block, DetectionType.SAME_TYPE);
+                    for(Block b : getSupportingBlocks(block)) {
+                        detect(b, DetectionType.SUPPORTING_BLOCK);
+                    }
                 }
                 else if(Util.isWallSign(type)) {
                     // This is a sign, start searching from the attached block
@@ -143,6 +146,7 @@ public class DeadboltDetectionTask {
 
 
             case NEW_TYPE:
+                Bukkit.broadcastMessage("Detecting " + block + " as new block");
                 if(this.type != null) {
                     // New type already detected, try again as SAME_TYPE
                     detect(block, DetectionType.SAME_TYPE);
@@ -155,8 +159,12 @@ public class DeadboltDetectionTask {
 
                 // This is a valid block to protect, start search
                 this.type = type;
+
                 blocks.add(block);
                 detectSurrounding(block, DetectionType.SAME_TYPE);
+                for(Block b : getSupportingBlocks(block)) {
+                    detect(b, DetectionType.SUPPORTING_BLOCK);
+                }
                 break;
 
 
@@ -170,9 +178,7 @@ public class DeadboltDetectionTask {
                     return;
 
                 blocks.add(block);
-
                 detectSurrounding(block, DetectionType.SAME_TYPE);
-
                 for(Block b : getSupportingBlocks(block)) {
                     detect(b, DetectionType.SUPPORTING_BLOCK);
                 }

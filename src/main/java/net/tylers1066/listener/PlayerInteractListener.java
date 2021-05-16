@@ -5,6 +5,7 @@ import net.tylers1066.selection.Selection;
 import net.tylers1066.selection.SelectionManager;
 import net.tylers1066.util.EnhancedSign;
 import net.tylers1066.util.Util;
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
@@ -29,6 +30,7 @@ public class PlayerInteractListener implements Listener {
     }
 
     private boolean handle(Player p, Block b) {
+        Bukkit.broadcastMessage(p.getDisplayName() + " right clicked " + b);
         Material type = b.getType();
         if(Util.isWallSign(type)) {
             return handleSign(p, b);
@@ -46,6 +48,8 @@ public class PlayerInteractListener implements Listener {
     private boolean handleSign(Player p, Block b) {
         Deadbolt db = new Deadbolt(b);
 
+        Bukkit.broadcastMessage("Sign: " + db);
+
         if(!db.isProtected())
             return false;
 
@@ -59,6 +63,8 @@ public class PlayerInteractListener implements Listener {
     private boolean handleOpenable(Player p, Block b) {
         Deadbolt db = new Deadbolt(b);
 
+        Bukkit.broadcastMessage("Openable: " + db);
+
         if(!db.isProtected())
             return false;
 
@@ -71,6 +77,8 @@ public class PlayerInteractListener implements Listener {
 
     private boolean handleContainer(Player p, Block b) {
         Deadbolt db = new Deadbolt(b);
+
+        Bukkit.broadcastMessage("Container: " + db);
 
         if(!db.isProtected())
             return false;

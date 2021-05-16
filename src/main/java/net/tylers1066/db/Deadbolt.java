@@ -106,4 +106,7 @@ public class Deadbolt {
         return blocks.size();
     }
 
+    public String toString() {
+        return "Deadbolt of type " + type + " with " + blocks.size() + " blocks and " + signs.size() + " signs with owner " + (owner == null ? "null" : owner);
+    }
 }
