@@ -114,7 +114,6 @@ public class DeadboltDetectionTask {
                         return;
 
                     signs.add(block);
-                    supporting.add(other);
                     detect(other, DetectionType.ROOT_ATTACHED);
                 }
                 // This is not a valid block to protect!
@@ -122,13 +121,17 @@ public class DeadboltDetectionTask {
 
 
             case ROOT_ATTACHED:
+                supporting.add(block);
                 for(Block b : Util.getSurroundingBlocks(block)) {
+                    Bukkit.broadcastMessage("Checking " + b);
                     Block support = getSupportingBlock(b);
                     if(block.equals(support)) {
+                        Bukkit.broadcastMessage("Supported");
                         // Other block is supported by this
                         detect(b, DetectionType.NEW_TYPE);
                     }
                     else {
+                        Bukkit.broadcastMessage("Not Supported");
                         // Is not an attached block, search only for a sign
                         detect(b, DetectionType.SIGN_ONLY);
                     }
@@ -175,17 +178,17 @@ public class DeadboltDetectionTask {
                 break;
 
 
+            case SUPPORTING_BLOCK:
+                supporting.add(block);
+                detectSurrounding(block, DetectionType.SIGN_ONLY);
+                break;
+
+
             case SIGN_ONLY:
                 if(!Util.isWallSign(type))
                     return;
 
                 signs.add(block);
-                break;
-
-
-            case SUPPORTING_BLOCK:
-                supporting.add(block);
-                detectSurrounding(block, DetectionType.SIGN_ONLY);
                 break;
 
 

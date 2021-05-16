@@ -46,7 +46,7 @@ public class Deadbolt {
     }
 
     public boolean isProtected() {
-        return owner != null;
+        return owner != null && type != null;
     }
 
     public boolean isOwner(Player p) {
