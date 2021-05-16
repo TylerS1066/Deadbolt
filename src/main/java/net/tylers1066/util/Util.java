@@ -154,15 +154,6 @@ public class Util {
     }
 
 
-    public static void toggleOpenable(@NotNull Block b) {
-        BlockState state = b.getState();
-        if(!(state instanceof Openable))
-            return;
-
-        Openable o = (Openable) state;
-        o.setOpen(!o.isOpen());
-    }
-
 
     @Nullable
     public static Block getAttached(@NotNull Block b) {

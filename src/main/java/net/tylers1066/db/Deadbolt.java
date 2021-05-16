@@ -3,9 +3,12 @@ package net.tylers1066.db;
 import net.tylers1066.util.EnhancedBlock;
 import net.tylers1066.util.EnhancedSign;
 import net.tylers1066.util.Util;
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
+import org.bukkit.block.BlockState;
 import org.bukkit.entity.Player;
+import org.bukkit.material.Openable;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.HashSet;
@@ -83,6 +86,8 @@ public class Deadbolt {
     }
 
     public void toggleDoors() {
+        boolean isOpen = false;
+        boolean first = true;
         if(!verify())
             return;
 
@@ -91,8 +96,18 @@ public class Deadbolt {
             if(type != this.type)
                 continue;
 
-            if(Util.isDoor(type) || Util.isTrapdoor(type)) {
-                Util.toggleOpenable(b.getBlock());
+            if(Util.isDoor(type) || Util.isTrapdoor(type) || Util.isGate(type)) {
+                BlockState state = b.getBlock().getState();
+                if(!(state instanceof Openable))
+                    return;
+
+                Openable o = (Openable) state;
+                if(first) {
+                    isOpen = !o.isOpen();
+                    first = false;
+                }
+                Bukkit.broadcastMessage("Toggling " + b.getBlock() + " to " + isOpen);
+                o.setOpen(isOpen);
             }
         }
     }

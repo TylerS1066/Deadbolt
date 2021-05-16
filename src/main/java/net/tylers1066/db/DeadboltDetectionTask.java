@@ -117,8 +117,10 @@ public class DeadboltDetectionTask {
                 else if(Util.isWallSign(type)) {
                     // This is a sign, start searching from the attached block
                     Block other = Util.getAttached(block);
-                    if(other == null)
+                    if(other == null) {
+                        Bukkit.broadcastMessage("Null attachment");
                         return;
+                    }
 
                     detect(other, DetectionType.ROOT_ATTACHED);
                     detect(block, DetectionType.SIGN_ONLY);
