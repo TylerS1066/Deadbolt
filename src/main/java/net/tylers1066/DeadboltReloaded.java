@@ -7,8 +7,15 @@ import net.tylers1066.util.Util;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public final class DeadboltReloaded extends JavaPlugin {
+    private static DeadboltReloaded instance;
+
+    public static DeadboltReloaded getInstance() {
+        return instance;
+    }
+
     @Override
     public void onEnable() {
+        instance = this;
         saveDefaultConfig();
 
         Util.init();
