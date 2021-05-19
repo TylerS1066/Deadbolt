@@ -40,8 +40,10 @@ public class SignChangeListener implements Listener {
         }
         else {
             if(Util.isValidPrivateSign(line0) && validatePermissions(db.getType(), e.getPlayer())) {
-                // New private sign, allow it and fill out line 1
-                e.getLines()[1] = Util.formatForSign(e.getPlayer().getName());
+                // New private sign
+                if(!e.getPlayer().hasPermission("deadbolt.admin.create"))
+                    e.getLines()[1] = Util.formatForSign(e.getPlayer().getName()); // Not admin, fill out with owner's name
+
                 if(!e.getPlayer().hasPermission("deadbolt.user.color")) {
                     e.getLines()[2] = ChatColor.stripColor(e.getLine(2));
                     e.getLines()[3] = ChatColor.stripColor(e.getLine(3));

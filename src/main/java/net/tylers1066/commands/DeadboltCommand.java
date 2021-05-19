@@ -45,8 +45,8 @@ public class DeadboltCommand implements CommandExecutor {
             // Failed verification
             return false;
         }
-        if(!sel.getDeadbolt().isOwner(p)) {
-            // Not owner
+        if(!sel.getDeadbolt().isOwner(p) && !p.hasPermission("deadbolt.admin.commands")) {
+            // Not owner and not admin
             return false;
         }
 

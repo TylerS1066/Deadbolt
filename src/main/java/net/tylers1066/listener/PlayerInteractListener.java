@@ -45,6 +45,9 @@ public class PlayerInteractListener implements Listener {
     }
 
     private boolean handleSign(Player p, Block b) {
+        if(p.hasPermission("deadbolt.admin.commands"))
+            return true; // Is admin, always allow
+
         Deadbolt db = new Deadbolt(b);
 
         Bukkit.broadcastMessage("Sign: " + db);
@@ -60,6 +63,9 @@ public class PlayerInteractListener implements Listener {
     }
 
     private boolean handleOpenable(Player p, Block b) {
+        if(p.hasPermission("deadbolt.admin.bypass"))
+            return true; // Is admin, always allow
+
         Deadbolt db = new Deadbolt(b);
 
         Bukkit.broadcastMessage("Openable: " + db);
@@ -75,6 +81,9 @@ public class PlayerInteractListener implements Listener {
     }
 
     private boolean handleContainer(Player p, Block b) {
+        if(p.hasPermission("deadbolt.admin.snoop"))
+            return true; // Is admin, always allow
+
         Deadbolt db = new Deadbolt(b);
 
         Bukkit.broadcastMessage("Container: " + db);

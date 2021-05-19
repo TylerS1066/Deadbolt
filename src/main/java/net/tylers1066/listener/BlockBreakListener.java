@@ -17,6 +17,9 @@ public class BlockBreakListener implements Listener {
         if(!db.isProtected() || db.isOwner(p))
             return;
 
+        if(p.hasPermission("deadbolt.admin.break"))
+            return;
+
         e.setCancelled(true);
     }
 }
