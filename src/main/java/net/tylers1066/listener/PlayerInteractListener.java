@@ -45,9 +45,6 @@ public class PlayerInteractListener implements Listener {
     }
 
     private boolean handleSign(Player p, Block b) {
-        if(p.hasPermission("deadbolt.admin.commands"))
-            return false; // Is admin, always allow
-
         Deadbolt db = new Deadbolt(b);
 
         Bukkit.broadcastMessage("Sign: " + db);
@@ -55,17 +52,14 @@ public class PlayerInteractListener implements Listener {
         if(!db.isProtected())
             return false;
 
-        if(!db.isOwner(p))
-            return false;
+        if(!db.isOwner(p) && !p.hasPermission("deadbolt.admin.commands"))
+            return false; // Deny if not owner and not admin
 
         SelectionManager.add(p, new Selection(new EnhancedSign(b), db));
         return true;
     }
 
     private boolean handleOpenable(Player p, Block b) {
-        if(p.hasPermission("deadbolt.admin.bypass"))
-            return false; // Is admin, always allow
-
         Deadbolt db = new Deadbolt(b);
 
         Bukkit.broadcastMessage("Openable: " + db);
@@ -73,7 +67,7 @@ public class PlayerInteractListener implements Listener {
         if(!db.isProtected())
             return false;
 
-        if(!db.isMember(p))
+        if(!db.isMember(p) && !p.hasPermission("deadbolt.admin.bypass"))
             return true;
 
         db.toggleDoors();
@@ -81,9 +75,6 @@ public class PlayerInteractListener implements Listener {
     }
 
     private boolean handleContainer(Player p, Block b) {
-        if(p.hasPermission("deadbolt.admin.snoop"))
-            return false; // Is admin, always allow
-
         Deadbolt db = new Deadbolt(b);
 
         Bukkit.broadcastMessage("Container: " + db);
@@ -91,7 +82,7 @@ public class PlayerInteractListener implements Listener {
         if(!db.isProtected())
             return false;
 
-        // Deny if not member
-        return !db.isMember(p);
+        // Deny if not member or not admin
+        return !db.isMember(p) && !p.hasPermission("deadbolt.admin.snoop");
     }
 }

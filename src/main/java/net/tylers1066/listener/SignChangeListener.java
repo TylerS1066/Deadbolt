@@ -43,8 +43,12 @@ public class SignChangeListener implements Listener {
                 return;
 
             // New private sign
+            e.getLines()[0] = ChatColor.stripColor(e.getLine(0));
+
             if(!e.getPlayer().hasPermission("deadbolt.admin.create"))
                 e.getLines()[1] = Util.formatForSign(e.getPlayer().getName()); // Not admin, fill out with owner's name
+            else
+                e.getLines()[1] = ChatColor.stripColor(e.getLine(1));
 
             if(!e.getPlayer().hasPermission("deadbolt.user.color")) {
                 e.getLines()[2] = ChatColor.stripColor(e.getLine(2));
@@ -56,7 +60,8 @@ public class SignChangeListener implements Listener {
     private boolean validatePlacement(Deadbolt db, Player p, String line0) {
         if(db.isProtected()) {
             // Only allow the owner to place a [More Users] sign
-            return db.isOwner(p) && Util.isValidMoreUsersSign(line0);
+            return (db.isOwner(p) || p.hasPermission("deadbolt.admin.create"))
+                    && Util.isValidMoreUsersSign(line0);
         }
 
         // Unprotected deadbolt, reject if a [More Users] or invalid header
