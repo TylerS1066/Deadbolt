@@ -28,9 +28,13 @@ public class BlockPlaceListener implements Listener {
 
         Deadbolt db = new Deadbolt(b);
 
-        if(!db.isProtected() || db.isOwner(p))
+        if(!db.isProtected() || db.isOwner(p) || p.hasPermission("deadbolt.admin.create"))
             return;
 
-        // TODO: Cancel stuff
+        // Allow placements of other types of blocks nearby
+        if(b.getType() != db.getType())
+            return;
+
+        e.setCancelled(true);
     }
 }
