@@ -21,5 +21,7 @@ public class BlockBreakListener implements Listener {
             return;
 
         e.setCancelled(true);
+
+        // TODO: This does not work for a base block...
     }
 }

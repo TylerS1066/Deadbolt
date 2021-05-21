@@ -34,12 +34,12 @@ public class SignChangeListener implements Listener {
 
         Deadbolt db = new Deadbolt(e.getBlock());
 
-        if(!validatePlacement(db, e.getPlayer(), line0)) {
+        if(!validatePlacement(db, e.getPlayer(), line0) || !validatePermissions(db.getType(), e.getPlayer())) {
             // Not valid change, either not allowed or something
             e.setCancelled(true);
         }
         else {
-            if(!Util.isValidPrivateSign(line0) || !validatePermissions(db.getType(), e.getPlayer()))
+            if(!Util.isValidPrivateSign(line0))
                 return;
 
             // New private sign

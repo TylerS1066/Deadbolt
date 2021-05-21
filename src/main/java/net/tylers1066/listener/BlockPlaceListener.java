@@ -16,7 +16,7 @@ public class BlockPlaceListener implements Listener {
         Block b = e.getBlockPlaced();
         Player p = e.getPlayer();
 
-        // Disallow placing signs on curent deadbolt signs
+        // Disallow placing signs on current deadbolt signs
         if(Util.isWallSign(e.getBlockAgainst().getType())) {
             Sign sign = (new EnhancedSign(e.getBlockAgainst())).getSign();
             if(sign != null && Util.isValidHeader(sign)) {
@@ -31,6 +31,6 @@ public class BlockPlaceListener implements Listener {
         if(!db.isProtected() || db.isOwner(p))
             return;
 
-
+        // TODO: Cancel stuff
     }
 }

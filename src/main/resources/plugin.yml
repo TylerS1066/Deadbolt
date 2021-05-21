@@ -74,8 +74,10 @@ permissions:
       deadbolt.admin.commands: true
       deadbolt.admin.snoop: true
   deadbolt.admin.create:
-    description: Allows admin protection of all for other users
+    description: Allows admin protection of all for other users and of all types
     default: op
+    children:
+      deadbolt.user.create.*: true
   deadbolt.admin.break:
     description: Allows admin breaking of protected blocks
     default: op
