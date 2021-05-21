@@ -47,8 +47,6 @@ public class PlayerInteractListener implements Listener {
     private boolean handleSign(Player p, Block b) {
         Deadbolt db = new Deadbolt(b);
 
-        Bukkit.broadcastMessage("Sign: " + db);
-
         if(!db.isProtected())
             return false;
 
@@ -62,8 +60,6 @@ public class PlayerInteractListener implements Listener {
     private boolean handleOpenable(Player p, Block b) {
         Deadbolt db = new Deadbolt(b);
 
-        Bukkit.broadcastMessage("Openable: " + db);
-
         if(!db.isProtected())
             return false;
 
@@ -76,8 +72,6 @@ public class PlayerInteractListener implements Listener {
 
     private boolean handleContainer(Player p, Block b) {
         Deadbolt db = new Deadbolt(b);
-
-        Bukkit.broadcastMessage("Container: " + db);
 
         if(!db.isProtected())
             return false;

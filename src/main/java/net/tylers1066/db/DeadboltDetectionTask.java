@@ -210,4 +210,8 @@ public class DeadboltDetectionTask {
         for(Block b : pruneSet)
             signs.remove(b);
     }
+
+    private void pruneSupporting() {
+
+    }
 }
