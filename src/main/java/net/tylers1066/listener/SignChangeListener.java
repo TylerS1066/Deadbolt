@@ -39,15 +39,16 @@ public class SignChangeListener implements Listener {
             e.setCancelled(true);
         }
         else {
-            if(Util.isValidPrivateSign(line0) && validatePermissions(db.getType(), e.getPlayer())) {
-                // New private sign
-                if(!e.getPlayer().hasPermission("deadbolt.admin.create"))
-                    e.getLines()[1] = Util.formatForSign(e.getPlayer().getName()); // Not admin, fill out with owner's name
+            if(!Util.isValidPrivateSign(line0) || !validatePermissions(db.getType(), e.getPlayer()))
+                return;
 
-                if(!e.getPlayer().hasPermission("deadbolt.user.color")) {
-                    e.getLines()[2] = ChatColor.stripColor(e.getLine(2));
-                    e.getLines()[3] = ChatColor.stripColor(e.getLine(3));
-                }
+            // New private sign
+            if(!e.getPlayer().hasPermission("deadbolt.admin.create"))
+                e.getLines()[1] = Util.formatForSign(e.getPlayer().getName()); // Not admin, fill out with owner's name
+
+            if(!e.getPlayer().hasPermission("deadbolt.user.color")) {
+                e.getLines()[2] = ChatColor.stripColor(e.getLine(2));
+                e.getLines()[3] = ChatColor.stripColor(e.getLine(3));
             }
         }
     }
@@ -61,8 +62,6 @@ public class SignChangeListener implements Listener {
         // Unprotected deadbolt, reject if a [More Users] or invalid header
         if(!Util.isValidPrivateSign(line0) || Util.isValidMoreUsersSign(line0))
             return false;
-
-        // TODO: check perms
 
         // Found some good blocks
         return db.getBlockCount() > 0;
