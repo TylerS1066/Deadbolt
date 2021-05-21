@@ -109,7 +109,10 @@ public class DeadboltDetectionTask {
                     signs.add(block);
                     detect(other, DetectionType.ROOT_ATTACHED);
                 }
-                // This is not a valid block to protect!
+                else {
+                    // This is not a valid block, try looking for a new type nearby
+                    detectSurrounding(block, DetectionType.NEW_TYPE);
+                }
                 break;
 
 
