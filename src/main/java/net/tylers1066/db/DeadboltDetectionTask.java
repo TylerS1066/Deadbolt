@@ -77,8 +77,11 @@ public class DeadboltDetectionTask {
 
     private void detectSupporting(@NotNull Block block) {
         Block b = getSupportingBlock(block);
-        if(b != null)
-            detect(b, DetectionType.SUPPORTING_BLOCK);
+        if(b == null)
+            return;
+
+        detect(b, DetectionType.SAME_TYPE);
+        detect(b, DetectionType.SUPPORTING_BLOCK);
     }
 
     /**
