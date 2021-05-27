@@ -60,16 +60,36 @@ public class SignChangeListener implements Listener {
     private boolean validatePlacement(Deadbolt db, Player p, String line0) {
         if(db.isProtected()) {
             // Only allow the owner to place a [More Users] sign
-            return (db.isOwner(p) || p.hasPermission("deadbolt.admin.create"))
-                    && Util.isValidMoreUsersSign(line0);
+            if(!Util.isValidMoreUsersSign(line0)) {
+                p.sendMessage("This block is already protected");
+                return false;
+            }
+
+            if(!db.isOwner(p)) {
+                if(p.hasPermission("deadbolt.admin.create"))
+                    return true;
+
+                p.sendMessage("You don't own the adjacent block(s)");
+                return false;
+            }
+
+            return true;
         }
 
         // Unprotected deadbolt, reject if a [More Users] or invalid header
-        if(!Util.isValidPrivateSign(line0) || Util.isValidMoreUsersSign(line0))
+        if(Util.isValidMoreUsersSign(line0)) {
+            p.sendMessage("No sign with [Private] nearby");
+            return false;
+        }
+        if(!Util.isValidPrivateSign(line0))
             return false;
 
         // Found some good blocks
-        return db.getBlockCount() > 0;
+        if(db.getBlockCount() > 0)
+            return true;
+
+        p.sendMessage("Nothing nearby to protect");
+        return false;
     }
 
     private boolean validatePermissions(Material type, Player p) {

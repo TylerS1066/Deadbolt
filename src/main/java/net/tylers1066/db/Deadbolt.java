@@ -3,7 +3,6 @@ package net.tylers1066.db;
 import net.tylers1066.util.EnhancedBlock;
 import net.tylers1066.util.EnhancedSign;
 import net.tylers1066.util.Util;
-import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockState;
@@ -48,6 +47,10 @@ public class Deadbolt {
 
     public boolean isProtected() {
         return owner != null && type != null;
+    }
+
+    public String getOwner() {
+        return owner;
     }
 
     public boolean isOwner(Player p) {

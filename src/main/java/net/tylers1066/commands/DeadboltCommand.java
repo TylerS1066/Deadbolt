@@ -31,6 +31,7 @@ public class DeadboltCommand implements CommandExecutor {
             --lineNum;
         }
         catch (NumberFormatException e) {
+            sender.sendMessage("Bad format, your line number should be 1, 2, 3, 4");
             // Invalid line number
             return false;
         }
@@ -38,10 +39,12 @@ public class DeadboltCommand implements CommandExecutor {
         Player p = (Player) sender;
         Selection sel = SelectionManager.get(p);
         if(sel == null) {
+            sender.sendMessage("Nothing selected, right click a valid sign first");
             // No selection
             return false;
         }
         if(!sel.getDeadbolt().verify()) {
+            sender.sendMessage("Selected sign has an error. Right click it again");
             // Failed verification
             return false;
         }
@@ -52,16 +55,19 @@ public class DeadboltCommand implements CommandExecutor {
 
         Sign s = sel.getSign().getSign();
         if(s == null || !Util.isValidHeader(s)) {
+            sender.sendMessage("Selected sign has an error. Right click it again");
             // Invalid sign?
             return false;
         }
 
         if(lineNum == 0) {
+            sender.sendMessage("The identifier on line 1 is not changeable");
             // Can't edit first line
             return false;
         }
 
         if(lineNum == 1 && Util.isValidPrivateSign(s)) {
+            sender.sendMessage("The owner on line 2 is not changeable");
             // Can't edit owner
             return false;
         }
@@ -81,6 +87,8 @@ public class DeadboltCommand implements CommandExecutor {
         // Update sign
         s.setLine(lineNum, line);
         s.update();
+
+        sender.sendMessage("Sign updated");
         return true;
     }
 }

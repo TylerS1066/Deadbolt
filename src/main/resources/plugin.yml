@@ -90,3 +90,19 @@ permissions:
   deadbolt.admin.snoop:
     description: Allows admin usage of protected blocks
     default: op
+  deadbolt.broadcast.*:
+    description: Receives all notifications of admin overrides
+    default: op
+    children:
+      deadbolt.broadcast.break: true
+      deadbolt.broadcast.snoop: true
+      deadbolt.broadcast.bypass: true
+    deadbolt.broadcast.break:
+      description: Receives notifications of admin override block breaks
+      default: op
+    deadbolt.broadcast.snoop:
+      description: receives notifications of admin override container snoops
+      default: op
+    deadbolt.broadcast.bypass:
+      description: receives notifications of admin override bypasses
+      default: op

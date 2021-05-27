@@ -50,10 +50,18 @@ public class PlayerInteractListener implements Listener {
         if(!db.isProtected())
             return false;
 
-        if(!db.isOwner(p) && !p.hasPermission("deadbolt.admin.commands"))
+        if(!db.isOwner(p)) {
+            if(p.hasPermission("deadbolt.admin.commands")) {
+                SelectionManager.add(p, new Selection(new EnhancedSign(b), db));
+                p.sendMessage("(Admin) Warning, selected a sign owned by " + db.getOwner());
+                return true;
+            }
+            p.sendMessage("You don't own this sign");
             return false; // Deny if not owner and not admin
+        }
 
         SelectionManager.add(p, new Selection(new EnhancedSign(b), db));
+        p.sendMessage("Sign selected, use /deadbolt <line number> <text>");
         return true;
     }
 
@@ -63,8 +71,19 @@ public class PlayerInteractListener implements Listener {
         if(!db.isProtected())
             return false;
 
-        if(!db.isMember(p) && !p.hasPermission("deadbolt.admin.bypass"))
+        if(!db.isMember(p)) {
+            if(p.hasPermission("deadbolt.admin.bypass")) {
+                db.toggleDoors();
+                for(Player other : Bukkit.getOnlinePlayers()) {
+                    if(other.hasPermission("deadbolt.broadcast.bypass"))
+                        other.sendMessage("(Admin)" + p.getDisplayName() + " bypassed a block owned by " + db.getOwner());
+                }
+                p.sendMessage("(Admin) Warning, this door is owned by " + db.getOwner() + ", make sure to shut it");
+                return true;
+            }
+            p.sendMessage("Access denied");
             return true;
+        }
 
         db.toggleDoors();
         return true;
@@ -76,7 +95,19 @@ public class PlayerInteractListener implements Listener {
         if(!db.isProtected())
             return false;
 
+        if(db.isMember(p))
+            return false;
+
+        if(p.hasPermission("deadbolt.admin.snoop")) {
+            for(Player other : Bukkit.getOnlinePlayers()) {
+                if(other.hasPermission("deadbolt.broadcast.snoop"))
+                    other.sendMessage("(Admin)" + p.getDisplayName() + " opened a container owned by " + db.getOwner());
+            }
+            return false;
+        }
+
         // Deny if not member or not admin
-        return !db.isMember(p) && !p.hasPermission("deadbolt.admin.snoop");
+        p.sendMessage("Access denied");
+        return true;
     }
 }

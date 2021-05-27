@@ -1,6 +1,7 @@
 package net.tylers1066.listener;
 
 import net.tylers1066.db.Deadbolt;
+import org.bukkit.Bukkit;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -17,11 +18,15 @@ public class BlockBreakListener implements Listener {
         if(!db.isProtected() || db.isOwner(p))
             return;
 
-        if(p.hasPermission("deadbolt.admin.break"))
+        if(p.hasPermission("deadbolt.admin.break")) {
+            for(Player other : Bukkit.getOnlinePlayers()) {
+                if(other.hasPermission("deadbolt.broadcast.break"))
+                    other.sendMessage("(Admin)" + p.getDisplayName() + " broke a block owned by " + db.getOwner());
+            }
             return;
+        }
 
+        p.sendMessage("You don't own this block");
         e.setCancelled(true);
-
-        // TODO: This does not work for a base block...
     }
 }

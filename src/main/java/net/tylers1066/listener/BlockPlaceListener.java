@@ -35,6 +35,7 @@ public class BlockPlaceListener implements Listener {
         if(b.getType() != db.getType())
             return;
 
+        p.sendMessage("You don't own the adjacent block(s)");
         e.setCancelled(true);
     }
 }
