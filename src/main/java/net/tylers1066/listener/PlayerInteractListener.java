@@ -77,7 +77,7 @@ public class PlayerInteractListener implements Listener {
                 db.toggleDoors();
                 for(Player other : Bukkit.getOnlinePlayers()) {
                     if(other.hasPermission("deadbolt.broadcast.bypass"))
-                        other.sendMessage(ChatColor.RED + "(Admin)" + ChatColor.RESET + p.getDisplayName() + ChatColor.RED + " bypassed a block owned by " + db.getOwner());
+                        other.sendMessage(ChatColor.RED + "(Admin) " + ChatColor.RESET + p.getDisplayName() + ChatColor.RED + " bypassed a block owned by " + db.getOwner());
                 }
                 p.sendMessage(ChatColor.RED + "(Admin) Warning, this door is owned by " + db.getOwner() + ", make sure to shut it");
                 return true;
@@ -102,7 +102,7 @@ public class PlayerInteractListener implements Listener {
         if(p.hasPermission("deadbolt.admin.snoop")) {
             for(Player other : Bukkit.getOnlinePlayers()) {
                 if(other.hasPermission("deadbolt.broadcast.snoop"))
-                    other.sendMessage("(Admin)" + ChatColor.RESET + p.getDisplayName() + ChatColor.RED + " opened a container owned by " + db.getOwner());
+                    other.sendMessage("(Admin) " + ChatColor.RESET + p.getDisplayName() + ChatColor.RED + " opened a container owned by " + db.getOwner());
             }
             return false;
         }
