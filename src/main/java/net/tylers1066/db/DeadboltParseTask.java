@@ -72,7 +72,6 @@ public class DeadboltParseTask {
             timer = Integer.parseInt(time);
         }
         catch (NumberFormatException ignored) {
-            return;
         }
     }
 
@@ -85,13 +84,17 @@ public class DeadboltParseTask {
                 continue;
 
             if(Util.isValidPrivateSign(s)) {
-                if(owner != null)
-                    throw new RuntimeException("Double private sign!");
-
-                owner = s.getLine(1);
-                add(s.getLine(2));
-                add(s.getLine(3));
-                signs.add(es);
+                if(owner == null) {
+                    owner = s.getLine(1);
+                    add(s.getLine(2));
+                    add(s.getLine(3));
+                    signs.add(es);
+                }
+                else {
+                    // Note: this *will* cause problems, but yo we just ignore them!
+                    owner = "Double private sign!";
+                    //throw new RuntimeException("Double private sign!");
+                }
             }
             else if(Util.isValidMoreUsersSign(s)) {
                 add(s.getLine(1));

@@ -102,7 +102,7 @@ public class PlayerInteractListener implements Listener {
         if(p.hasPermission("deadbolt.admin.snoop")) {
             for(Player other : Bukkit.getOnlinePlayers()) {
                 if(other.hasPermission("deadbolt.broadcast.snoop"))
-                    other.sendMessage("(Admin) " + ChatColor.RESET + p.getDisplayName() + ChatColor.RED + " opened a container owned by " + db.getOwner());
+                    other.sendMessage(ChatColor.RED + "(Admin) " + ChatColor.RESET + p.getDisplayName() + ChatColor.RED + " opened a container owned by " + db.getOwner());
             }
             return false;
         }
