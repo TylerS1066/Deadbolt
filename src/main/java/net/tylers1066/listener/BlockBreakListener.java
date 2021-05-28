@@ -22,7 +22,7 @@ public class BlockBreakListener implements Listener {
         if(p.hasPermission("deadbolt.admin.break")) {
             for(Player other : Bukkit.getOnlinePlayers()) {
                 if(other.hasPermission("deadbolt.broadcast.break"))
-                    other.sendMessage(ChatColor.RED + "(Admin) " + p.getDisplayName() + " broke a block owned by " + db.getOwner());
+                    other.sendMessage(ChatColor.RED + "(Admin) " + ChatColor.RESET + p.getDisplayName() + ChatColor.RED + " broke a block owned by " + db.getOwner());
             }
             return;
         }
