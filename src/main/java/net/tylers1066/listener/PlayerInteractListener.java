@@ -6,6 +6,7 @@ import net.tylers1066.selection.SelectionManager;
 import net.tylers1066.util.EnhancedSign;
 import net.tylers1066.util.Util;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
@@ -53,7 +54,7 @@ public class PlayerInteractListener implements Listener {
         if(!db.isOwner(p)) {
             if(p.hasPermission("deadbolt.admin.commands")) {
                 SelectionManager.add(p, new Selection(new EnhancedSign(b), db));
-                p.sendMessage("(Admin) Warning, selected a sign owned by " + db.getOwner());
+                p.sendMessage(ChatColor.RED + "(Admin) Warning, selected a sign owned by " + db.getOwner());
                 return true;
             }
             p.sendMessage("You don't own this sign");
@@ -76,9 +77,9 @@ public class PlayerInteractListener implements Listener {
                 db.toggleDoors();
                 for(Player other : Bukkit.getOnlinePlayers()) {
                     if(other.hasPermission("deadbolt.broadcast.bypass"))
-                        other.sendMessage("(Admin)" + p.getDisplayName() + " bypassed a block owned by " + db.getOwner());
+                        other.sendMessage(ChatColor.RED + "(Admin)" + p.getDisplayName() + " bypassed a block owned by " + db.getOwner());
                 }
-                p.sendMessage("(Admin) Warning, this door is owned by " + db.getOwner() + ", make sure to shut it");
+                p.sendMessage(ChatColor.RED + "(Admin) Warning, this door is owned by " + db.getOwner() + ", make sure to shut it");
                 return true;
             }
             p.sendMessage("Access denied");
