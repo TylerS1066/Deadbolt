@@ -90,7 +90,7 @@ public class DeadboltParseTask {
                     add(s.getLine(3));
                     signs.add(es);
                 }
-                else {
+                else if(!owner.equals(s.getLine(1))) {
                     // Note: this *will* cause problems, but yo we just ignore them!
                     owner = "Double private sign!";
                     //throw new RuntimeException("Double private sign!");
