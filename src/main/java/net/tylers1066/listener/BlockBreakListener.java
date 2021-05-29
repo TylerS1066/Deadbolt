@@ -1,5 +1,6 @@
 package net.tylers1066.listener;
 
+import net.tylers1066.DeadboltReloaded;
 import net.tylers1066.db.Deadbolt;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -20,6 +21,7 @@ public class BlockBreakListener implements Listener {
             return;
 
         if(p.hasPermission("deadbolt.admin.break")) {
+            DeadboltReloaded.getInstance().getLogger().info(ChatColor.RED + "(Admin) " + ChatColor.RESET + p.getDisplayName() + ChatColor.RED + " broke a block owned by " + db.getOwner());
             for(Player other : Bukkit.getOnlinePlayers()) {
                 if(other.hasPermission("deadbolt.broadcast.break"))
                     other.sendMessage(ChatColor.RED + "(Admin) " + ChatColor.RESET + p.getDisplayName() + ChatColor.RED + " broke a block owned by " + db.getOwner());

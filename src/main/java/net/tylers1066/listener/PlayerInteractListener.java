@@ -1,5 +1,6 @@
 package net.tylers1066.listener;
 
+import net.tylers1066.DeadboltReloaded;
 import net.tylers1066.db.Deadbolt;
 import net.tylers1066.selection.Selection;
 import net.tylers1066.selection.SelectionManager;
@@ -75,6 +76,7 @@ public class PlayerInteractListener implements Listener {
         if(!db.isMember(p)) {
             if(p.hasPermission("deadbolt.admin.bypass")) {
                 db.toggleDoors();
+                DeadboltReloaded.getInstance().getLogger().info(ChatColor.RED + "(Admin) " + ChatColor.RESET + p.getDisplayName() + ChatColor.RED + " bypassed a block owned by " + db.getOwner());
                 for(Player other : Bukkit.getOnlinePlayers()) {
                     if(other.hasPermission("deadbolt.broadcast.bypass"))
                         other.sendMessage(ChatColor.RED + "(Admin) " + ChatColor.RESET + p.getDisplayName() + ChatColor.RED + " bypassed a block owned by " + db.getOwner());
@@ -100,6 +102,7 @@ public class PlayerInteractListener implements Listener {
             return false;
 
         if(p.hasPermission("deadbolt.admin.snoop")) {
+            DeadboltReloaded.getInstance().getLogger().info(ChatColor.RED + "(Admin) " + ChatColor.RESET + p.getDisplayName() + ChatColor.RED + " opened a container owned by " + db.getOwner());
             for(Player other : Bukkit.getOnlinePlayers()) {
                 if(other.hasPermission("deadbolt.broadcast.snoop"))
                     other.sendMessage(ChatColor.RED + "(Admin) " + ChatColor.RESET + p.getDisplayName() + ChatColor.RED + " opened a container owned by " + db.getOwner());
