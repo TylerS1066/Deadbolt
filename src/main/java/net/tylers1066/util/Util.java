@@ -6,6 +6,7 @@ import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.Sign;
+import org.bukkit.block.data.BlockData;
 import org.bukkit.material.Attachable;
 import org.bukkit.material.Door;
 import org.bukkit.material.MaterialData;
@@ -29,26 +30,21 @@ public class Util {
 
 
     public static boolean isWallSign(@NotNull Material m) {
-        return m == Material.WALL_SIGN;
+        return m.name().contains("WALL_SIGN");
     }
 
 
     public static boolean isDoor(@NotNull Material m) {
-        switch(m) {
-            case DARK_OAK_DOOR:
-            case ACACIA_DOOR:
-            case BIRCH_DOOR:
-            case JUNGLE_DOOR:
-            case SPRUCE_DOOR:
-            case WOOD_DOOR:
-            case WOODEN_DOOR:
-                return true;
-            case IRON_DOOR:
-            case IRON_DOOR_BLOCK:
-                return Config.protectIronDoors;
-            default:
-                return false;
-        }
+        if(isTrapdoor(m))
+            return false;
+
+        if(!m.name().contains("DOOR"))
+            return false;
+
+        if(m.name().contains("IRON"))
+            return Config.protectIronDoors;
+
+        return true;
     }
 
     public static boolean isLowerDoor(@NotNull Block b) {
@@ -61,28 +57,17 @@ public class Util {
     }
 
     public static boolean isTrapdoor(@NotNull Material m) {
-        switch(m) {
-            case TRAP_DOOR:
-                return true;
-            case IRON_TRAPDOOR:
-                return Config.protectIronTrapdoors;
-            default:
-                return false;
-        }
+        if(!m.name().contains("TRAPDOOR") && !m.name().contains("TRAP_DOOR"))
+            return false;
+
+        if(m.name().contains("IRON"))
+            return Config.protectIronTrapdoors;
+
+        return true;
     }
 
     public static boolean isGate(@NotNull Material m) {
-        switch(m) {
-            case FENCE_GATE:
-            case BIRCH_FENCE_GATE:
-            case SPRUCE_FENCE_GATE:
-            case JUNGLE_FENCE_GATE:
-            case ACACIA_FENCE_GATE:
-            case DARK_OAK_FENCE_GATE:
-                return true;
-            default:
-                return false;
-        }
+        return m.name().contains("FENCE_GATE");
     }
 
 
@@ -90,6 +75,7 @@ public class Util {
         switch (m) {
             case CHEST:
             case TRAPPED_CHEST:
+            case BARREL:
                 return true;
             default:
                 return false;
@@ -97,13 +83,7 @@ public class Util {
     }
 
     public static boolean isFurnace(@NotNull Material m) {
-        switch(m) {
-            case FURNACE:
-            case BURNING_FURNACE:
-                return true;
-            default:
-                return false;
-        }
+        return m.name().contains("FURNACE") || m.name().contains("SMOKER");
     }
 
     public static boolean isDispenser(@NotNull Material m) {
@@ -116,9 +96,16 @@ public class Util {
 
     public static boolean isOtherContainer(@NotNull Material m) {
         switch(m) {
+            case CARTOGRAPHY_TABLE:
+            case SMITHING_TABLE:
+            case FLETCHING_TABLE:
+            case STONECUTTER:
+            case GRINDSTONE:
+            case LECTERN:
+            case LOOM:
             case BREWING_STAND:
             case CAULDRON:
-            case ENCHANTMENT_TABLE:
+            case ENCHANTING_TABLE:
             case BEACON:
             case ENDER_CHEST:
             case ANVIL:

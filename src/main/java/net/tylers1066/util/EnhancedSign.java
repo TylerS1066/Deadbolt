@@ -11,14 +11,7 @@ public class EnhancedSign extends EnhancedBlock {
     private final Sign sign;
 
     private static boolean isSign(@NotNull Material m) {
-        switch(m) {
-            case WALL_SIGN:
-            case SIGN:
-            case SIGN_POST:
-                return true;
-            default:
-                return false;
-        }
+        return m.name().contains("SIGN");
     }
 
     @Nullable
