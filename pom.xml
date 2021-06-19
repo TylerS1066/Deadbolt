@@ -6,7 +6,7 @@
 
     <groupId>net.tylers1066</groupId>
     <artifactId>Deadbolt-Reloaded</artifactId>
-    <version>1.a.0</version>
+    <version>1.a.1</version>
     <packaging>jar</packaging>
 
     <name>Deadbolt-Reloaded</name>
