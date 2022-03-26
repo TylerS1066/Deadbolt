@@ -10,12 +10,13 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.HashSet;
+import java.util.Set;
 
 public class DeadboltDetectionTask {
     private final Block root;
-    private final HashSet<Block> blocks = new HashSet<>();
-    private final HashSet<Block> supporting = new HashSet<>();
-    private final HashSet<Block> signs = new HashSet<>();
+    private final Set<Block> blocks = new HashSet<>();
+    private final Set<Block> supporting = new HashSet<>();
+    private final Set<Block> signs = new HashSet<>();
     private Material type;
 
     public DeadboltDetectionTask(Block root) {
@@ -27,11 +28,11 @@ public class DeadboltDetectionTask {
         return type;
     }
 
-    public HashSet<Block> getBlocks() {
+    public Set<Block> getBlocks() {
         return blocks;
     }
 
-    public HashSet<Block> getSigns() {
+    public Set<Block> getSigns() {
         return signs;
     }
 
@@ -164,11 +165,9 @@ public class DeadboltDetectionTask {
                     return;
                 }
 
-                if (type != this.type) {
-                    // Fix for chests being different types but still wanted to be merged
-                    if (!(Util.isChest(type) && Util.isChest(this.type)))
-                        return;
-                }
+                // Fix for chests being different types but still wanted to be merged
+                if (type != this.type && !(Util.isChest(type) && Util.isChest(this.type)))
+                    return;
 
                 blocks.add(block);
                 detectSupporting(block);
