@@ -16,11 +16,11 @@ public class EnhancedSign extends EnhancedBlock {
 
     @Nullable
     private static Sign blockToSign(@NotNull Block b) {
-        if(!isSign(b.getType()))
+        if (!isSign(b.getType()))
             return null;
 
         BlockState state = b.getState();
-        if(!(state instanceof Sign))
+        if (!(state instanceof Sign))
             return null;
 
         return (Sign) state;

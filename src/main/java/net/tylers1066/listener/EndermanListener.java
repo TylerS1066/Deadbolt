@@ -11,7 +11,7 @@ public class EndermanListener implements Listener {
     public void onEntityChangeBlock(EntityChangeBlockEvent e) {
         Block b = e.getBlock();
         Deadbolt db = new Deadbolt(b);
-        if(!db.isProtected())
+        if (!db.isProtected())
             return;
 
         e.setCancelled(true);

@@ -12,7 +12,7 @@ public class BlockBurnListener implements Listener {
         Block b = e.getBlock();
         Deadbolt db = new Deadbolt(b);
 
-        if(!db.isProtected())
+        if (!db.isProtected())
             return;
 
         e.setCancelled(true);

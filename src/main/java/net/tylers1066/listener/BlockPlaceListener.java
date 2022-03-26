@@ -17,7 +17,7 @@ public class BlockPlaceListener implements Listener {
         Player p = e.getPlayer();
 
         // Disallow placing signs on current deadbolt signs
-        if(Util.isWallSign(e.getBlockAgainst().getType())) {
+        if (Util.isWallSign(e.getBlockAgainst().getType())) {
             Sign sign = (new EnhancedSign(e.getBlockAgainst())).getSign();
             if(sign != null && Util.isValidHeader(sign)) {
                 e.setCancelled(true);
@@ -28,11 +28,11 @@ public class BlockPlaceListener implements Listener {
 
         Deadbolt db = new Deadbolt(b);
 
-        if(!db.isProtected() || db.isOwner(p) || p.hasPermission("deadbolt.admin.create"))
+        if (!db.isProtected() || db.isOwner(p) || p.hasPermission("deadbolt.admin.create"))
             return;
 
         // Allow placements of other types of blocks nearby
-        if(b.getType() != db.getType())
+        if (b.getType() != db.getType())
             return;
 
         p.sendMessage("You don't own the adjacent block(s)");

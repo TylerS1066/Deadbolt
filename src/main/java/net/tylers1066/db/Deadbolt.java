@@ -5,10 +5,9 @@ import net.tylers1066.util.EnhancedSign;
 import net.tylers1066.util.Util;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
-import org.bukkit.block.BlockState;
+import org.bukkit.block.data.BlockData;
+import org.bukkit.block.data.Openable;
 import org.bukkit.entity.Player;
-import org.bukkit.material.MaterialData;
-import org.bukkit.material.Openable;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.HashSet;
@@ -23,7 +22,7 @@ public class Deadbolt {
 
     private static HashSet<EnhancedBlock> convert(HashSet<Block> blocks) {
         HashSet<EnhancedBlock> eb = new HashSet<>();
-        for(Block b : blocks) {
+        for (Block b : blocks) {
             eb.add(new EnhancedBlock(b));
         }
         return eb;
@@ -62,15 +61,15 @@ public class Deadbolt {
     }
 
     public boolean isMember(Player p) {
-        if(isEveryone)
+        if (isEveryone)
             return true;
 
-        if(isOwner(p))
+        if (isOwner(p))
             return true;
 
         String name = Util.formatForSign(p.getName());
-        for(String s : members) {
-            if(s.equalsIgnoreCase(name))
+        for (String s : members) {
+            if (s.equalsIgnoreCase(name))
                 return true;
         }
         return false;
@@ -78,12 +77,12 @@ public class Deadbolt {
 
     public boolean verify() {
         // Verify blocks
-        for(EnhancedSign sign : signs) {
-            if(!Util.isWallSign(sign.getLocation().getBlock().getType()))
+        for (EnhancedSign sign : signs) {
+            if (!Util.isWallSign(sign.getLocation().getBlock().getType()))
                 return false;
         }
-        for(EnhancedBlock b : blocks) {
-            if(b.getLocation().getBlock().getType() != type)
+        for (EnhancedBlock b : blocks) {
+            if (b.getLocation().getBlock().getType() != type)
                 return false;
         }
         return true;
@@ -92,30 +91,29 @@ public class Deadbolt {
     public void toggleDoors() {
         boolean isOpen = false;
         boolean first = true;
-        if(!verify()) {
+        if (!verify())
             return;
-        }
 
-        for(EnhancedBlock b : blocks) {
-            Material type = b.getBlock().getType();
+        for (EnhancedBlock block : blocks) {
+            Material type = block.getBlock().getType();
             if(type != this.type)
                 continue;
 
-            if(Util.isTrapdoor(type) || Util.isGate(type) || (Util.isDoor(type) && Util.isLowerDoor(b.getBlock()))) {
-                BlockState s = b.getBlock().getState();
-                MaterialData data = s.getData();
-                if(!(data instanceof Openable))
-                    return;
+            if(!Util.isTrapdoor(type) && !Util.isGate(type)
+                    && !(Util.isDoor(type) && Util.isLowerDoor(block.getBlock())))
+                continue;
 
-                Openable o = (Openable) data;
-                if(first) {
-                    isOpen = !o.isOpen();
-                    first = false;
-                }
-                o.setOpen(isOpen);
-                s.setData(data);
-                s.update();
+            BlockData data = block.getBlock().getBlockData();
+            if(!(data instanceof Openable))
+                return;
+
+            Openable openable = (Openable) data;
+            if(first) {
+                isOpen = !openable.isOpen();
+                first = false;
             }
+            openable.setOpen(isOpen);
+            block.getBlock().setBlockData(openable);
         }
     }
 

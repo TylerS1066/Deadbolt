@@ -8,9 +8,10 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.HashSet;
+import java.util.Set;
 
 public class DeadboltParseTask {
-    private final HashSet<Block> signBlocks;
+    private final Set<Block> signBlocks;
 
     private String owner;
     private final HashSet<String> members = new HashSet<>();
@@ -19,7 +20,7 @@ public class DeadboltParseTask {
 
     private int timer = -1;
 
-    public DeadboltParseTask(HashSet<Block> signBlocks) {
+    public DeadboltParseTask(Set<Block> signBlocks) {
         this.signBlocks = signBlocks;
     }
 
@@ -27,7 +28,7 @@ public class DeadboltParseTask {
         parse();
     }
 
-    public HashSet<EnhancedSign> getSigns() {
+    public Set<EnhancedSign> getSigns() {
         return signs;
     }
 
@@ -37,12 +38,16 @@ public class DeadboltParseTask {
     }
 
     @NotNull
-    public HashSet<String> getMembers() {
+    public Set<String> getMembers() {
         return members;
     }
 
     public boolean isEveryone() {
         return isEveryone;
+    }
+
+    public int getTimer() {
+        return timer;
     }
 
     private void add(String member) {
@@ -71,36 +76,34 @@ public class DeadboltParseTask {
         try {
             timer = Integer.parseInt(time);
         }
-        catch (NumberFormatException ignored) {
-        }
+        catch (NumberFormatException ignored) { }
     }
 
     private void parse() {
-        for(Block b : signBlocks) {
-            EnhancedSign es = new EnhancedSign(b);
+        for (Block b : signBlocks) {
+            EnhancedSign sign = new EnhancedSign(b);
 
-            Sign s = es.getSign();
-            if(s == null)
+            Sign s = sign.getSign();
+            if (s == null)
                 continue;
 
-            if(Util.isValidPrivateSign(s)) {
-                if(owner == null) {
+            if (Util.isValidPrivateSign(s)) {
+                if (owner == null) {
                     owner = s.getLine(1);
                     add(s.getLine(2));
                     add(s.getLine(3));
-                    signs.add(es);
+                    signs.add(sign);
                 }
-                else if(!owner.equals(s.getLine(1))) {
+                else if (!owner.equals(s.getLine(1))) {
                     // Note: this *will* cause problems, but yo we just ignore them!
                     owner = "Double private sign!";
-                    //throw new RuntimeException("Double private sign!");
                 }
             }
-            else if(Util.isValidMoreUsersSign(s)) {
+            else if (Util.isValidMoreUsersSign(s)) {
                 add(s.getLine(1));
                 add(s.getLine(2));
                 add(s.getLine(3));
-                signs.add(es);
+                signs.add(sign);
             }
         }
     }

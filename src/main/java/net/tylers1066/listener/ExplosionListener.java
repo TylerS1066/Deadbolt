@@ -13,16 +13,15 @@ import java.util.Iterator;
 public class ExplosionListener implements Listener {
     @EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
     public void onEntityExplode(EntityExplodeEvent e) {
-        if(!Config.denyExplosions)
+        if (!Config.denyExplosions)
             return;
 
         Iterator<Block> iter = e.blockList().iterator();
-        while(iter.hasNext()) {
+        while (iter.hasNext()) {
             Block b = iter.next();
             Deadbolt db = new Deadbolt(b);
-            if(db.isProtected()) {
+            if (db.isProtected())
                 iter.remove();
-            }
         }
     }
 }

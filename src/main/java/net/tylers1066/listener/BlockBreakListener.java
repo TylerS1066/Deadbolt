@@ -17,12 +17,12 @@ public class BlockBreakListener implements Listener {
         Player p = e.getPlayer();
         Deadbolt db = new Deadbolt(b);
 
-        if(!db.isProtected() || db.isOwner(p))
+        if (!db.isProtected() || db.isOwner(p))
             return;
 
-        if(p.hasPermission("deadbolt.admin.break")) {
+        if (p.hasPermission("deadbolt.admin.break")) {
             DeadboltReloaded.getInstance().getLogger().info(ChatColor.RED + "(Admin) " + ChatColor.RESET + p.getDisplayName() + ChatColor.RED + " broke a block owned by " + db.getOwner());
-            for(Player other : Bukkit.getOnlinePlayers()) {
+            for (Player other : Bukkit.getOnlinePlayers()) {
                 if(other.hasPermission("deadbolt.broadcast.break"))
                     other.sendMessage(ChatColor.RED + "(Admin) " + ChatColor.RESET + p.getDisplayName() + ChatColor.RED + " broke a block owned by " + db.getOwner());
             }

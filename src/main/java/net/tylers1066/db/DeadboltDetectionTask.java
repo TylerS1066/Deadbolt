@@ -42,7 +42,7 @@ public class DeadboltDetectionTask {
 
     @Nullable
     private Block getDoorSupportingBlock(Block base) {
-        if(Util.isLowerDoor(base))
+        if (Util.isLowerDoor(base))
             return base.getRelative(BlockFace.DOWN);
         else
             return base.getRelative(BlockFace.UP);
@@ -51,12 +51,10 @@ public class DeadboltDetectionTask {
     @Nullable
     private Block getSupportingBlock(Block base) {
         Material type = base.getType();
-        if(Util.isTrapdoor(type)) {
+        if (Util.isTrapdoor(type))
             return Util.getAttached(base);
-        }
-        else if(Util.isDoor(type)) {
+        else if(Util.isDoor(type))
             return getDoorSupportingBlock(base);
-        }
         return null;
     }
 
@@ -70,7 +68,7 @@ public class DeadboltDetectionTask {
     }
 
     private void detectSurrounding(@NotNull Block block, @NotNull DetectionType dt) {
-        for(Block b : Util.getSurroundingBlocks(block)) {
+        for (Block b : Util.getSurroundingBlocks(block)) {
             detect(b, dt);
         }
     }
@@ -89,11 +87,11 @@ public class DeadboltDetectionTask {
      * @param dt Detection type to detect
      */
     private void detect(@NotNull Block block, DetectionType dt) {
-        if(blocks.contains(block) || signs.contains(block) || supporting.contains(block))
+        if (blocks.contains(block) || signs.contains(block) || supporting.contains(block))
             return;
 
         Material type = block.getType();
-        switch(dt) {
+        switch (dt) {
 
             case ROOT:
                 if(Util.isProtectableBlock(type)) {
@@ -120,7 +118,7 @@ public class DeadboltDetectionTask {
 
 
             case ROOT_ATTACHED:
-                if(Util.isProtectableBlock(type)) {
+                if (Util.isProtectableBlock(type)) {
                     // This is a valid block to protect, start search
                     this.type = type;
                     blocks.add(block);
@@ -141,14 +139,14 @@ public class DeadboltDetectionTask {
 
 
             case NEW_TYPE:
-                if(this.type != null) {
+                if (this.type != null) {
                     // New type already detected, try again as SAME_TYPE
                     detect(block, DetectionType.SAME_TYPE);
                     return;
                 }
 
                 // This is a new (possible) base block
-                if(!Util.isProtectableBlock(type))
+                if (!Util.isProtectableBlock(type))
                     return;
 
                 // This is a valid block to protect, start search
@@ -161,14 +159,14 @@ public class DeadboltDetectionTask {
 
 
             case SAME_TYPE:
-                if(Util.isWallSign(type)) {
+                if (Util.isWallSign(type)) {
                     signs.add(block);
                     return;
                 }
 
-                if(type != this.type) {
+                if (type != this.type) {
                     // Fix for chests being different types but still wanted to be merged
-                    if(!(Util.isChest(type) && Util.isChest(this.type)))
+                    if (!(Util.isChest(type) && Util.isChest(this.type)))
                         return;
                 }
 
@@ -185,7 +183,7 @@ public class DeadboltDetectionTask {
 
 
             case SIGN_ONLY:
-                if(!Util.isWallSign(type))
+                if (!Util.isWallSign(type))
                     return;
 
                 signs.add(block);
@@ -199,18 +197,18 @@ public class DeadboltDetectionTask {
 
     private void pruneSigns() {
         HashSet<Block> pruneSet = new HashSet<>();
-        for(Block sign : signs) {
+        for (Block sign : signs) {
             Sign s = (new EnhancedSign(sign)).getSign();
-            if(s == null || !Util.isValidHeader(s)) {
+            if (s == null || !Util.isValidHeader(s)) {
                 pruneSet.add(sign);
                 continue;
             }
 
             Block b = Util.getAttached(sign);
-            if(b == null || !(blocks.contains(b) || supporting.contains(b)))
+            if (b == null || !(blocks.contains(b) || supporting.contains(b)))
                 pruneSet.add(sign);
         }
-        for(Block b : pruneSet)
+        for (Block b : pruneSet)
             signs.remove(b);
     }
 }

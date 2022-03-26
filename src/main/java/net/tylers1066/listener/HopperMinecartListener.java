@@ -13,15 +13,15 @@ public class HopperMinecartListener implements Listener {
     public void onInventoryMoveItemEvent(InventoryMoveItemEvent e) {
         Inventory initiator = e.getInitiator();
 
-        if(!(initiator.getHolder() instanceof HopperMinecart))
+        if (!(initiator.getHolder() instanceof HopperMinecart))
             return;
 
         Inventory other = e.getSource();
-        if(other == initiator)
+        if (other == initiator)
             other = e.getDestination();
 
         Deadbolt db = new Deadbolt(other.getLocation().getBlock());
-        if(db.isProtected())
+        if (db.isProtected())
             e.setCancelled(true);
     }
 }

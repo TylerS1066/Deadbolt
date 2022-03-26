@@ -11,12 +11,12 @@ import org.bukkit.event.block.BlockPistonRetractEvent;
 public class PistonListener implements Listener {
     @EventHandler(ignoreCancelled = true)
     public void onBlockPistonExtendEvent(BlockPistonExtendEvent e) {
-        if(!Config.denyPistons)
+        if (!Config.denyPistons)
             return;
 
-        for(Block b : e.getBlocks()) {
+        for (Block b : e.getBlocks()) {
             Deadbolt db = new Deadbolt(b);
-            if(db.isProtected()) {
+            if (db.isProtected()) {
                 e.setCancelled(true);
                 return;
             }
@@ -25,12 +25,12 @@ public class PistonListener implements Listener {
 
     @EventHandler(ignoreCancelled = true)
     public void onBlockPistonRetract(BlockPistonRetractEvent e) {
-        if(!Config.denyPistons)
+        if (!Config.denyPistons)
             return;
 
         Block block = e.getBlock().getRelative(e.getDirection()).getRelative(e.getDirection());
         Deadbolt db = new Deadbolt(block);
-        if(db.isProtected()) {
+        if (db.isProtected()) {
             // TODO: this probably will break AP's abusive breaking system, OH WELL
             e.setCancelled(true);
         }

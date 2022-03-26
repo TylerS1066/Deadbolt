@@ -14,10 +14,10 @@ import org.bukkit.entity.Player;
 public class DeadboltCommand implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-        if(!(sender instanceof Player))
+        if (!(sender instanceof Player))
             return false;
 
-        if(args.length < 1) {
+        if (args.length < 1) {
             sender.sendMessage(ChatColor.GOLD + "Deadbolt-Reloaded" + ChatColor.WHITE + " v" + DeadboltReloaded.getInstance().getDescription().getVersion());
             return true;
         }
@@ -38,35 +38,35 @@ public class DeadboltCommand implements CommandExecutor {
 
         Player p = (Player) sender;
         Selection sel = SelectionManager.get(p);
-        if(sel == null) {
+        if (sel == null) {
             sender.sendMessage("Nothing selected, right click a valid sign first");
             // No selection
             return false;
         }
-        if(!sel.getDeadbolt().verify()) {
+        if (!sel.getDeadbolt().verify()) {
             sender.sendMessage("Selected sign has an error. Right click it again");
             // Failed verification
             return false;
         }
-        if(!sel.getDeadbolt().isOwner(p) && !p.hasPermission("deadbolt.admin.commands")) {
+        if (!sel.getDeadbolt().isOwner(p) && !p.hasPermission("deadbolt.admin.commands")) {
             // Not owner and not admin
             return false;
         }
 
         Sign s = sel.getSign().getSign();
-        if(s == null || !Util.isValidHeader(s)) {
+        if (s == null || !Util.isValidHeader(s)) {
             sender.sendMessage("Selected sign has an error. Right click it again");
             // Invalid sign?
             return false;
         }
 
-        if(lineNum == 0) {
+        if (lineNum == 0) {
             sender.sendMessage("The identifier on line 1 is not changeable");
             // Can't edit first line
             return false;
         }
 
-        if(lineNum == 1 && Util.isValidPrivateSign(s)) {
+        if (lineNum == 1 && Util.isValidPrivateSign(s)) {
             sender.sendMessage("The owner on line 2 is not changeable");
             // Can't edit owner
             return false;
@@ -74,13 +74,13 @@ public class DeadboltCommand implements CommandExecutor {
 
 
         StringBuilder text = new StringBuilder();
-        for(int i = 1; i < args.length; i++) {
+        for (int i = 1; i < args.length; i++) {
             text.append(args[i]).append(i + 1 < args.length ? " " : "");
         }
 
         // Format for sign
         String line = text.toString();
-        if(!p.hasPermission("deadbolt.user.color"))
+        if (!p.hasPermission("deadbolt.user.color"))
             line = ChatColor.stripColor(line);
         line = Util.formatForSign(line);
 

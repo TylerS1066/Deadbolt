@@ -1,19 +1,19 @@
 package net.tylers1066.util;
 
 import net.tylers1066.config.Config;
-import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.Sign;
 import org.bukkit.block.data.BlockData;
+import org.bukkit.block.data.Bisected.Half;
+import org.bukkit.block.data.type.Door;
 import org.bukkit.material.Attachable;
-import org.bukkit.material.Door;
-import org.bukkit.material.MaterialData;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.HashSet;
+import java.util.Set;
 
 public class Util {
     private static final HashSet<BlockFace> CARDINAL_FACES = new HashSet<>();
@@ -48,12 +48,12 @@ public class Util {
     }
 
     public static boolean isLowerDoor(@NotNull Block b) {
-        MaterialData data = b.getState().getData();
+        BlockData data = b.getBlockData();
         if(!(data instanceof Door))
             return false;
 
         Door d = (Door) data;
-        return !d.isTopHalf();
+        return d.getHalf() == Half.BOTTOM;
     }
 
     public static boolean isTrapdoor(@NotNull Material m) {
@@ -152,7 +152,7 @@ public class Util {
 
     @Nullable
     public static Block getAttached(@NotNull Block b) {
-        MaterialData data = b.getState().getData();
+        BlockData data = b.getBlockData();
         if(!(data instanceof Attachable))
             return null;
 
@@ -162,7 +162,7 @@ public class Util {
 
 
     @NotNull
-    public static HashSet<Block> getCardinalBlocks(Block base) {
+    public static Set<Block> getCardinalBlocks(Block base) {
         HashSet<Block> blocks = new HashSet<>();
         for(BlockFace bf : CARDINAL_FACES) {
             blocks.add(base.getRelative(bf));
@@ -171,7 +171,7 @@ public class Util {
     }
 
     @NotNull
-    public static HashSet<Block> getSurroundingBlocks(Block base) {
+    public static Set<Block> getSurroundingBlocks(Block base) {
         HashSet<Block> blocks = new HashSet<>();
         for(BlockFace bf : CARDINAL_FACES) {
             blocks.add(base.getRelative(bf));

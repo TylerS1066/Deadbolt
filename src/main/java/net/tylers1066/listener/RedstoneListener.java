@@ -12,7 +12,7 @@ import org.bukkit.event.block.BlockRedstoneEvent;
 public class RedstoneListener implements Listener {
     @EventHandler
     public void onBlockRedstone(BlockRedstoneEvent e) {
-        if(!Config.denyRedstone)
+        if (!Config.denyRedstone)
             return;
 
         Block b = e.getBlock();
@@ -20,10 +20,10 @@ public class RedstoneListener implements Listener {
         Deadbolt db = new Deadbolt(b);
 
         Material type = db.getType();
-        if(type == null || !Util.isDoor(type) && !Util.isTrapdoor(type) || !Util.isGate(type))
+        if (type == null || !Util.isDoor(type) && !Util.isTrapdoor(type) || !Util.isGate(type))
             return;
 
-        if(!db.isProtected() || db.isEveryone())
+        if (!db.isProtected() || db.isEveryone())
             return;
 
         e.setNewCurrent(e.getOldCurrent());
