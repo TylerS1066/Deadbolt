@@ -11,16 +11,17 @@ import org.bukkit.entity.Player;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.HashSet;
+import java.util.Set;
 
 public class Deadbolt {
     private final Material type;
-    private final HashSet<EnhancedBlock> blocks;
-    private final HashSet<EnhancedSign> signs;
+    private final Set<EnhancedBlock> blocks;
+    private final Set<EnhancedSign> signs;
     private final String owner;
-    private final HashSet<String> members;
+    private final Set<String> members;
     private final boolean isEveryone;
 
-    private static HashSet<EnhancedBlock> convert(HashSet<Block> blocks) {
+    private static Set<EnhancedBlock> convert(Set<Block> blocks) {
         HashSet<EnhancedBlock> eb = new HashSet<>();
         for (Block b : blocks) {
             eb.add(new EnhancedBlock(b));
