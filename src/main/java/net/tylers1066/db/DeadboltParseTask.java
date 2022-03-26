@@ -14,8 +14,8 @@ public class DeadboltParseTask {
     private final Set<Block> signBlocks;
 
     private String owner;
-    private final HashSet<String> members = new HashSet<>();
-    private final HashSet<EnhancedSign> signs = new HashSet<>();
+    private final Set<String> members = new HashSet<>();
+    private final Set<EnhancedSign> signs = new HashSet<>();
     private boolean isEveryone = false;
 
     private int timer = -1;
