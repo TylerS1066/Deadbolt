@@ -128,7 +128,6 @@ public class Util {
 
 
     public static boolean isValidHeader(@NotNull String line0) {
-        Bukkit.getLogger().info("Checking line 0: '" + line0 + "'");
         return isValidPrivateSign(line0) || isValidMoreUsersSign(line0);
     }
 
