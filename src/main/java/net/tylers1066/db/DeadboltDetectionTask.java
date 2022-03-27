@@ -199,7 +199,8 @@ public class DeadboltDetectionTask {
         for (Block sign : signs) {
             Sign s = (new EnhancedSign(sign)).getSign();
             if (s == null || !Util.isValidHeader(s)) {
-                pruneSet.add(sign);
+                if (sign != root)
+                    pruneSet.add(sign); // Prune all signs except the root
                 continue;
             }
 
