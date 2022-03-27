@@ -8,6 +8,7 @@ import org.bukkit.block.Block;
 import org.bukkit.block.data.BlockData;
 import org.bukkit.block.data.Openable;
 import org.bukkit.entity.Player;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.HashSet;
@@ -22,14 +23,14 @@ public class Deadbolt {
     private final boolean isEveryone;
 
     private static Set<EnhancedBlock> convert(Set<Block> blocks) {
-        HashSet<EnhancedBlock> eb = new HashSet<>();
+        Set<EnhancedBlock> eb = new HashSet<>();
         for (Block b : blocks) {
             eb.add(new EnhancedBlock(b));
         }
         return eb;
     }
 
-    public Deadbolt(Block base) {
+    public Deadbolt(@NotNull Block base) {
         DeadboltDetectionTask detection = new DeadboltDetectionTask(base);
         detection.run();
 
