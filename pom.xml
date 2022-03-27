@@ -6,17 +6,15 @@
 
     <groupId>net.tylers1066</groupId>
     <artifactId>Deadbolt-Reloaded</artifactId>
-    <version>1.a.1</version>
-    <packaging>jar</packaging>
-
     <name>Deadbolt-Reloaded</name>
-
     <description>Deadbolt, Reloaded</description>
+    <url>https://github.com/TylerS1066/Deadbolt-Reloaded</url>
+    <version>1.0.0-alpha.2-g</version>
+    <packaging>jar</packaging>
     <properties>
-        <java.version>1.8</java.version>
+        <java.version>13</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
-    <url>https://github.com/TylerS1066/</url>
 
     <repositories>
         <repository>
