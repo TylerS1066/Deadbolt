@@ -4,7 +4,6 @@ import net.tylers1066.DeadboltReloaded;
 import net.tylers1066.util.EnhancedBlock;
 import net.tylers1066.util.EnhancedSign;
 import net.tylers1066.util.Util;
-
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -101,13 +100,11 @@ public class Deadbolt {
 
         toggleAll();
         if (timer != -1) {
-            DeadboltReloaded.getInstance().getLogger().info("Scheduling task for " + timer + " seconds.");
             Bukkit.getScheduler().runTaskLater(DeadboltReloaded.getInstance(), this::toggleAll, timer * 20L);
         }
     }
 
     private void toggleAll() {
-        DeadboltReloaded.getInstance().getLogger().info("Toggling " + this);
         boolean isOpen = false;
         boolean first = true;
 
