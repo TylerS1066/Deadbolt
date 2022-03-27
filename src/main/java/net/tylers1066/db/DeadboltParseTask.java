@@ -61,22 +61,24 @@ public class DeadboltParseTask {
             return;
         }
 
-        String time;
+        String temp;
         try {
-            time = member.substring(1, 6);
+            temp = member.substring(1, 6);
         }
         catch (IndexOutOfBoundsException ignored) {
             return;
         }
 
-        if (!time.equalsIgnoreCase("Timer"))
+        if (!temp.equalsIgnoreCase("Timer"))
             return;
 
-        time = member.substring(7, member.length() - 1);
+        temp = member.substring(7, member.length() - 1);
         try {
-            timer = Integer.parseInt(time);
+            timer = Integer.parseInt(temp);
         }
-        catch (NumberFormatException ignored) { }
+        catch (NumberFormatException ignored) {
+            // Do nothing
+        }
     }
 
     private void parse() {

@@ -101,11 +101,13 @@ public class Deadbolt {
 
         toggleAll();
         if (timer != -1) {
+            DeadboltReloaded.getInstance().getLogger().info("Scheduling task for " + timer + " seconds.");
             Bukkit.getScheduler().runTaskLater(DeadboltReloaded.getInstance(), this::toggleAll, timer * 20L);
         }
     }
 
     private void toggleAll() {
+        DeadboltReloaded.getInstance().getLogger().info("Toggling " + this);
         boolean isOpen = false;
         boolean first = true;
 
@@ -143,6 +145,6 @@ public class Deadbolt {
 
     public String toString() {
         return "Deadbolt of type " + (type == null ? "null" : type) + " with " + blocks.size() + " blocks and "
-                + signs.size() + " signs with owner " + (owner == null ? "null" : owner);
+                + signs.size() + " signs with owner " + (owner == null ? "null" : owner) + " and timer " + timer;
     }
 }
