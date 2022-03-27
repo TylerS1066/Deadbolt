@@ -1,8 +1,11 @@
 package net.tylers1066.db;
 
+import net.tylers1066.DeadboltReloaded;
 import net.tylers1066.util.EnhancedBlock;
 import net.tylers1066.util.EnhancedSign;
 import net.tylers1066.util.Util;
+
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.data.BlockData;
@@ -21,6 +24,7 @@ public class Deadbolt {
     private final String owner;
     private final Set<String> members;
     private final boolean isEveryone;
+    private final int timer;
 
     private static Set<EnhancedBlock> convert(Set<Block> blocks) {
         Set<EnhancedBlock> eb = new HashSet<>();
@@ -44,6 +48,7 @@ public class Deadbolt {
         owner = parse.getOwner();
         members = parse.getMembers();
         isEveryone = parse.isEveryone();
+        timer = parse.getTimer();
     }
 
     public boolean isProtected() {
@@ -90,27 +95,35 @@ public class Deadbolt {
         return true;
     }
 
-    public void toggleDoors() {
-        boolean isOpen = false;
-        boolean first = true;
+    public void toggle() {
         if (!verify())
             return;
 
+        toggleAll();
+        if (timer != -1) {
+            Bukkit.getScheduler().runTaskLater(DeadboltReloaded.getInstance(), this::toggleAll, timer * 20L);
+        }
+    }
+
+    private void toggleAll() {
+        boolean isOpen = false;
+        boolean first = true;
+
         for (EnhancedBlock block : blocks) {
             Material type = block.getBlock().getType();
-            if(type != this.type)
+            if (type != this.type)
                 continue;
 
-            if(!Util.isTrapdoor(type) && !Util.isGate(type)
+            if (!Util.isTrapdoor(type) && !Util.isGate(type)
                     && !(Util.isDoor(type) && Util.isLowerDoor(block.getBlock())))
                 continue;
 
             BlockData data = block.getBlock().getBlockData();
-            if(!(data instanceof Openable))
+            if (!(data instanceof Openable))
                 return;
 
             Openable openable = (Openable) data;
-            if(first) {
+            if (first) {
                 isOpen = !openable.isOpen();
                 first = false;
             }

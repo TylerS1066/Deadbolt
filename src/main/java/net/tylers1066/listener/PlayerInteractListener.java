@@ -71,11 +71,11 @@ public class PlayerInteractListener implements Listener {
             return false;
 
         if (db.isMember(p)) {
-            db.toggleDoors();
+            db.toggle();
             return true;
         }
         if (p.hasPermission("deadbolt.admin.bypass")) {
-            db.toggleDoors();
+            db.toggle();
             DeadboltReloaded.getInstance().getLogger().info(ChatColor.RED + "(Admin) " + ChatColor.RESET + p.getDisplayName() + ChatColor.RED + " bypassed a block owned by " + db.getOwner());
             for (Player other : Bukkit.getOnlinePlayers()) {
                 if (other.hasPermission("deadbolt.broadcast.bypass"))
