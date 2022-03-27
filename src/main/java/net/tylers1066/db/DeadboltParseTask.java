@@ -20,7 +20,7 @@ public class DeadboltParseTask {
 
     private int timer = -1;
 
-    public DeadboltParseTask(Set<Block> signBlocks) {
+    public DeadboltParseTask(@NotNull Set<Block> signBlocks) {
         this.signBlocks = signBlocks;
     }
 
