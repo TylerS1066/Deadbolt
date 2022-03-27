@@ -9,7 +9,7 @@
     <name>Deadbolt-Reloaded</name>
     <description>Deadbolt, Reloaded</description>
     <url>https://github.com/TylerS1066/Deadbolt-Reloaded</url>
-    <version>1.0.0-alpha.2-k</version>
+    <version>1.0.0-alpha.2-l</version>
     <packaging>jar</packaging>
     <properties>
         <java.version>13</java.version>
