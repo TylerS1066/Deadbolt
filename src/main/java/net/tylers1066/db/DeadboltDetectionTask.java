@@ -2,8 +2,6 @@ package net.tylers1066.db;
 
 import net.tylers1066.util.EnhancedSign;
 import net.tylers1066.util.Util;
-
-import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
@@ -97,22 +95,20 @@ public class DeadboltDetectionTask {
         switch (dt) {
 
             case ROOT:
-                if(Util.isProtectableBlock(type)) {
+                if (Util.isProtectableBlock(type)) {
                     // This is a valid block to protect, start search
                     this.type = type;
                     blocks.add(block);
-                    Bukkit.getLogger().info("Root Block:" + block);
                     detectSupporting(block);
                     detectSurrounding(block, DetectionType.SAME_TYPE);
                 }
-                else if(Util.isWallSign(type)) {
+                else if (Util.isWallSign(type)) {
                     // This is a sign, start searching from the attached block
                     Block other = Util.getAttached(block);
                     if(other == null)
                         return;
 
                     signs.add(block);
-                    Bukkit.getLogger().info("Root Sign:" + block);
                     detect(other, DetectionType.ROOT_ATTACHED);
                 }
                 else {
@@ -126,7 +122,6 @@ public class DeadboltDetectionTask {
                 if (Util.isProtectableBlock(type)) {
                     // This is a valid block to protect, start search
                     this.type = type;
-                    Bukkit.getLogger().info("Root attached:" + block);
                     blocks.add(block);
                     detectSupporting(block);
                     detectSurrounding(block, DetectionType.SAME_TYPE);
@@ -159,7 +154,6 @@ public class DeadboltDetectionTask {
                 this.type = type;
 
                 blocks.add(block);
-                Bukkit.getLogger().info("New type:" + block);
                 detectSupporting(block);
                 detectSurrounding(block, DetectionType.SAME_TYPE);
                 break;
@@ -175,7 +169,6 @@ public class DeadboltDetectionTask {
                 if (type != this.type && !(Util.isChest(type) && Util.isChest(this.type)))
                     return;
 
-                Bukkit.getLogger().info("Same type:" + block);
                 blocks.add(block);
                 detectSupporting(block);
                 detectSurrounding(block, DetectionType.SAME_TYPE);
@@ -184,7 +177,6 @@ public class DeadboltDetectionTask {
 
             case SUPPORTING_BLOCK:
                 supporting.add(block);
-                Bukkit.getLogger().info("Supporting:" + block);
                 detectSurrounding(block, DetectionType.SIGN_ONLY);
                 break;
 
@@ -193,7 +185,6 @@ public class DeadboltDetectionTask {
                 if (!Util.isWallSign(type))
                     return;
 
-                Bukkit.getLogger().info("Sign:" + block);
                 signs.add(block);
                 break;
 
@@ -204,7 +195,7 @@ public class DeadboltDetectionTask {
     }
 
     private void pruneSigns() {
-        HashSet<Block> pruneSet = new HashSet<>();
+        Set<Block> pruneSet = new HashSet<>();
         for (Block sign : signs) {
             Sign s = (new EnhancedSign(sign)).getSign();
             if (s == null || !Util.isValidHeader(s)) {
@@ -216,7 +207,8 @@ public class DeadboltDetectionTask {
             if (b == null || !(blocks.contains(b) || supporting.contains(b)))
                 pruneSet.add(sign);
         }
-        for (Block b : pruneSet)
+        for (Block b : pruneSet) {
             signs.remove(b);
+        }
     }
 }
