@@ -3,6 +3,8 @@ package net.tylers1066.listener;
 import net.tylers1066.db.Deadbolt;
 import net.tylers1066.util.EnhancedSign;
 import net.tylers1066.util.Util;
+
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.block.Sign;
@@ -33,20 +35,24 @@ public class SignChangeListener implements Listener {
             return;
 
         Deadbolt db = new Deadbolt(e.getBlock());
+        Bukkit.getLogger().info("" + db);
 
         if (!validatePlacement(db, e.getPlayer(), line0) || !validatePermissions(db.getType(), e.getPlayer())) {
             // Not valid change, either not allowed or something
             e.setCancelled(true);
         }
         else {
-            if (!Util.isValidPrivateSign(line0))
+            Bukkit.getLogger().info("\t- Not cancelled");
+            if (!Util.isValidPrivateSign(line0)) {
+                Bukkit.getLogger().info("\t- Not valid private sign");
                 return;
+            }
 
             // New private sign
             e.getLines()[0] = ChatColor.stripColor(e.getLine(0));
 
-            if (!e.getPlayer().hasPermission("deadbolt.admin.create"))
-                e.getLines()[1] = Util.formatForSign(e.getPlayer().getName()); // Not admin, fill out with owner's name
+            if (!e.getPlayer().hasPermission("deadbolt.admin.create") || e.getLine(1).isEmpty())
+                e.getLines()[1] = Util.formatForSign(e.getPlayer().getName()); // Not admin or empty, fill out with owner's name
             else
                 e.getLines()[1] = ChatColor.stripColor(e.getLine(1));
 
@@ -54,6 +60,7 @@ public class SignChangeListener implements Listener {
                 e.getLines()[2] = ChatColor.stripColor(e.getLine(2));
                 e.getLines()[3] = ChatColor.stripColor(e.getLine(3));
             }
+            Bukkit.getLogger().info("\t- Done: '" + e.getLines()[0] + "' '" + e.getLines()[1] + "' '" + e.getLines()[2] + "' '" + e.getLines()[3] + "'");
         }
     }
 
