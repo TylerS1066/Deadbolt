@@ -79,12 +79,12 @@ public class DeadboltParseTask {
             return;
         }
 
-        temp = member.substring(7, member.length() - 1);
+        temp = member.substring(7, member.length() - 1).trim();
         try {
             timer = Integer.parseInt(temp);
         }
         catch (NumberFormatException ignored) {
-            Bukkit.getLogger().info("\t- Format exception: " + temp);
+            Bukkit.getLogger().info("\t- Format exception: '" + temp + "'");
             // Do nothing
         }
     }
