@@ -1,6 +1,7 @@
 package net.tylers1066.util;
 
 import org.bukkit.Material;
+import org.bukkit.Tag;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockState;
 import org.bukkit.block.Sign;
@@ -11,7 +12,7 @@ public class EnhancedSign extends EnhancedBlock {
     private final Sign sign;
 
     private static boolean isSign(@NotNull Material m) {
-        return m.name().contains("SIGN");
+        return Tag.SIGNS.getValues().contains(m);
     }
 
     @Nullable
