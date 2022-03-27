@@ -2,6 +2,8 @@ package net.tylers1066.db;
 
 import net.tylers1066.util.EnhancedSign;
 import net.tylers1066.util.Util;
+
+import org.bukkit.Bukkit;
 import org.bukkit.block.Block;
 import org.bukkit.block.Sign;
 import org.jetbrains.annotations.NotNull;
@@ -51,12 +53,15 @@ public class DeadboltParseTask {
     }
 
     private void add(String member) {
-        if(!member.startsWith("[") || !member.endsWith("]")) {
+        Bukkit.getLogger().info("Parsing: " + member);
+        if (!member.startsWith("[") || !member.endsWith("]")) {
+            Bukkit.getLogger().info("\t- Not a control header, adding to members");
             members.add(member);
             return;
         }
 
-        if(member.equalsIgnoreCase("[Everyone]")) {
+        if (member.equalsIgnoreCase("[Everyone]")) {
+            Bukkit.getLogger().info("\t- Everyone");
             isEveryone = true;
             return;
         }
@@ -69,14 +74,17 @@ public class DeadboltParseTask {
             return;
         }
 
-        if (!temp.equalsIgnoreCase("Timer"))
+        if (!temp.equalsIgnoreCase("Timer")) {
+            Bukkit.getLogger().info("\t- Not a timer: " + temp);
             return;
+        }
 
         temp = member.substring(7, member.length() - 1);
         try {
             timer = Integer.parseInt(temp);
         }
         catch (NumberFormatException ignored) {
+            Bukkit.getLogger().info("\t- Format exception: " + temp);
             // Do nothing
         }
     }
