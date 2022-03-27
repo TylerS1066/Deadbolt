@@ -1,14 +1,17 @@
 package net.tylers1066.util;
 
 import net.tylers1066.config.Config;
+
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
+import org.bukkit.Tag;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.Sign;
 import org.bukkit.block.data.BlockData;
+import org.bukkit.block.data.Directional;
 import org.bukkit.block.data.Bisected.Half;
 import org.bukkit.block.data.type.Door;
-import org.bukkit.material.Attachable;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -30,7 +33,7 @@ public class Util {
 
 
     public static boolean isWallSign(@NotNull Material m) {
-        return m.name().contains("WALL_SIGN");
+        return Tag.WALL_SIGNS.getValues().contains(m);
     }
 
 
@@ -57,13 +60,7 @@ public class Util {
     }
 
     public static boolean isTrapdoor(@NotNull Material m) {
-        if(!m.name().contains("TRAPDOOR") && !m.name().contains("TRAP_DOOR"))
-            return false;
-
-        if(m.name().contains("IRON"))
-            return Config.protectIronTrapdoors;
-
-        return true;
+        return Tag.TRAPDOORS.getValues().contains(m);
     }
 
     public static boolean isGate(@NotNull Material m) {
@@ -83,7 +80,14 @@ public class Util {
     }
 
     public static boolean isFurnace(@NotNull Material m) {
-        return m.name().contains("FURNACE") || m.name().contains("SMOKER");
+        switch (m) {
+            case FURNACE:
+            case SMOKER:
+            case BLAST_FURNACE:
+                return true;
+            default:
+                return false;
+        }
     }
 
     public static boolean isDispenser(@NotNull Material m) {
@@ -117,11 +121,14 @@ public class Util {
 
 
     public static boolean isProtectableBlock(@NotNull Material m) {
-        return isDoor(m) || isTrapdoor(m) || isChest(m) || isFurnace(m) || isDispenser(m) || isDropper(m) || isGate(m) || isOtherContainer(m);
+        return isDoor(m) || isTrapdoor(m)
+                || isChest(m) || isFurnace(m) || isDispenser(m) || isDropper(m)
+                || isGate(m) || isOtherContainer(m);
     }
 
 
     public static boolean isValidHeader(@NotNull String line0) {
+        Bukkit.getLogger().info("Checking line 0: '" + line0 + "'");
         return isValidPrivateSign(line0) || isValidMoreUsersSign(line0);
     }
 
@@ -153,18 +160,18 @@ public class Util {
     @Nullable
     public static Block getAttached(@NotNull Block b) {
         BlockData data = b.getBlockData();
-        if(!(data instanceof Attachable))
+        if (!(data instanceof Directional))
             return null;
 
-        Attachable a = (Attachable) data;
-        return b.getRelative(a.getAttachedFace());
+        Directional directional = (Directional) data;
+        return b.getRelative(directional.getFacing().getOppositeFace());
     }
 
 
     @NotNull
     public static Set<Block> getCardinalBlocks(Block base) {
         HashSet<Block> blocks = new HashSet<>();
-        for(BlockFace bf : CARDINAL_FACES) {
+        for (BlockFace bf : CARDINAL_FACES) {
             blocks.add(base.getRelative(bf));
         }
         return blocks;
@@ -173,10 +180,10 @@ public class Util {
     @NotNull
     public static Set<Block> getSurroundingBlocks(Block base) {
         HashSet<Block> blocks = new HashSet<>();
-        for(BlockFace bf : CARDINAL_FACES) {
+        for (BlockFace bf : CARDINAL_FACES) {
             blocks.add(base.getRelative(bf));
         }
-        for(BlockFace bf : VERTICAL_FACES) {
+        for (BlockFace bf : VERTICAL_FACES) {
             blocks.add(base.getRelative(bf));
         }
         return blocks;
