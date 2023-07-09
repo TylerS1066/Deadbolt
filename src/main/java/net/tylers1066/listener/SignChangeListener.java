@@ -1,5 +1,6 @@
 package net.tylers1066.listener;
 
+import net.tylers1066.DeadboltReloaded;
 import net.tylers1066.db.Deadbolt;
 import net.tylers1066.util.EnhancedSign;
 import net.tylers1066.util.Util;
@@ -29,7 +30,7 @@ public class SignChangeListener implements Listener {
         }
 
         String line0 = e.getLine(0);
-        if(!Util.isValidHeader(line0))
+        if (!Util.isValidHeader(line0))
             return;
 
         Deadbolt db = new Deadbolt(e.getBlock());
@@ -37,23 +38,24 @@ public class SignChangeListener implements Listener {
         if (!validatePlacement(db, e.getPlayer(), line0) || !validatePermissions(db.getType(), e.getPlayer())) {
             // Not valid change, either not allowed or something
             e.setCancelled(true);
+            return;
         }
-        else {
-            if (!Util.isValidPrivateSign(line0))
-                return;
 
-            // New private sign
-            e.getLines()[0] = ChatColor.stripColor(e.getLine(0));
+        if (!Util.isValidPrivateSign(line0))
+            return;
 
-            if (!e.getPlayer().hasPermission("deadbolt.admin.create") || e.getLine(1).isEmpty())
-                e.getLines()[1] = Util.formatForSign(e.getPlayer().getName()); // Not admin or empty, fill out with owner's name
-            else
-                e.getLines()[1] = ChatColor.stripColor(e.getLine(1));
+        // New private sign
+        e.setLine(0, ChatColor.stripColor(line0));
 
-            if (!e.getPlayer().hasPermission("deadbolt.user.color")) {
-                e.getLines()[2] = ChatColor.stripColor(e.getLine(2));
-                e.getLines()[3] = ChatColor.stripColor(e.getLine(3));
-            }
+        if (!e.getPlayer().hasPermission("deadbolt.admin.create") || e.getLine(1).isEmpty()) {
+            e.setLine(1, Util.formatForSign(e.getPlayer().getName())); // Not admin or empty, fill out with owner's name
+        } else {
+            e.setLine(1, ChatColor.stripColor(e.getLine(1)));
+        }
+
+        if (!e.getPlayer().hasPermission("deadbolt.user.color")) {
+            e.setLine(2, ChatColor.stripColor(e.getLine(2)));
+            e.setLine(3, ChatColor.stripColor(e.getLine(3)));
         }
     }
 
@@ -66,7 +68,7 @@ public class SignChangeListener implements Listener {
             }
 
             if (!db.isOwner(p)) {
-                if(p.hasPermission("deadbolt.admin.create"))
+                if (p.hasPermission("deadbolt.admin.create"))
                     return true;
 
                 p.sendMessage("You don't own the adjacent block(s)");

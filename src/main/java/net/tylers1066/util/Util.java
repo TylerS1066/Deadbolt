@@ -2,7 +2,6 @@ package net.tylers1066.util;
 
 import net.tylers1066.config.Config;
 
-import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.Tag;
 import org.bukkit.block.Block;
@@ -19,8 +18,8 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class Util {
-    private static final HashSet<BlockFace> CARDINAL_FACES = new HashSet<>();
-    private static final HashSet<BlockFace> VERTICAL_FACES = new HashSet<>();
+    private static final Set<BlockFace> CARDINAL_FACES = new HashSet<>();
+    private static final Set<BlockFace> VERTICAL_FACES = new HashSet<>();
 
     public static void init() {
         CARDINAL_FACES.add(BlockFace.NORTH);
