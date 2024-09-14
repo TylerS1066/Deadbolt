@@ -1,7 +1,7 @@
-package net.tylers1066.listener;
+package net.tylers1066.deadbolt.listener;
 
-import net.tylers1066.DeadboltReloaded;
-import net.tylers1066.db.Deadbolt;
+import net.tylers1066.deadbolt.DeadboltReloaded;
+import net.tylers1066.deadbolt.db.Deadbolt;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.block.Block;

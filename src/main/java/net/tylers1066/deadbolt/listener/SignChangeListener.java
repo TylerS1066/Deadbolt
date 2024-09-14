@@ -1,9 +1,8 @@
-package net.tylers1066.listener;
+package net.tylers1066.deadbolt.listener;
 
-import net.tylers1066.DeadboltReloaded;
-import net.tylers1066.db.Deadbolt;
-import net.tylers1066.util.EnhancedSign;
-import net.tylers1066.util.Util;
+import net.tylers1066.deadbolt.db.Deadbolt;
+import net.tylers1066.deadbolt.util.EnhancedSign;
+import net.tylers1066.deadbolt.util.Util;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.block.Sign;

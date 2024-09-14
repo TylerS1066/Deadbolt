@@ -1,11 +1,11 @@
-package net.tylers1066.listener;
+package net.tylers1066.deadbolt.listener;
 
-import net.tylers1066.DeadboltReloaded;
-import net.tylers1066.db.Deadbolt;
-import net.tylers1066.selection.Selection;
-import net.tylers1066.selection.SelectionManager;
-import net.tylers1066.util.EnhancedSign;
-import net.tylers1066.util.Util;
+import net.tylers1066.deadbolt.DeadboltReloaded;
+import net.tylers1066.deadbolt.db.Deadbolt;
+import net.tylers1066.deadbolt.selection.Selection;
+import net.tylers1066.deadbolt.selection.SelectionManager;
+import net.tylers1066.deadbolt.util.EnhancedSign;
+import net.tylers1066.deadbolt.util.Util;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;

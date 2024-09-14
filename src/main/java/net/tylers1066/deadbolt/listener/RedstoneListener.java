@@ -1,8 +1,8 @@
-package net.tylers1066.listener;
+package net.tylers1066.deadbolt.listener;
 
-import net.tylers1066.config.Config;
-import net.tylers1066.db.Deadbolt;
-import net.tylers1066.util.Util;
+import net.tylers1066.deadbolt.config.Config;
+import net.tylers1066.deadbolt.db.Deadbolt;
+import net.tylers1066.deadbolt.util.Util;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.event.EventHandler;

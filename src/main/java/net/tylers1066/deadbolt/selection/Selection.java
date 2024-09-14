@@ -1,7 +1,7 @@
-package net.tylers1066.selection;
+package net.tylers1066.deadbolt.selection;
 
-import net.tylers1066.db.Deadbolt;
-import net.tylers1066.util.EnhancedSign;
+import net.tylers1066.deadbolt.db.Deadbolt;
+import net.tylers1066.deadbolt.util.EnhancedSign;
 
 public class Selection {
     private final EnhancedSign sign;

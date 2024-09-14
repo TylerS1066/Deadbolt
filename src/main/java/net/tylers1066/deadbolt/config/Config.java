@@ -1,4 +1,4 @@
-package net.tylers1066.config;
+package net.tylers1066.deadbolt.config;
 
 public class Config {
     public static boolean protectIronDoors = true;

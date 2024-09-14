@@ -1,6 +1,6 @@
-package net.tylers1066.util;
+package net.tylers1066.deadbolt.util;
 
-import net.tylers1066.config.Config;
+import net.tylers1066.deadbolt.config.Config;
 
 import org.bukkit.Material;
 import org.bukkit.Tag;

@@ -1,8 +1,8 @@
-package net.tylers1066.listener;
+package net.tylers1066.deadbolt.listener;
 
-import net.tylers1066.db.Deadbolt;
-import net.tylers1066.util.EnhancedSign;
-import net.tylers1066.util.Util;
+import net.tylers1066.deadbolt.db.Deadbolt;
+import net.tylers1066.deadbolt.util.EnhancedSign;
+import net.tylers1066.deadbolt.util.Util;
 import org.bukkit.block.Block;
 import org.bukkit.block.Sign;
 import org.bukkit.entity.Player;

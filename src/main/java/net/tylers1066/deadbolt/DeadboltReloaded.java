@@ -1,9 +1,10 @@
-package net.tylers1066;
+package net.tylers1066.deadbolt;
 
-import net.tylers1066.commands.DeadboltCommand;
-import net.tylers1066.config.Config;
+import net.tylers1066.deadbolt.commands.DeadboltCommand;
+import net.tylers1066.deadbolt.config.Config;
+import net.tylers1066.deadbolt.listener.*;
 import net.tylers1066.listener.*;
-import net.tylers1066.util.Util;
+import net.tylers1066.deadbolt.util.Util;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public final class DeadboltReloaded extends JavaPlugin {

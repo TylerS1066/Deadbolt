@@ -1,7 +1,7 @@
-package net.tylers1066.db;
+package net.tylers1066.deadbolt.db;
 
-import net.tylers1066.util.EnhancedSign;
-import net.tylers1066.util.Util;
+import net.tylers1066.deadbolt.util.EnhancedSign;
+import net.tylers1066.deadbolt.util.Util;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;

@@ -1,4 +1,4 @@
-package net.tylers1066.util;
+package net.tylers1066.deadbolt.util;
 
 import org.bukkit.Material;
 import org.bukkit.Tag;

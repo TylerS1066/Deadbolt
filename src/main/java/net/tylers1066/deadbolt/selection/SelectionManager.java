@@ -1,4 +1,4 @@
-package net.tylers1066.selection;
+package net.tylers1066.deadbolt.selection;
 
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.Nullable;
