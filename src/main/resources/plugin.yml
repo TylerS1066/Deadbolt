@@ -1,8 +1,7 @@
 name: Deadbolt-Reloaded
-version: ${project.version}
-main: net.tylers1066.DeadboltReloaded
-api-version: 1.14
-softdepend: [ Movecraft ]
+version: ${projectVersion}
+main: net.tylers1066.deadbolt.DeadboltReloaded
+api-version: 1.20
 authors: [ TylerS1066 ]
 description: Deadbolt, Reloaded
 website: https://github.com/TylerS1066/Deadbolt-Reloaded/
